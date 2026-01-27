@@ -16,4 +16,15 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
+use App\Http\Controllers\FeedbackController;
+
+Route::middleware(['auth'])->group(function () {
+    // Route Modul C
+    Route::get('/feedback', [FeedbackController::class, 'index'])->name('feedback.index');
+    Route::post('/feedback', [FeedbackController::class, 'store'])->name('feedback.store');
+    
+    // Khusus Admin
+    Route::get('/admin/feedback', [FeedbackController::class, 'adminIndex'])->name('feedback.admin');
+});     
+
 require __DIR__.'/auth.php';
