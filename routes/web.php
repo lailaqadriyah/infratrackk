@@ -22,6 +22,9 @@ Route::middleware(['auth'])->group(function () {
     // Route Modul C
     Route::get('/feedback', [FeedbackController::class, 'index'])->name('feedback.index');
     Route::post('/feedback', [FeedbackController::class, 'store'])->name('feedback.store');
+    Route::get('/feedback/history', [FeedbackController::class, 'history'])->name('feedback.history');
+    Route::put('/feedback/{feedback}', [FeedbackController::class, 'update'])->name('feedback.update');
+    Route::delete('/feedback/{id}', [FeedbackController::class, 'destroy'])->name('feedback.destroy');
     
     // Khusus Admin
     Route::get('/admin/feedback', [FeedbackController::class, 'adminIndex'])->name('feedback.admin');

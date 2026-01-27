@@ -11,11 +11,8 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('feedback', function (Blueprint $table) {
-            $table->id();
-            $table->foreignId('user_id')->constrained()->onDelete('cascade'); // Siapa yang ngirim
-            $table->text('isi_feedback'); // Pesan feedback-nya
-            $table->timestamps();
+        Schema::table('feedback', function (Blueprint $table) {
+            $table->enum('status', ['pending', 'diproses', 'selesai'])->default('pending')->after('file_path');
         });
     }
 
@@ -24,6 +21,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('feedback');
+        Schema::table('feedback', function (Blueprint $table) {
+            $table->dropColumn('status');
+        });
     }
 };
