@@ -18,7 +18,7 @@ class IsAdmin
     {
         $user = Auth::user();
         
-        if (!$user || !$user->is_admin) {
+        if (!$user || $user->role_id != 1) {
             return redirect('/')->with('error', 'Akses ditolak. Anda harus menjadi admin untuk mengakses halaman ini.');
         }
 
