@@ -3,10 +3,16 @@
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
+use App\Http\Controllers\DebugController;
+
 Route::get('/', function () {
     return view('welcome');
 });
 Route::get('/dashboard', function () {
+    $user = \Illuminate\Support\Facades\Auth::user();
+    if ($user?->role_id == 1) {
+        return redirect('/admin/dashboard');
+    }
     return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
@@ -17,6 +23,9 @@ Route::middleware('auth')->group(function () {
 });
 
 use App\Http\Controllers\FeedbackController;
+use App\Http\Controllers\RenjaController;
+use App\Http\Controllers\RkpdController;
+use App\Http\Controllers\AdminController;
 
 Route::middleware(['auth'])->group(function () {
     // Route Modul C
@@ -28,6 +37,32 @@ Route::middleware(['auth'])->group(function () {
     
     // Khusus Admin
     Route::get('/admin/feedback', [FeedbackController::class, 'adminIndex'])->name('feedback.admin');
-});     
+});
+
+// Admin Routes
+Route::prefix('admin')->middleware(['auth', 'is_admin'])->group(function () {
+    Route::get('/dashboard', [AdminController::class, 'dashboard'])->name('admin.dashboard');
+    
+    // RENJA Routes
+    Route::get('/renja', [RenjaController::class, 'index'])->name('admin.renja.index');
+    Route::get('/renja/create', [RenjaController::class, 'create'])->name('admin.renja.create');
+    Route::post('/renja', [RenjaController::class, 'store'])->name('admin.renja.store');
+    Route::get('/renja/{renja}/edit', [RenjaController::class, 'edit'])->name('admin.renja.edit');
+    Route::put('/renja/{renja}', [RenjaController::class, 'update'])->name('admin.renja.update');
+    Route::delete('/renja/{renja}', [RenjaController::class, 'destroy'])->name('admin.renja.destroy');
+    
+    // RKPD Routes
+    Route::get('/rkpd', [RkpdController::class, 'index'])->name('admin.rkpd.index');
+    Route::get('/rkpd/create', [RkpdController::class, 'create'])->name('admin.rkpd.create');
+    Route::post('/rkpd', [RkpdController::class, 'store'])->name('admin.rkpd.store');
+    Route::get('/rkpd/{rkpd}/edit', [RkpdController::class, 'edit'])->name('admin.rkpd.edit');
+    Route::put('/rkpd/{rkpd}', [RkpdController::class, 'update'])->name('admin.rkpd.update');
+    Route::delete('/rkpd/{rkpd}', [RkpdController::class, 'destroy'])->name('admin.rkpd.destroy');
+});
 
 require __DIR__.'/auth.php';
+
+// Debug route
+Route::middleware('auth')->group(function () {
+    Route::get('/api/check-auth', [DebugController::class, 'checkAuth']);
+});
