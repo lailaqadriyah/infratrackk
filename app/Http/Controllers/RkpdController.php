@@ -5,8 +5,10 @@ namespace App\Http\Controllers;
 use App\Models\Rkpd;
 use App\Models\Opd;
 use App\Models\Tahun;
+use App\Imports\RkpdImport;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use Maatwebsite\Excel\Facades\Excel;
 
 class RkpdController extends Controller
 {
@@ -18,20 +20,24 @@ class RkpdController extends Controller
 
     public function index(Request $request)
     {
-        $tahun = $request->query('tahun');
+        $tahunFilter = $request->query('tahun');
+        $opdFilter = $request->query('opd');
         
         $query = Rkpd::with(['opd', 'tahun']);
         
-        if ($tahun) {
-            $query->whereHas('tahun', function ($q) use ($tahun) {
-                $q->where('tahun', $tahun);
-            });
+        if ($tahunFilter) {
+            $query->where('id_tahun', $tahunFilter);
+        }
+        
+        if ($opdFilter) {
+            $query->where('id_opd', $opdFilter);
         }
 
-        $rkpds = $query->paginate(10);
+        $rkpds = $query->orderBy('id', 'desc')->paginate(10)->appends($request->query());
         $tahunList = Tahun::orderBy('tahun', 'desc')->get();
+        $opds = Opd::orderBy('nama_opd')->get();
 
-        return view('admin.rkpd.index', compact('rkpds', 'tahunList', 'tahun'));
+        return view('admin.rkpd.index', compact('rkpds', 'tahunList', 'opds', 'tahunFilter', 'opdFilter'));
     }
 
     public function create()
@@ -109,5 +115,27 @@ class RkpdController extends Controller
 
         return redirect()->route('admin.rkpd.index')
             ->with('success', 'Data RKPD berhasil dihapus');
+    }
+
+    public function uploadStore(Request $request)
+    {
+        $request->validate([
+            'id_tahun' => 'required|exists:tahun,id',
+            'id_opd' => 'required|exists:opd,id',
+            'file' => 'required|file|mimes:xls,xlsx|max:5120',
+        ]);
+
+        try {
+            Excel::import(
+                new RkpdImport($request->id_tahun, $request->id_opd),
+                $request->file('file')
+            );
+
+            return redirect()->route('admin.rkpd.index')
+                ->with('success', 'Data RKPD berhasil diimport dari file Excel.');
+        } catch (\Exception $e) {
+            return redirect()->route('admin.rkpd.index')
+                ->with('error', 'Gagal import: ' . $e->getMessage());
+        }
     }
 }

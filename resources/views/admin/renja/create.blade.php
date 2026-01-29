@@ -88,15 +88,6 @@
             @enderror
         </div>
 
-        <div>
-            <label for="file" class="block text-sm font-medium text-gray-700 mb-2">Upload File (PDF, Excel, Word)</label>
-            <input type="file" name="file" id="file" accept=".pdf,.xls,.xlsx,.doc,.docx" class="w-full border border-gray-300 rounded-lg px-4 py-2">
-            <p class="text-gray-500 text-xs mt-1">Maksimal 5MB. Format: PDF, XLS, XLSX, DOC, DOCX</p>
-            @error('file')
-                <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
-            @enderror
-        </div>
-
         <div class="flex gap-4 pt-6">
             <button type="submit" class="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition-colors">Simpan</button>
             <a href="{{ route('admin.renja.index') }}" class="bg-gray-300 text-gray-700 px-6 py-2 rounded-lg hover:bg-gray-400 transition-colors">Batal</a>

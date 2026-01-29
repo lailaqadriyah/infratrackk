@@ -6,8 +6,10 @@ use App\Models\Renja;
 use App\Models\Rkpd;
 use App\Models\Opd;
 use App\Models\Tahun;
+use App\Imports\RenjaImport;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use Maatwebsite\Excel\Facades\Excel;
 
 class RenjaController extends Controller
 {
@@ -19,20 +21,24 @@ class RenjaController extends Controller
 
     public function index(Request $request)
     {
-        $tahun = $request->query('tahun');
+        $tahunFilter = $request->query('tahun');
+        $opdFilter = $request->query('opd');
         
         $query = Renja::with(['opd', 'tahun']);
         
-        if ($tahun) {
-            $query->whereHas('tahun', function ($q) use ($tahun) {
-                $q->where('tahun', $tahun);
-            });
+        if ($tahunFilter) {
+            $query->where('id_tahun', $tahunFilter);
+        }
+        
+        if ($opdFilter) {
+            $query->where('id_opd', $opdFilter);
         }
 
-        $renjas = $query->paginate(10);
+        $renjas = $query->orderBy('id', 'desc')->paginate(10)->appends($request->query());
         $tahunList = Tahun::orderBy('tahun', 'desc')->get();
+        $opds = Opd::orderBy('nama_opd')->get();
 
-        return view('admin.renja.index', compact('renjas', 'tahunList', 'tahun'));
+        return view('admin.renja.index', compact('renjas', 'tahunList', 'opds', 'tahunFilter', 'opdFilter'));
     }
 
     public function create()
@@ -116,5 +122,27 @@ class RenjaController extends Controller
 
         return redirect()->route('admin.renja.index')
             ->with('success', 'Data RENJA berhasil dihapus');
+    }
+
+    public function uploadStore(Request $request)
+    {
+        $request->validate([
+            'id_tahun' => 'required|exists:tahun,id',
+            'id_opd' => 'required|exists:opd,id',
+            'file' => 'required|file|mimes:xls,xlsx|max:5120',
+        ]);
+
+        try {
+            Excel::import(
+                new RenjaImport($request->id_tahun, $request->id_opd),
+                $request->file('file')
+            );
+
+            return redirect()->route('admin.renja.index')
+                ->with('success', 'Data RENJA berhasil diimport dari file Excel.');
+        } catch (\Exception $e) {
+            return redirect()->route('admin.renja.index')
+                ->with('error', 'Gagal import: ' . $e->getMessage());
+        }
     }
 }

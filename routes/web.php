@@ -47,6 +47,7 @@ Route::prefix('admin')->middleware(['auth', 'is_admin'])->group(function () {
     Route::get('/renja', [RenjaController::class, 'index'])->name('admin.renja.index');
     Route::get('/renja/create', [RenjaController::class, 'create'])->name('admin.renja.create');
     Route::post('/renja', [RenjaController::class, 'store'])->name('admin.renja.store');
+    Route::post('/renja/upload', [RenjaController::class, 'uploadStore'])->name('admin.renja.upload');
     Route::get('/renja/{renja}/edit', [RenjaController::class, 'edit'])->name('admin.renja.edit');
     Route::put('/renja/{renja}', [RenjaController::class, 'update'])->name('admin.renja.update');
     Route::delete('/renja/{renja}', [RenjaController::class, 'destroy'])->name('admin.renja.destroy');
@@ -55,6 +56,7 @@ Route::prefix('admin')->middleware(['auth', 'is_admin'])->group(function () {
     Route::get('/rkpd', [RkpdController::class, 'index'])->name('admin.rkpd.index');
     Route::get('/rkpd/create', [RkpdController::class, 'create'])->name('admin.rkpd.create');
     Route::post('/rkpd', [RkpdController::class, 'store'])->name('admin.rkpd.store');
+    Route::post('/rkpd/upload', [RkpdController::class, 'uploadStore'])->name('admin.rkpd.upload');
     Route::get('/rkpd/{rkpd}/edit', [RkpdController::class, 'edit'])->name('admin.rkpd.edit');
     Route::put('/rkpd/{rkpd}', [RkpdController::class, 'update'])->name('admin.rkpd.update');
     Route::delete('/rkpd/{rkpd}', [RkpdController::class, 'destroy'])->name('admin.rkpd.destroy');
