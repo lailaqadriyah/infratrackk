@@ -26,6 +26,7 @@ use App\Http\Controllers\FeedbackController;
 use App\Http\Controllers\RenjaController;
 use App\Http\Controllers\RkpdController;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\UserRenjaController;
 
 Route::middleware(['auth'])->group(function () {
     // Route Modul C
@@ -35,6 +36,9 @@ Route::middleware(['auth'])->group(function () {
     Route::put('/feedback/{feedback}', [FeedbackController::class, 'update'])->name('feedback.update');
     Route::delete('/feedback/{id}', [FeedbackController::class, 'destroy'])->name('feedback.destroy');
     
+    Route::get('/dashboard-renja-user', [App\Http\Controllers\UserRenjaController::class, 'index'])
+    ->middleware(['auth'])
+    ->name('user.renja.dashboard');
     // Khusus Admin
     Route::get('/admin/feedback', [FeedbackController::class, 'adminIndex'])->name('feedback.admin');
 });
