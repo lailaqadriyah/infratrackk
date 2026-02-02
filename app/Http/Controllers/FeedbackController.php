@@ -45,8 +45,10 @@ class FeedbackController extends Controller
     }
 
     // Update feedback
-    public function update(Request $request, Feedback $feedback)
+    public function update(Request $request, $id)
     {
+        $feedback = Feedback::findOrFail($id);
+        
         // Pastikan feedback milik user yang login
         if ($feedback->user_id !== Auth::id()) {
             abort(403);
@@ -100,7 +102,74 @@ class FeedbackController extends Controller
     // Tampilan untuk Admin melihat rekap
     public function adminIndex()
     {
-        $feedbacks = Feedback::with('user')->latest()->get();
-        return view('feedback.admin', compact('feedbacks'));
+        $feedbacks = Feedback::with('user')->latest()->paginate(10);
+        
+        // Total feedback
+        $totalFeedback = Feedback::count();
+        
+        // Extract keywords for word cloud
+        $feedbackTexts = Feedback::pluck('isi_feedback')->toArray();
+        $wordCloud = $this->extractKeywords($feedbackTexts);
+        
+        // Top word (first one)
+        $topWord = count($wordCloud) > 0 ? $wordCloud[0] : ['word' => 'Infrastruktur', 'count' => 0];
+        
+        // All words for grid
+        $topWords = $wordCloud;
+        
+        // Get most common category/keyword
+        $kategoriUtama = count($wordCloud) > 0 ? $wordCloud[0]['word'] : 'Infrastruktur';
+        
+        return view('admin.evaluasi.index', compact('feedbacks', 'totalFeedback', 'topWord', 'topWords', 'kategoriUtama'));
+    }
+
+    // Update feedback status (untuk admin)
+    public function updateStatus(Request $request, $id)
+    {
+        $feedback = Feedback::findOrFail($id);
+        
+        $request->validate([
+            'status' => 'required|in:pending,diproses,selesai'
+        ]);
+        
+        $feedback->update([
+            'status' => $request->status
+        ]);
+        
+        return response()->json(['success' => true, 'message' => 'Status berhasil diubah']);
+    }
+
+    // Extract keywords from text untuk word cloud
+    private function extractKeywords($texts)
+    {
+        $stopwords = ['dan', 'atau', 'yang', 'dari', 'untuk', 'ke', 'di', 'pada', 'dengan', 'adalah', 'ini', 'itu', 'dalam', 'akan', 'telah', 'dapat', 'ada', 'juga', 'oleh', 'karena', 'saat', 'sudah', 'tidak', 'lebih', 'lagi'];
+        
+        $words = [];
+        
+        foreach ($texts as $text) {
+            // Split text to words
+            $textWords = preg_split('/\s+/', strtolower($text));
+            
+            foreach ($textWords as $word) {
+                // Remove punctuation
+                $word = preg_replace('/[^\p{L}\p{N}]/u', '', $word);
+                
+                // Skip short words and stopwords
+                if (strlen($word) > 3 && !in_array($word, $stopwords)) {
+                    $words[$word] = ($words[$word] ?? 0) + 1;
+                }
+            }
+        }
+        
+        // Sort by frequency
+        arsort($words);
+        
+        // Convert to array format
+        $result = [];
+        foreach (array_slice($words, 0, 15) as $word => $count) {
+            $result[] = ['word' => ucfirst($word), 'count' => $count];
+        }
+        
+        return $result;
     }
 }

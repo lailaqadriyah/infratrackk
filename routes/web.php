@@ -33,7 +33,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/feedback', [FeedbackController::class, 'index'])->name('feedback.index');
     Route::post('/feedback', [FeedbackController::class, 'store'])->name('feedback.store');
     Route::get('/feedback/history', [FeedbackController::class, 'history'])->name('feedback.history');
-    Route::put('/feedback/{feedback}', [FeedbackController::class, 'update'])->name('feedback.update');
+    Route::patch('/feedback/{id}', [FeedbackController::class, 'update'])->name('feedback.update');
     Route::delete('/feedback/{id}', [FeedbackController::class, 'destroy'])->name('feedback.destroy');
     
     Route::get('/dashboard-renja-user', [App\Http\Controllers\UserRenjaController::class, 'index'])
@@ -46,6 +46,10 @@ Route::middleware(['auth'])->group(function () {
 // Admin Routes
 Route::prefix('admin')->middleware(['auth', 'is_admin'])->group(function () {
     Route::get('/dashboard', [AdminController::class, 'dashboard'])->name('admin.dashboard');
+    
+    // Feedback Routes
+    Route::get('/feedback', [FeedbackController::class, 'adminIndex'])->name('admin.feedback.index');
+    Route::patch('/feedback/{id}/status', [FeedbackController::class, 'updateStatus'])->name('admin.feedback.updateStatus');
     
     // RENJA Routes
     Route::get('/renja', [RenjaController::class, 'index'])->name('admin.renja.index');
