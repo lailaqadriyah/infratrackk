@@ -1,6 +1,18 @@
 <x-guest-layout>
-    <div class="mb-4 text-sm text-gray-600">
-        {{ __('Forgot your password? No problem. Just let us know your email address and we will email you a password reset link that will allow you to choose a new one.') }}
+<div class="flex flex-col items-center justify-center text-center mb-10">
+        <div class="mb-6">
+            {{-- Sesuaikan URL logo dengan yang ada di login.blade.php --}}
+            <img src="{{ asset('images/logo.png') }}" alt="Logo Infratrack" class="h-24 w-auto mx-auto object-contain">
+        </div>
+
+        <h2 class="text-4xl font-extrabold mb-10 tracking-tight text-gray-900">Infra Track</h2>
+        
+        <p class="text-gray-600 text-base font-semibold leading-relaxed max-w-md mx-auto uppercase tracking-normal">
+            Lupa Kata Sandi? <br>
+            <span class="text-sm font-medium normal-case tracking-wide text-gray-500">
+                Masukkan email Anda dan kami akan mengirimkan tautan pengaturan ulang kata sandi.
+            </span>
+        </p>
     </div>
 
     <!-- Session Status -->
@@ -17,9 +29,15 @@
         </div>
 
         <div class="flex items-center justify-end mt-4">
-            <x-primary-button>
-                {{ __('Email Password Reset Link') }}
-            </x-primary-button>
+            {{-- Tombol diubah menjadi warna biru (bg-blue-600) agar senada dengan halaman login --}}
+            <button type="submit" class="w-full inline-flex justify-center items-center px-4 py-3 bg-blue-600 border border-transparent rounded-xl font-bold text-white uppercase tracking-widest hover:bg-blue-700 focus:bg-blue-700 active:bg-blue-900 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition ease-in-out duration-150 transform hover:scale-[1.02]">
+                {{ __('Kirim Tautan Reset Kata Sandi') }}
+            </button>
+        </div>
+        <div class="mt-6 text-center">
+            <a href="{{ route('login') }}" class="text-sm text-blue-600 hover:text-blue-800 font-semibold transition-colors">
+                Kembali ke Halaman Login
+            </a>
         </div>
     </form>
 </x-guest-layout>
