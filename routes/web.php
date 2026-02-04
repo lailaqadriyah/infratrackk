@@ -27,6 +27,8 @@ use App\Http\Controllers\RenjaController;
 use App\Http\Controllers\RkpdController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\UserRenjaController;
+use App\Http\Controllers\UserRkpdController;
+
 
 Route::middleware(['auth'])->group(function () {
     // Route Modul C
@@ -39,6 +41,14 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/dashboard-renja-user', [App\Http\Controllers\UserRenjaController::class, 'index'])
     ->middleware(['auth'])
     ->name('user.renja.dashboard');
+
+    Route::middleware(['auth'])->group(function () {
+        Route::get('/dashboard', [UserRenjaController::class, 'index'])->name('dashboard');
+        Route::get('/user/renja', [UserRenjaController::class, 'index'])->name('user.renja.index');
+        Route::get('/user/rkpd', [UserRkpdController::class, 'index'])->name('user.rkpd.index');
+    });
+
+   
     // Khusus Admin
     Route::get('/admin/feedback', [FeedbackController::class, 'adminIndex'])->name('feedback.admin');
 });
