@@ -1,12 +1,10 @@
 @extends('layouts.app')
+@section('header', 'Dashboard RKPD')
+@section('header_description', 'Informasi visual mengenai Rencana Kerja Pemerintah Daerah.')
 
 @section('content')
 <div class="p-6 bg-gray-50 min-h-screen w-full">
-    <div class="mb-6 flex flex-col md:flex-row md:items-center justify-between gap-4">
-        <div>
-            <h1 class="text-2xl font-bold text-gray-800">Dashboard Visualisasi RKPD</h1>
-            <p class="text-sm text-gray-500">Monitoring anggaran, program, dan kegiatan OPD.</p>
-        </div>
+    <div class="mb-6 flex flex-col md:flex-row md:items-center justify-end gap-4">
 
         <div class="bg-white p-2 rounded-lg shadow-sm border border-gray-200">
             <form action="{{ route('user.rkpd.index') }}" method="GET" class="flex items-center gap-2">

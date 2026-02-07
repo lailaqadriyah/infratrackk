@@ -13,7 +13,7 @@ Route::get('/dashboard', function () {
     if ($user?->role_id == 1) {
         return redirect('/admin/dashboard');
     }
-    return view('dashboard');
+    return redirect()->route('user.renja.index');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {

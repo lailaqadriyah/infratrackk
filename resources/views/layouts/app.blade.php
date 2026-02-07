@@ -50,13 +50,13 @@
                             
                             <ul x-show="openMenus.includes('visualisasi')" x-transition class="mt-1 ml-4 space-y-1">
                                 <li>
-                                    <a href="{{ route('dashboard') }}" class="flex items-center gap-3 px-3 py-2 rounded-lg text-sm {{ request()->routeIs('dashboard') ? 'bg-gradient-to-r from-blue-600 to-green-600 text-white shadow-sm' : 'text-gray-600 hover:bg-gray-50' }}">
+                                    <a href="{{ route('user.renja.index') }}" class="flex items-center gap-3 px-3 py-2 rounded-lg text-sm {{ request()->routeIs('user.renja.index') ? 'bg-gradient-to-r from-blue-600 to-green-600 text-white shadow-sm' : 'text-gray-600 hover:bg-gray-50' }}">
                                         <div class="w-1.5 h-1.5 rounded-full bg-current"></div>
                                         <span>Dashboard RENJA</span>
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="#" class="flex items-center gap-3 px-3 py-2 rounded-lg text-sm text-gray-600 hover:bg-gray-50">
+                                    <a href="{{ route('user.rkpd.index') }}" class="flex items-center gap-3 px-3 py-2 rounded-lg text-sm {{ request()->routeIs('user.rkpd.index') ? 'bg-gradient-to-r from-blue-600 to-green-600 text-white shadow-sm' : 'text-gray-600 hover:bg-gray-50' }}">
                                         <div class="w-1.5 h-1.5 rounded-full bg-current"></div>
                                         <span>Dashboard RKPD</span>
                                     </a>
@@ -111,30 +111,33 @@
             <div class="flex-1 flex flex-col md:ml-64">
                 {{-- Top Navigation --}}
                 <header class="fixed top-0 left-0 md:left-64 right-0 bg-white shadow-sm border-b z-20 border-gray-200">
-                    <div class="flex items-center justify-between ">
-                        <button onclick="toggleSidebar()" class="md:hidden text-gray-600 hover:text-gray-800">
-                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
-                            </svg>
-                        </button>
+    <div class="flex items-center justify-between">
+        <button onclick="toggleSidebar()" class="md:hidden p-4 text-gray-600 hover:text-gray-800">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+            </svg>
+        </button>
                        
-    <div class="px-6 py-4">
-        <div class="flex items-center gap-3">
-            <div class="p-2 bg-gradient-to-br from-blue-600 to-green-600 rounded-lg">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z" />
-                </svg>
-            </div>
-            <div>
-                <h1 class="text-xl text-gray-900">@yield('header', 'Default Header')</h1>
-                <p class="text-sm text-gray-600">
-                    Sampaikan masukan, saran, atau keluhan Anda
-                </p>
+        <div class="px-6 py-4">
+            <div class="flex items-center gap-3">
+                <div class="p-2 bg-gradient-to-br from-blue-600 to-green-600 rounded-lg shadow-sm">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+                    </svg>
+                </div>
+                <div>
+                    {{-- Judul Dinamis --}}
+                    <h1 class="text-xl font-bold text-gray-900 leading-tight">@yield('header', 'Dashboard')</h1>
+                    
+                    {{-- Deskripsi Dinamis --}}
+                    <p class="text-sm text-gray-600">
+                        @yield('header_description', 'Lihat statistik dan visualisasi data infrastruktur')
+                    </p>
+                </div>
             </div>
         </div>
     </div>
-                    </div>
-                </header>
+</header>
 
                 {{-- Page Content --}}
                 <main class="flex-1 p-6 pt-20">

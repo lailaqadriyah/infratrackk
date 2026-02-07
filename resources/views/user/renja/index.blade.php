@@ -1,38 +1,35 @@
 @extends('layouts.app')
+@section('header', 'Dashboard RENJA')
+@section('header_description', 'Analisis dan pemantauan data Rencana Kerja tahun berjalan.')
 
 @section('content')
 <div class="p-6 bg-gray-50 min-h-screen w-full">
-    <div class="mb-6 flex flex-col md:flex-row md:items-center justify-between gap-4">
-        <div>
-            <h1 class="text-2xl font-bold text-gray-800">Dashboard Visualisasi RENJA</h1>
-            <p class="text-sm text-gray-500">Monitoring anggaran, program, dan kegiatan OPD.</p>
-        </div>
-
-        <div class="bg-white p-2 rounded-lg shadow-sm border border-gray-200">
-            <form action="{{ route('user.renja.index') }}" method="GET" class="flex items-center gap-2">
-                <select name="tahun" class="text-xs border-gray-300 rounded focus:ring-blue-500 w-40">
-                    <option value="">Semua Tahun</option>
-                    @foreach($listTahun as $t)
-                        <option value="{{ $t->tahun }}" {{ request('tahun') == $t->tahun ? 'selected' : '' }}>{{ $t->tahun }}</option>
-                    @endforeach
-                </select>
-                <select name="opd" class="text-xs border-gray-300 rounded focus:ring-blue-500 w-40">
-                    <option value="">Semua OPD</option>
-                    @foreach($listOpd as $o)
-                        <option value="{{ $o->nama_opd }}" {{ request('opd') == $o->nama_opd ? 'selected' : '' }}>{{ $o->nama_opd }}</option>
-                    @endforeach
-                </select>
-                <div class="flex gap-1">
-                    <button type="submit" class="bg-blue-600 text-white px-3 py-1.5 rounded text-xs hover:bg-blue-700 transition font-semibold">
-                        Filter
-                    </button>
-                    <a href="{{ route('user.renja.index') }}" class="bg-gray-100 text-gray-600 px-3 py-1.5 rounded text-xs hover:bg-gray-200 border border-gray-300 flex items-center gap-1">
-                        ↺ Reset
-                    </a>
-                </div>
-            </form>
-        </div>
+    <div class="mb-6 flex flex-col md:flex-row md:items-center justify-end gap-4">
+    <div class="bg-white p-2 rounded-lg shadow-sm border border-gray-200">
+        <form action="{{ route('user.renja.index') }}" method="GET" class="flex items-center gap-2">
+            <select name="tahun" class="text-xs border-gray-300 rounded focus:ring-blue-500 w-40">
+                <option value="">Semua Tahun</option>
+                @foreach($listTahun as $t)
+                    <option value="{{ $t->tahun }}" {{ request('tahun') == $t->tahun ? 'selected' : '' }}>{{ $t->tahun }}</option>
+                @endforeach
+            </select>
+            <select name="opd" class="text-xs border-gray-300 rounded focus:ring-blue-500 w-40">
+                <option value="">Semua OPD</option>
+                @foreach($listOpd as $o)
+                    <option value="{{ $o->nama_opd }}" {{ request('opd') == $o->nama_opd ? 'selected' : '' }}>{{ $o->nama_opd }}</option>
+                @endforeach
+            </select>
+            <div class="flex gap-1">
+                <button type="submit" class="bg-blue-600 text-white px-3 py-1.5 rounded text-xs hover:bg-blue-700 transition font-semibold">
+                    Filter
+                </button>
+                <a href="{{ route('user.renja.index') }}" class="bg-gray-100 text-gray-600 px-3 py-1.5 rounded text-xs hover:bg-gray-200 border border-gray-300 flex items-center gap-1">
+                    ↺ Reset
+                </a>
+            </div>
+        </form>
     </div>
+</div>
 
     <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
         <div class="bg-white p-5 rounded-xl shadow-sm border-l-4 border-blue-600">

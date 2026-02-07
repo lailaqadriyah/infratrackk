@@ -1,4 +1,6 @@
 @extends('layouts.app')
+@section('header', 'Feedback Masyarakat')
+@section('header_description', 'Sampaikan masukan, saran, atau keluhan Anda.')
 
 @section('header', 'Feedback Masyarakat')
 
