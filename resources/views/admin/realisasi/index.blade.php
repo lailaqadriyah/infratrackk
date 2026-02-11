@@ -35,8 +35,8 @@
 </div>
 
 <div class="flex gap-6 mb-6 border-b border-gray-200">
-    <a href="{{ route('admin.realisasi.index') }}" class="pb-4 font-medium text-green-600 border-b-2 border-green-600">Realisasi</a>
-    <a href="{{ route('admin.realisasi.index') }}" class="pb-4 font-medium text-gray-600 hover:text-gray-900">Data Realisasi</a>
+    <a href="{{ route('admin.apbd.index') }}" class="pb-4 font-medium text-green-600 border-b-2 border-green-600">APBD</a>
+    <a href="{{ route('admin.realisasi.index') }}" class="pb-4 font-medium text-gray-600 hover:text-gray-900">Realisasi</a>
 </div>
 
 <div class="bg-white rounded-lg shadow-sm p-4 mb-6">
@@ -79,11 +79,9 @@
                 <tr>
                     <th class="px-6 py-4 text-left text-sm font-semibold text-gray-900">Tahun</th>
                     <th class="px-6 py-4 text-left text-sm font-semibold text-gray-900">OPD</th>
-                    <th class="px-6 py-4 text-left text-sm font-semibold text-gray-900">Program</th>
-                    <th class="px-6 py-4 text-left text-sm font-semibold text-gray-900">Kegiatan</th>
+                    <th class="px-6 py-4 text-left text-sm font-semibold text-gray-900">Alokasi</th>
                     <th class="px-6 py-4 text-left text-sm font-semibold text-gray-900">Sub Kegiatan</th>
-                    <th class="px-6 py-4 text-left text-sm font-semibold text-gray-900">Target</th>
-                    <th class="px-6 py-4 text-left text-sm font-semibold text-gray-900">Pagu</th>
+                    <th class="px-6 py-4 text-left text-sm font-semibold text-gray-900">Nama Daerah</th>
                     <th class="px-6 py-4 text-left text-sm font-semibold text-gray-900">Aksi</th>
                 </tr>
             </thead>
@@ -92,11 +90,10 @@
                     <tr class="hover:bg-gray-50 transition-colors">
                         <td class="px-6 py-4 text-sm text-gray-900">{{ $realisasi->tahun->tahun ?? '-' }}</td>
                         <td class="px-6 py-4 text-sm text-gray-900">{{ $realisasi->opd->nama_opd ?? '-' }}</td>
-                        <td class="px-6 py-4 text-sm text-gray-900">{{ $realisasi->program ?? '-' }}</td>
-                        <td class="px-6 py-4 text-sm text-gray-900">{{ $realisasi->kegiatan ?? '-' }}</td>
+                        <td class="px-6 py-4 text-sm text-gray-900">Rp {{ number_format($realisasi->alokasi ?? 0, 0, ',', '.') }}</td>
                         <td class="px-6 py-4 text-sm text-gray-900">{{ $realisasi->sub_kegiatan ?? '-' }}</td>
-                        <td class="px-6 py-4 text-sm text-gray-900">{{ $realisasi->target ?? '-' }}</td>
-                        <td class="px-6 py-4 text-sm text-gray-900">Rp {{ number_format($realisasi->anggaran ?? 0, 0, ',', '.') }}</td>
+                        <td class="px-6 py-4 text-sm text-gray-900">{{ $realisasi->nama_daerah ?? '-' }}</td>
+                        
                         <td class="px-6 py-4 text-sm">
                             <div class="flex items-center gap-2">
                                 {{-- PERBAIKAN: Tombol edit langsung memicu fungsi openEditModal di Alpine.js --}}
@@ -105,12 +102,10 @@
                                         id: {{ $realisasi->id }},
                                         id_tahun: {{ $realisasi->id_tahun }},
                                         id_opd: {{ $realisasi->id_opd }},
-                                        program: '{{ addslashes($realisasi->program) }}',
-                                        kegiatan: '{{ addslashes($realisasi->kegiatan) }}',
+                                        alokasi: {{ $realisasi->alokasi ?? 0 }}
                                         sub_kegiatan: '{{ addslashes($realisasi->sub_kegiatan) }}',
-                                        indikator: '{{ addslashes($realisasi->indikator) }}',
-                                        target: '{{ addslashes($realisasi->target) }}',
-                                        anggaran: {{ $realisasi->anggaran ?? 0 }}
+                                        nama_daerah: '{{ addslashes($realisasi->nama_daerah) }}',
+                                        
                                     })"
                                     class="p-2 text-blue-600 hover:bg-blue-50 rounded-lg transition-colors" title="Edit">
                                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -154,7 +149,7 @@
                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" /></svg>
             </button>
         </div>
-        <form action="{{ route('admin.realisasi.upload') }}" method="POST" enctype="multipart/form-data" class="p-6 space-y-4">
+        <form action="{{ route('admin.realisasi.import') }}" method="POST" enctype="multipart/form-data" class="p-6 space-y-4">
             @csrf
             <p class="text-sm text-gray-600">Upload file Excel (.xls, .xlsx) untuk import data.</p>
             <div>
@@ -209,29 +204,18 @@
                 </div>
             </div>
             <div>
-                <label class="block text-sm font-medium text-gray-700 mb-1">Program</label>
-                <input type="text" name="program" required class="w-full border border-gray-300 rounded-lg px-3 py-2">
-            </div>
-            <div>
-                <label class="block text-sm font-medium text-gray-700 mb-1">Kegiatan</label>
-                <input type="text" name="kegiatan" required class="w-full border border-gray-300 rounded-lg px-3 py-2">
+                <label class="block text-sm font-medium text-gray-700 mb-1">Alokasi (Rp)</label>
+                <input type="number" name="alokasi" step="0.01" required class="w-full border border-gray-300 rounded-lg px-3 py-2">
             </div>
             <div>
                 <label class="block text-sm font-medium text-gray-700 mb-1">Sub Kegiatan</label>
                 <input type="text" name="sub_kegiatan" required class="w-full border border-gray-300 rounded-lg px-3 py-2">
             </div>
             <div>
-                <label class="block text-sm font-medium text-gray-700 mb-1">Indikator</label>
-                <input type="text" name="indikator" required class="w-full border border-gray-300 rounded-lg px-3 py-2">
+                <label class="block text-sm font-medium text-gray-700 mb-1">Nama Daerah</label>
+                <input type="text" name="nama_daerah" required class="w-full border border-gray-300 rounded-lg px-3 py-2">
             </div>
-            <div>
-                <label class="block text-sm font-medium text-gray-700 mb-1">Target</label>
-                <input type="text" name="target" required class="w-full border border-gray-300 rounded-lg px-3 py-2">
-            </div>
-            <div>
-                <label class="block text-sm font-medium text-gray-700 mb-1">Anggaran (Rp)</label>
-                <input type="number" name="anggaran" step="0.01" required class="w-full border border-gray-300 rounded-lg px-3 py-2">
-            </div>
+            
             <div class="flex gap-3 pt-4">
                 <button type="button" @click="manualModalOpen = false" class="px-4 py-2 border border-gray-300 text-gray-700 rounded-lg">Batal</button>
                 <button type="submit" class="flex-1 bg-blue-700 text-white px-4 py-2 rounded-lg hover:bg-blue-800 transition-colors">Simpan</button>
@@ -265,30 +249,20 @@
                     </select>
                 </div>
             </div>
-            <div>
-                <label class="block text-sm font-medium text-gray-700 mb-1">Program</label>
-                <input type="text" name="program" x-model="editData.program" required class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-500">
-            </div>
-            <div>
-                <label class="block text-sm font-medium text-gray-700 mb-1">Kegiatan</label>
-                <input type="text" name="kegiatan" x-model="editData.kegiatan" required class="w-full border border-gray-300 rounded-lg px-3 py-2">
+           <div>
+                <label class="block text-sm font-medium text-gray-700 mb-1">Alokasi (Rp)</label>
+                <input type="number" name="alokasi" x-model="editData.alokasi" step="0.01" required class="w-full border border-gray-300 rounded-lg px-3 py-2">
             </div>
             <div>
                 <label class="block text-sm font-medium text-gray-700 mb-1">Sub Kegiatan</label>
                 <input type="text" name="sub_kegiatan" x-model="editData.sub_kegiatan" required class="w-full border border-gray-300 rounded-lg px-3 py-2">
             </div>
             <div>
-                <label class="block text-sm font-medium text-gray-700 mb-1">Indikator</label>
-                <input type="text" name="indikator" x-model="editData.indikator" required class="w-full border border-gray-300 rounded-lg px-3 py-2">
+                <label class="block text-sm font-medium text-gray-700 mb-1">Nama Daerah</label>
+                <input type="text" name="nama_daerah" x-model="editData.nama_daerah" required class="w-full border border-gray-300 rounded-lg px-3 py-2">
             </div>
-            <div>
-                <label class="block text-sm font-medium text-gray-700 mb-1">Target</label>
-                <input type="text" name="target" x-model="editData.target" required class="w-full border border-gray-300 rounded-lg px-3 py-2">
-            </div>
-            <div>
-                <label class="block text-sm font-medium text-gray-700 mb-1">Anggaran (Rp)</label>
-                <input type="number" name="anggaran" x-model="editData.anggaran" step="0.01" required class="w-full border border-gray-300 rounded-lg px-3 py-2">
-            </div>
+           
+            
             <div class="flex gap-3 pt-4">
                 <button type="button" @click="editModalOpen = false" class="px-4 py-2 border border-gray-300 text-gray-700 rounded-lg">Batal</button>
                 <button type="submit" class="flex-1 bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors">Simpan Perubahan</button>
@@ -311,12 +285,10 @@ function realisasiManager() {
             id: null,
             id_tahun: '',
             id_opd: '',
-            program: '',
-            kegiatan: '',
+            alokasi: 0,
             sub_kegiatan: '',
-            indikator: '',
-            target: '',
-            anggaran: 0
+            nama_daerah: ''
+            
         },
 
         // Fungsi membuka modal dan memindahkan data baris ke dalam form

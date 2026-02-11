@@ -42,14 +42,6 @@
         </div>
 
         <div>
-            <label for="program" class="block text-sm font-medium text-gray-700 mb-2">Program</label>
-            <input type="text" name="program" id="program" value="{{ old('program', $apbd->program) }}" class="w-full border border-gray-300 rounded-lg px-4 py-2 @error('program') border-red-500 @enderror" required>
-            @error('program')
-                <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
-            @enderror
-        </div>
-
-        <div>
             <label for="kegiatan" class="block text-sm font-medium text-gray-700 mb-2">Kegiatan</label>
             <input type="text" name="kegiatan" id="kegiatan" value="{{ old('kegiatan', $apbd->kegiatan) }}" class="w-full border border-gray-300 rounded-lg px-4 py-2 @error('kegiatan') border-red-500 @enderror" required>
             @error('kegiatan')
@@ -66,29 +58,28 @@
         </div>
 
         <div>
-            <label for="indikator" class="block text-sm font-medium text-gray-700 mb-2">Indikator</label>
-            <input type="text" name="indikator" id="indikator" value="{{ old('indikator', $apbd->indikator) }}" class="w-full border border-gray-300 rounded-lg px-4 py-2 @error('indikator') border-red-500 @enderror" required>
-            @error('indikator')
+            <label for="nama_sumber_dana" class="block text-sm font-medium text-gray-700 mb-2">Nama Sumber Dana</label>
+            <input type="text" name="nama_sumber_dana" id="nama_sumber_dana" value="{{ old('nama_sumber_dana', $apbd->nama_sumber_dana) }}" class="w-full border border-gray-300 rounded-lg px-4 py-2 @error('nama_sumber_dana') border-red-500 @enderror" required>
+            @error('nama_sumber_dana')
                 <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
             @enderror
         </div>
 
         <div>
-            <label for="target" class="block text-sm font-medium text-gray-700 mb-2">Target</label>
-            <input type="text" name="target" id="target" value="{{ old('target', $apbd->target) }}" class="w-full border border-gray-300 rounded-lg px-4 py-2 @error('target') border-red-500 @enderror" required>
-            @error('target')
+            <label for="nama_rekening" class="block text-sm font-medium text-gray-700 mb-2">Nama Rekening</label>
+            <input type="text" name="nama_rekening" id="nama_rekening" value="{{ old('nama_rekening', $apbd->nama_rekening) }}" class="w-full border border-gray-300 rounded-lg px-4 py-2 @error('nama_rekening') border-red-500 @enderror" required>
+            @error('nama_rekening')
                 <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
             @enderror
         </div>
 
         <div>
-            <label for="anggaran" class="block text-sm font-medium text-gray-700 mb-2">Anggaran (Rp)</label>
-            <input type="number" name="anggaran" id="anggaran" step="0.01" value="{{ old('anggaran', $apbd->anggaran) }}" class="w-full border border-gray-300 rounded-lg px-4 py-2 @error('anggaran') border-red-500 @enderror" required>
-            @error('anggaran')
+            <label for="pagu" class="block text-sm font-medium text-gray-700 mb-2">Pagu (Rp)</label>
+            <input type="number" name="pagu" id="pagu" step="0.01" value="{{ old('pagu', $apbd->pagu) }}" class="w-full border border-gray-300 rounded-lg px-4 py-2 @error('pagu') border-red-500 @enderror" required>
+            @error('pagu')
                 <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
             @enderror
         </div>
-
         <div class="flex gap-4 pt-6">
             <button type="submit" class="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition-colors">Update</button>
             <a href="{{ route('admin.apbd.index') }}" class="bg-gray-300 text-gray-700 px-6 py-2 rounded-lg hover:bg-gray-400 transition-colors">Batal</a>

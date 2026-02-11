@@ -13,12 +13,9 @@ class Realisasi extends Model
     protected $fillable = [
         'id_opd',
         'id_tahun',
-        'program',
-        'kegiatan',
+        'alokasi',
         'sub_kegiatan',
-        'indikator',
-        'target',
-        'anggaran',
+        'nama_daerah',
         'file_path',
     ];
 

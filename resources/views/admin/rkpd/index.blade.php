@@ -39,11 +39,12 @@
     <a href="{{ route('admin.rkpd.index') }}" class="pb-4 font-medium text-green-600 border-b-2 border-green-600">RKPD</a>
 </div>
 
-<div class="flex gap-6 mb-6 border-b border-gray-200">
+{{-- PERBAIKAN: Tombol edit langsung memicu fungsi openEditModal <div class="flex gap-6 mb-6 border-b border-gray-200">
     <a href="{{ route('user.renja.index') }}" class="pb-4 font-medium text-gray-600 hover:text-gray-900">RENJA</a>
     
     <a href="{{ route('user.rkpd.index') }}" class="pb-4 font-medium text-blue-600 border-b-2 border-blue-600">RKPD</a>
 </div>
+PERBAIKAN: Tombol edit langsung memicu fungsi openEditModal --}}
 
 <div class="bg-white rounded-lg shadow-sm p-4 mb-6">
     <form method="GET" action="{{ route('admin.rkpd.index') }}" class="flex flex-wrap items-end gap-4">

@@ -41,17 +41,9 @@
         </div>
 
         <div>
-            <label for="program" class="block text-sm font-medium text-gray-700 mb-2">Program</label>
-            <input type="text" name="program" id="program" value="{{ old('program') }}" class="w-full border border-gray-300 rounded-lg px-4 py-2 @error('program') border-red-500 @enderror" required>
-            @error('program')
-                <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
-            @enderror
-        </div>
-
-        <div>
-            <label for="kegiatan" class="block text-sm font-medium text-gray-700 mb-2">Kegiatan</label>
-            <input type="text" name="kegiatan" id="kegiatan" value="{{ old('kegiatan') }}" class="w-full border border-gray-300 rounded-lg px-4 py-2 @error('kegiatan') border-red-500 @enderror" required>
-            @error('kegiatan')
+            <label for="alokasi" class="block text-sm font-medium text-gray-700 mb-2">Alokasi</label>
+            <input type="text" name="alokasi" id="alokasi" value="{{ old('alokasi') }}" class="w-full border border-gray-300 rounded-lg px-4 py-2 @error('alokasi') border-red-500 @enderror" required>
+            @error('alokasi')
                 <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
             @enderror
         </div>
@@ -65,28 +57,13 @@
         </div>
 
         <div>
-            <label for="indikator" class="block text-sm font-medium text-gray-700 mb-2">Indikator</label>
-            <input type="text" name="indikator" id="indikator" value="{{ old('indikator') }}" class="w-full border border-gray-300 rounded-lg px-4 py-2 @error('indikator') border-red-500 @enderror" required>
-            @error('indikator')
+            <label for="nama_daerah" class="block text-sm font-medium text-gray-700 mb-2">Nama Daerah</label>
+            <input type="text" name="nama_daerah" id="nama_daerah" value="{{ old('nama_daerah') }}" class="w-full border border-gray-300 rounded-lg px-4 py-2 @error('nama_daerah') border-red-500 @enderror" required>
+            @error('nama_daerah')
                 <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
             @enderror
         </div>
 
-        <div>
-            <label for="target" class="block text-sm font-medium text-gray-700 mb-2">Target</label>
-            <input type="text" name="target" id="target" value="{{ old('target') }}" class="w-full border border-gray-300 rounded-lg px-4 py-2 @error('target') border-red-500 @enderror" required>
-            @error('target')
-                <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
-            @enderror
-        </div>
-
-        <div>
-            <label for="anggaran" class="block text-sm font-medium text-gray-700 mb-2">Anggaran (Rp)</label>
-            <input type="number" name="anggaran" id="anggaran" step="0.01" value="{{ old('anggaran') }}" class="w-full border border-gray-300 rounded-lg px-4 py-2 @error('anggaran') border-red-500 @enderror" required>
-            @error('anggaran')
-                <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
-            @enderror
-        </div>
 
         <div class="flex gap-4 pt-6">
             <button type="submit" class="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition-colors">Simpan</button>

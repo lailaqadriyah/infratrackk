@@ -79,10 +79,10 @@
                 <tr>
                     <th class="px-6 py-4 text-left text-sm font-semibold text-gray-900">Tahun</th>
                     <th class="px-6 py-4 text-left text-sm font-semibold text-gray-900">OPD</th>
-                    <th class="px-6 py-4 text-left text-sm font-semibold text-gray-900">Program</th>
                     <th class="px-6 py-4 text-left text-sm font-semibold text-gray-900">Kegiatan</th>
                     <th class="px-6 py-4 text-left text-sm font-semibold text-gray-900">Sub Kegiatan</th>
-                    <th class="px-6 py-4 text-left text-sm font-semibold text-gray-900">Target</th>
+                    <th class="px-6 py-4 text-left text-sm font-semibold text-gray-900">Nama Sumber Dana</th>
+                    <th class="px-6 py-4 text-left text-sm font-semibold text-gray-900">Nama Rekening</th>
                     <th class="px-6 py-4 text-left text-sm font-semibold text-gray-900">Pagu</th>
                     <th class="px-6 py-4 text-left text-sm font-semibold text-gray-900">Aksi</th>
                 </tr>
@@ -92,11 +92,11 @@
                     <tr class="hover:bg-gray-50 transition-colors">
                         <td class="px-6 py-4 text-sm text-gray-900">{{ $apbd->tahun->tahun ?? '-' }}</td>
                         <td class="px-6 py-4 text-sm text-gray-900">{{ $apbd->opd->nama_opd ?? '-' }}</td>
-                        <td class="px-6 py-4 text-sm text-gray-900">{{ $apbd->program ?? '-' }}</td>
                         <td class="px-6 py-4 text-sm text-gray-900">{{ $apbd->kegiatan ?? '-' }}</td>
                         <td class="px-6 py-4 text-sm text-gray-900">{{ $apbd->sub_kegiatan ?? '-' }}</td>
-                        <td class="px-6 py-4 text-sm text-gray-900">{{ $apbd->target ?? '-' }}</td>
-                        <td class="px-6 py-4 text-sm text-gray-900">Rp {{ number_format($apbd->anggaran ?? 0, 0, ',', '.') }}</td>
+                        <td class="px-6 py-4 text-sm text-gray-900">{{ $apbd->nama_sumber_dana ?? '-' }}</td>
+                        <td class="px-6 py-4 text-sm text-gray-900">{{ $apbd->nama_rekening ?? '-' }}</td>
+                        <td class="px-6 py-4 text-sm">Rp {{ number_format($apbd->pagu ?? 0, 0, ',', '.') }}</td>
                         <td class="px-6 py-4 text-sm">
                             <div class="flex items-center gap-2">
                                 {{-- PERBAIKAN: Tombol edit langsung memicu fungsi openEditModal di Alpine.js --}}
@@ -105,12 +105,11 @@
                                         id: {{ $apbd->id }},
                                         id_tahun: {{ $apbd->id_tahun }},
                                         id_opd: {{ $apbd->id_opd }},
-                                        program: '{{ addslashes($apbd->program) }}',
                                         kegiatan: '{{ addslashes($apbd->kegiatan) }}',
                                         sub_kegiatan: '{{ addslashes($apbd->sub_kegiatan) }}',
-                                        indikator: '{{ addslashes($apbd->indikator) }}',
-                                        target: '{{ addslashes($apbd->target) }}',
-                                        anggaran: {{ $apbd->anggaran ?? 0 }}
+                                        nama_sumber_dana: '{{ addslashes($apbd->nama_sumber_dana) }}',
+                                        nama_rekening: '{{ addslashes($apbd->nama_rekening) }}',
+                                        pagu: {{ $apbd->pagu ?? 0 }}
                                     })"
                                     class="p-2 text-blue-600 hover:bg-blue-50 rounded-lg transition-colors" title="Edit">
                                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -154,7 +153,7 @@
                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" /></svg>
             </button>
         </div>
-        <form action="{{ route('admin.apbd.upload') }}" method="POST" enctype="multipart/form-data" class="p-6 space-y-4">
+        <form action="{{ route('admin.apbd.import') }}" method="POST" enctype="multipart/form-data" class="p-6 space-y-4">
             @csrf
             <p class="text-sm text-gray-600">Upload file Excel (.xls, .xlsx) untuk import data.</p>
             <div>
@@ -209,10 +208,6 @@
                 </div>
             </div>
             <div>
-                <label class="block text-sm font-medium text-gray-700 mb-1">Program</label>
-                <input type="text" name="program" required class="w-full border border-gray-300 rounded-lg px-3 py-2">
-            </div>
-            <div>
                 <label class="block text-sm font-medium text-gray-700 mb-1">Kegiatan</label>
                 <input type="text" name="kegiatan" required class="w-full border border-gray-300 rounded-lg px-3 py-2">
             </div>
@@ -221,16 +216,16 @@
                 <input type="text" name="sub_kegiatan" required class="w-full border border-gray-300 rounded-lg px-3 py-2">
             </div>
             <div>
-                <label class="block text-sm font-medium text-gray-700 mb-1">Indikator</label>
-                <input type="text" name="indikator" required class="w-full border border-gray-300 rounded-lg px-3 py-2">
+                <label class="block text-sm font-medium text-gray-700 mb-1">Nama Sumber Dana</label>
+                <input type="text" name="nama_sumber_dana" required class="w-full border border-gray-300 rounded-lg px-3 py-2">
             </div>
             <div>
-                <label class="block text-sm font-medium text-gray-700 mb-1">Target</label>
-                <input type="text" name="target" required class="w-full border border-gray-300 rounded-lg px-3 py-2">
+                <label class="block text-sm font-medium text-gray-700 mb-1">Nama Rekening</label>
+                <input type="text" name="nama_rekening" required class="w-full border border-gray-300 rounded-lg px-3 py-2">
             </div>
             <div>
-                <label class="block text-sm font-medium text-gray-700 mb-1">Anggaran (Rp)</label>
-                <input type="number" name="anggaran" step="0.01" required class="w-full border border-gray-300 rounded-lg px-3 py-2">
+                <label class="block text-sm font-medium text-gray-700 mb-1">Pagu (Rp)</label>
+                <input type="number" name="pagu" step="0.01" required class="w-full border border-gray-300 rounded-lg px-3 py-2">
             </div>
             <div class="flex gap-3 pt-4">
                 <button type="button" @click="manualModalOpen = false" class="px-4 py-2 border border-gray-300 text-gray-700 rounded-lg">Batal</button>
@@ -266,28 +261,24 @@
                 </div>
             </div>
             <div>
-                <label class="block text-sm font-medium text-gray-700 mb-1">Program</label>
-                <input type="text" name="program" x-model="editData.program" required class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-500">
-            </div>
-            <div>
                 <label class="block text-sm font-medium text-gray-700 mb-1">Kegiatan</label>
                 <input type="text" name="kegiatan" x-model="editData.kegiatan" required class="w-full border border-gray-300 rounded-lg px-3 py-2">
             </div>
-            <div>
+             <div>
                 <label class="block text-sm font-medium text-gray-700 mb-1">Sub Kegiatan</label>
                 <input type="text" name="sub_kegiatan" x-model="editData.sub_kegiatan" required class="w-full border border-gray-300 rounded-lg px-3 py-2">
             </div>
             <div>
-                <label class="block text-sm font-medium text-gray-700 mb-1">Indikator</label>
-                <input type="text" name="indikator" x-model="editData.indikator" required class="w-full border border-gray-300 rounded-lg px-3 py-2">
+                <label class="block text-sm font-medium text-gray-700 mb-1">Nama Sumber Dana</label>
+                <input type="text" name="nama_sumber_dana" x-model="editData.nama_sumber_dana" required class="w-full border border-gray-300 rounded-lg px-3 py-2">
             </div>
             <div>
-                <label class="block text-sm font-medium text-gray-700 mb-1">Target</label>
-                <input type="text" name="target" x-model="editData.target" required class="w-full border border-gray-300 rounded-lg px-3 py-2">
+                <label class="block text-sm font-medium text-gray-700 mb-1">Nama Rekening</label>
+                <input type="text" name="nama_rekening" x-model="editData.nama_rekening" required class="w-full border border-gray-300 rounded-lg px-3 py-2">
             </div>
             <div>
-                <label class="block text-sm font-medium text-gray-700 mb-1">Anggaran (Rp)</label>
-                <input type="number" name="anggaran" x-model="editData.anggaran" step="0.01" required class="w-full border border-gray-300 rounded-lg px-3 py-2">
+                <label class="block text-sm font-medium text-gray-700 mb-1">Pagu (Rp)</label>
+                <input type="number" name="pagu" x-model="editData.pagu" step="0.01" required class="w-full border border-gray-300 rounded-lg px-3 py-2">
             </div>
             <div class="flex gap-3 pt-4">
                 <button type="button" @click="editModalOpen = false" class="px-4 py-2 border border-gray-300 text-gray-700 rounded-lg">Batal</button>
@@ -311,12 +302,11 @@ function apbdManager() {
             id: null,
             id_tahun: '',
             id_opd: '',
-            program: '',
             kegiatan: '',
             sub_kegiatan: '',
-            indikator: '',
-            target: '',
-            anggaran: 0
+            nama_sumber_dana: '',
+            nama_rekening: '',
+            pagu: 0
         },
 
         // Fungsi membuka modal dan memindahkan data baris ke dalam form

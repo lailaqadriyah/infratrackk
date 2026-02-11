@@ -13,12 +13,11 @@ class APBD extends Model
     protected $fillable = [
         'id_opd',
         'id_tahun',
-        'program',
         'kegiatan',
         'sub_kegiatan',
-        'indikator',
-        'target',
-        'anggaran',
+        'nama_sumber_dana',
+        'nama_rekening',
+        'pagu',
         'file_path',
     ];
 

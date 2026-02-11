@@ -28,6 +28,10 @@ use App\Http\Controllers\RkpdController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\UserRenjaController;
 use App\Http\Controllers\UserRkpdController;
+use App\Http\Controllers\APBDController;
+use App\Http\Controllers\RealisasiController;
+use App\Http\Controllers\UserRealisasiController;
+use App\Http\Controllers\UserAPBDController;
 
 
 Route::middleware(['auth'])->group(function () {
@@ -85,4 +89,25 @@ require __DIR__.'/auth.php';
 // Debug route
 Route::middleware('auth')->group(function () {
     Route::get('/api/check-auth', [DebugController::class, 'checkAuth']);
+});
+
+// Rute Admin untuk Anggaran (APBD)
+Route::prefix('admin')->middleware(['auth', 'is_admin'])->group(function () {
+    // APBD Routes
+    Route::get('/apbd', [App\Http\Controllers\APBDController::class, 'index'])->name('admin.apbd.index');
+    Route::get('/apbd/create', [App\Http\Controllers\APBDController::class, 'create'])->name('admin.apbd.create');
+    Route::post('/apbd', [App\Http\Controllers\APBDController::class, 'store'])->name('admin.apbd.store');
+    Route::post('/apbd/import', [App\Http\Controllers\APBDController::class, 'import'])->name('admin.apbd.import'); // Jika ada fitur import excel
+    Route::get('/apbd/{apbd}/edit', [App\Http\Controllers\APBDController::class, 'edit'])->name('admin.apbd.edit');
+    Route::put('/apbd/{apbd}', [App\Http\Controllers\APBDController::class, 'update'])->name('admin.apbd.update');
+    Route::delete('/apbd/{apbd}', [App\Http\Controllers\APBDController::class, 'destroy'])->name('admin.apbd.destroy');
+
+    // Realisasi Routes
+    Route::get('/realisasi', [App\Http\Controllers\RealisasiController::class, 'index'])->name('admin.realisasi.index');
+    Route::get('/realisasi/create', [App\Http\Controllers\RealisasiController::class, 'create'])->name('admin.realisasi.create');
+    Route::post('/realisasi', [App\Http\Controllers\RealisasiController::class, 'store'])->name('admin.realisasi.store');
+    Route::post('/realisasi/import', [App\Http\Controllers\RealisasiController::class, 'import'])->name('admin.realisasi.import');
+    Route::get('/realisasi/{realisasi}/edit', [App\Http\Controllers\RealisasiController::class, 'edit'])->name('admin.realisasi.edit');
+    Route::put('/realisasi/{realisasi}', [App\Http\Controllers\RealisasiController::class, 'update'])->name('admin.realisasi.update');
+    Route::delete('/realisasi/{realisasi}', [App\Http\Controllers\RealisasiController::class, 'destroy'])->name('admin.realisasi.destroy');
 });
