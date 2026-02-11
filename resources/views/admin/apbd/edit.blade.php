@@ -32,7 +32,7 @@
                 <select name="id_opd" id="id_opd" class="w-full border border-gray-300 rounded-lg px-4 py-2 @error('id_opd') border-red-500 @enderror" required>
                     <option value="">Pilih OPD</option>
                     @foreach ($opds as $opd)
-                        <option value="{{ $opd->id }}" {{ $renja->id_opd == $opd->id ? 'selected' : '' }}>{{ $opd->nama_opd }}</option>
+                        <option value="{{ $opd->id }}" {{ $apbd->id_opd == $opd->id ? 'selected' : '' }}>{{ $opd->nama_opd }}</option>
                     @endforeach
                 </select>
                 @error('id_opd')
@@ -43,7 +43,7 @@
 
         <div>
             <label for="program" class="block text-sm font-medium text-gray-700 mb-2">Program</label>
-            <input type="text" name="program" id="program" value="{{ old('program', $renja->program) }}" class="w-full border border-gray-300 rounded-lg px-4 py-2 @error('program') border-red-500 @enderror" required>
+            <input type="text" name="program" id="program" value="{{ old('program', $apbd->program) }}" class="w-full border border-gray-300 rounded-lg px-4 py-2 @error('program') border-red-500 @enderror" required>
             @error('program')
                 <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
             @enderror
@@ -51,7 +51,7 @@
 
         <div>
             <label for="kegiatan" class="block text-sm font-medium text-gray-700 mb-2">Kegiatan</label>
-            <input type="text" name="kegiatan" id="kegiatan" value="{{ old('kegiatan', $renja->kegiatan) }}" class="w-full border border-gray-300 rounded-lg px-4 py-2 @error('kegiatan') border-red-500 @enderror" required>
+            <input type="text" name="kegiatan" id="kegiatan" value="{{ old('kegiatan', $apbd->kegiatan) }}" class="w-full border border-gray-300 rounded-lg px-4 py-2 @error('kegiatan') border-red-500 @enderror" required>
             @error('kegiatan')
                 <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
             @enderror
@@ -59,7 +59,7 @@
 
         <div>
             <label for="sub_kegiatan" class="block text-sm font-medium text-gray-700 mb-2">Sub Kegiatan</label>
-            <input type="text" name="sub_kegiatan" id="sub_kegiatan" value="{{ old('sub_kegiatan', $renja->sub_kegiatan) }}" class="w-full border border-gray-300 rounded-lg px-4 py-2 @error('sub_kegiatan') border-red-500 @enderror" required>
+            <input type="text" name="sub_kegiatan" id="sub_kegiatan" value="{{ old('sub_kegiatan', $apbd->sub_kegiatan) }}" class="w-full border border-gray-300 rounded-lg px-4 py-2 @error('sub_kegiatan') border-red-500 @enderror" required>
             @error('sub_kegiatan')
                 <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
             @enderror
@@ -67,7 +67,7 @@
 
         <div>
             <label for="indikator" class="block text-sm font-medium text-gray-700 mb-2">Indikator</label>
-            <input type="text" name="indikator" id="indikator" value="{{ old('indikator', $renja->indikator) }}" class="w-full border border-gray-300 rounded-lg px-4 py-2 @error('indikator') border-red-500 @enderror" required>
+            <input type="text" name="indikator" id="indikator" value="{{ old('indikator', $apbd->indikator) }}" class="w-full border border-gray-300 rounded-lg px-4 py-2 @error('indikator') border-red-500 @enderror" required>
             @error('indikator')
                 <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
             @enderror
@@ -75,7 +75,7 @@
 
         <div>
             <label for="target" class="block text-sm font-medium text-gray-700 mb-2">Target</label>
-            <input type="text" name="target" id="target" value="{{ old('target', $renja->target) }}" class="w-full border border-gray-300 rounded-lg px-4 py-2 @error('target') border-red-500 @enderror" required>
+            <input type="text" name="target" id="target" value="{{ old('target', $apbd->target) }}" class="w-full border border-gray-300 rounded-lg px-4 py-2 @error('target') border-red-500 @enderror" required>
             @error('target')
                 <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
             @enderror
@@ -83,7 +83,7 @@
 
         <div>
             <label for="anggaran" class="block text-sm font-medium text-gray-700 mb-2">Anggaran (Rp)</label>
-            <input type="number" name="anggaran" id="anggaran" step="0.01" value="{{ old('anggaran', $renja->anggaran) }}" class="w-full border border-gray-300 rounded-lg px-4 py-2 @error('anggaran') border-red-500 @enderror" required>
+            <input type="number" name="anggaran" id="anggaran" step="0.01" value="{{ old('anggaran', $apbd->anggaran) }}" class="w-full border border-gray-300 rounded-lg px-4 py-2 @error('anggaran') border-red-500 @enderror" required>
             @error('anggaran')
                 <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
             @enderror
@@ -91,7 +91,7 @@
 
         <div class="flex gap-4 pt-6">
             <button type="submit" class="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition-colors">Update</button>
-            <a href="{{ route('admin.renja.index') }}" class="bg-gray-300 text-gray-700 px-6 py-2 rounded-lg hover:bg-gray-400 transition-colors">Batal</a>
+            <a href="{{ route('admin.apbd.index') }}" class="bg-gray-300 text-gray-700 px-6 py-2 rounded-lg hover:bg-gray-400 transition-colors">Batal</a>
         </div>
     </form>
 </div>

@@ -90,7 +90,7 @@
 
         <div class="flex gap-4 pt-6">
             <button type="submit" class="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition-colors">Simpan</button>
-            <a href="{{ route('admin.renja.index') }}" class="bg-gray-300 text-gray-700 px-6 py-2 rounded-lg hover:bg-gray-400 transition-colors">Batal</a>
+            <a href="{{ route('admin.apbd.index') }}" class="bg-gray-300 text-gray-700 px-6 py-2 rounded-lg hover:bg-gray-400 transition-colors">Batal</a>
         </div>
     </form>
 </div>
