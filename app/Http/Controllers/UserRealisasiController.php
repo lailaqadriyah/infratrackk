@@ -30,17 +30,17 @@ class UserRealisasiController extends Controller
             $query->where('opd.nama_opd', $request->opd);
         }
 
-        // 4. Statistik Atas (Samakan dengan RKPD)
-        $totalAnggaran = (clone $query)->sum('realisasi.anggaran');
-        $jumlahProgram = (clone $query)->distinct('realisasi.program')->count('realisasi.program');
-        $jumlahKegiatan = (clone $query)->distinct('realisasi.kegiatan')->count('realisasi.kegiatan');
+        // 4. Statistik Atas (Total Alokasi, Jumlah Sub Kegiatan, Jumlah Daerah)
+        $totalAlokasi = (clone $query)->sum('realisasi.alokasi');
+        $jumlahSubKegiatan = (clone $query)->distinct('realisasi.sub_kegiatan')->count('realisasi.sub_kegiatan');
+        $jumlahDaerah = (clone $query)->distinct('realisasi.nama_daerah')->count('realisasi.nama_daerah');
 
-        // 5. Data Visualisasi (Ukuran disamakan dengan RKPD)
-        $dataProgram = (clone $query)->select('realisasi.program', DB::raw('SUM(realisasi.anggaran) as total'))
-            ->groupBy('realisasi.program')->get();
+        // 5. Data Visualisasi (Sub Kegiatan, Trend Tahun, Daerah)
+        $dataSubKegiatan = (clone $query)->select('realisasi.sub_kegiatan', DB::raw('SUM(realisasi.alokasi) as total'))
+            ->groupBy('realisasi.sub_kegiatan')->get();
 
         $dataTahunTrend = Realisasi::join('tahun', 'realisasi.id_tahun', '=', 'tahun.id')
-            ->select('tahun.tahun as label_thn', DB::raw('SUM(realisasi.anggaran) as total'))
+            ->select('tahun.tahun as label_thn', DB::raw('SUM(realisasi.alokasi) as total'))
             ->when($request->opd, function($q) use ($request) {
                 return $q->whereExists(function($sub) use ($request) {
                     $sub->select(DB::raw(1))->from('opd')->whereColumn('opd.id', 'realisasi.id_opd')->where('nama_opd', $request->opd);
@@ -48,16 +48,16 @@ class UserRealisasiController extends Controller
             })
             ->groupBy('tahun.tahun')->orderBy('tahun.tahun', 'asc')->get();
 
-        $dataOpd = (clone $query)->select('opd.nama_opd', DB::raw('SUM(realisasi.anggaran) as total'))
-            ->groupBy('opd.nama_opd')->get();
+        $dataDaerah = (clone $query)->select('realisasi.nama_daerah', DB::raw('SUM(realisasi.alokasi) as total'))
+            ->groupBy('realisasi.nama_daerah')->get();
 
         // 6. Rincian Data
         $rincianData = $query->with(['tahun', 'opd'])->get();
 
         return view('user.realisasi.index', compact(
-            'listOpd', 'listTahun', 'dataProgram', 
-            'dataTahunTrend', 'dataOpd', 'rincianData', 
-            'totalAnggaran', 'jumlahProgram', 'jumlahKegiatan'
+            'listOpd', 'listTahun', 'dataSubKegiatan', 
+            'dataTahunTrend', 'dataDaerah', 'rincianData', 
+            'totalAlokasi', 'jumlahSubKegiatan', 'jumlahDaerah'
         ));
     }
 }

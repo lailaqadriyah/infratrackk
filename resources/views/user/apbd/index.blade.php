@@ -76,25 +76,25 @@
         </div>
         <div class="overflow-x-auto">
             <table class="min-w-full text-sm">
-                <thead class="bg-gray-100 border-b border-gray-200">
+                <thead class="bg-blue-100 border-b border-gray-200">
                     <tr>
-                        <th class="px-4 py-3 text-left font-semibold text-gray-600 uppercase tracking-wider">Tahun</th>
-                        <th class="px-4 py-3 text-left font-semibold text-gray-600 uppercase tracking-wider">Kegiatan</th>
-                        <th class="px-4 py-3 text-left font-semibold text-gray-600 uppercase tracking-wider">Sub Kegiatan</th>
-                        <th class="px-4 py-3 text-left font-semibold text-gray-600 uppercase tracking-wider">Sumber Dana</th>
-                        <th class="px-4 py-3 text-left font-semibold text-gray-600 uppercase tracking-wider">Rekening</th>
-                        <th class="px-4 py-3 text-right font-semibold text-gray-600 uppercase tracking-wider">Pagu</th>
+                        <th class="px-4 py-3 border-x text-center font-semibold text-black-600 uppercase tracking-wider">Tahun</th>
+                        <th class="px-4 py-3 border-x text-center font-semibold text-black-600 uppercase tracking-wider">Kegiatan</th>
+                        <th class="px-4 py-3 border-x text-center font-semibold text-black-600 uppercase tracking-wider">Sub Kegiatan</th>
+                        <th class="px-4 py-3 border-x text-center font-semibold text-black-600 uppercase tracking-wider">Sumber Dana</th>
+                        <th class="px-4 py-3 border-x text-center font-semibold text-black-600 uppercase tracking-wider">Rekening</th>
+                        <th class="px-4 py-3 border-x text-center font-semibold text-black-600 uppercase tracking-wider">Pagu</th>
                     </tr>
                 </thead>
                 <tbody class="divide-y divide-gray-100">
                     @forelse($rincianData as $item)
                     <tr class="hover:bg-blue-50 transition">
-                        <td class="px-4 py-4 text-gray-700">{{ $item->label_tahun ?? ($item->tahun->tahun ?? '-') }}</td>
-                        <td class="px-4 py-4 text-gray-600">{{ $item->kegiatan ?? '-' }}</td>
-                        <td class="px-4 py-4 text-gray-600">{{ $item->sub_kegiatan ?? '-' }}</td>
-                        <td class="px-4 py-4 text-gray-600">{{ $item->nama_sumber_dana ?? '-' }}</td>
-                        <td class="px-4 py-4 text-gray-600">{{ $item->nama_rekening ?? '-' }}</td>
-                        <td class="px-4 py-4 text-right font-bold text-blue-700 whitespace-nowrap">
+                        <td class="px-4 py-4 border-x border-gray-200 text-black-700">{{ $item->label_tahun ?? ($item->tahun->tahun ?? '-') }}</td>
+                        <td class="px-4 py-4 border-x border-gray-200 text-black-600">{{ $item->kegiatan ?? '-' }}</td>
+                        <td class="px-4 py-4 border-x border-gray-200 text-black-600">{{ $item->sub_kegiatan ?? '-' }}</td>
+                        <td class="px-4 py-4 border-x border-gray-200 text-black-600">{{ $item->nama_sumber_dana ?? '-' }}</td>
+                        <td class="px-4 py-4 border-x border-gray-200 text-black-600">{{ $item->nama_rekening ?? '-' }}</td>
+                        <td class="px-4 py-4 border-x border-gray-200 text-black-600 whitespace-nowrap">
                             Rp {{ number_format($item->pagu ?? 0, 0, ',', '.') }}
                         </td>
                     </tr>

@@ -35,8 +35,8 @@
 </div>
 
 <div class="flex gap-6 mb-6 border-b border-gray-200">
-    <a href="{{ route('admin.apbd.index') }}" class="pb-4 font-medium text-green-600 border-b-2 border-green-600">APBD</a>
-    <a href="{{ route('admin.realisasi.index') }}" class="pb-4 font-medium text-gray-600 hover:text-gray-900">Realisasi</a>
+    <a href="{{ route('admin.apbd.index') }}" class="pb-4 font-medium {{ request()->routeIs('admin.apbd.index', 'admin.apbd.*') ? 'text-green-600 border-b-2 border-green-600' : 'text-gray-600 hover:text-gray-900' }}">APBD</a>
+    <a href="{{ route('admin.realisasi.index') }}" class="pb-4 font-medium {{ request()->routeIs('admin.realisasi.index', 'admin.realisasi.*') ? 'text-green-600 border-b-2 border-green-600' : 'text-gray-600 hover:text-gray-900' }}">Realisasi</a>
 </div>
 
 <div class="bg-white rounded-lg shadow-sm p-4 mb-6">
