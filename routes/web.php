@@ -50,6 +50,7 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/dashboard', [UserRenjaController::class, 'index'])->name('dashboard');
         Route::get('/user/renja', [UserRenjaController::class, 'index'])->name('user.renja.index');
         Route::get('/user/rkpd', [UserRkpdController::class, 'index'])->name('user.rkpd.index');
+        Route::get('/user/apbd', [UserAPBDController::class, 'index'])->name('user.apbd.index');
     });
 
    

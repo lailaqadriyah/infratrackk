@@ -30,17 +30,18 @@ class UserAPBDController extends Controller
             $query->where('opd.nama_opd', $request->opd);
         }
 
-        // 4. Statistik Atas (Samakan dengan RKPD)
-        $totalAnggaran = (clone $query)->sum('apbd.anggaran');
-        $jumlahProgram = (clone $query)->distinct('apbd.program')->count('apbd.program');
-        $jumlahKegiatan = (clone $query)->distinct('apbd.kegiatan')->count('apbd.kegiatan');
+        // 4. Statistik Atas (menggunakan kolom `pagu` dari tabel apbd)
+        $totalAnggaran = (clone $query)->sum('apbd.pagu');
+        // Tabel apbd tidak memiliki kolom `program` secara eksplisit; gunakan distinct pada `kegiatan` sebagai representasi program jika diperlukan
+        $jumlahProgram = (clone $query)->distinct('apbd.kegiatan')->count('apbd.kegiatan');
+        $jumlahKegiatan = (clone $query)->distinct('apbd.sub_kegiatan')->count('apbd.sub_kegiatan');
 
-        // 5. Data Visualisasi (Ukuran disamakan dengan RKPD)
-        $dataProgram = (clone $query)->select('apbd.program', DB::raw('SUM(apbd.anggaran) as total'))
-            ->groupBy('apbd.program')->get();
+        // 5. Data Visualisasi (mengelompokkan berdasarkan 'kegiatan' untuk melihat porsi)
+        $dataProgram = (clone $query)->select('apbd.kegiatan as program', DB::raw('SUM(apbd.pagu) as total'))
+            ->groupBy('apbd.kegiatan')->get();
 
         $dataTahunTrend = APBD::join('tahun', 'apbd.id_tahun', '=', 'tahun.id')
-            ->select('tahun.tahun as label_thn', DB::raw('SUM(apbd.anggaran) as total'))
+            ->select('tahun.tahun as label_thn', DB::raw('SUM(apbd.pagu) as total'))
             ->when($request->opd, function($q) use ($request) {
                 return $q->whereExists(function($sub) use ($request) {
                     $sub->select(DB::raw(1))->from('opd')->whereColumn('opd.id', 'apbd.id_opd')->where('nama_opd', $request->opd);
@@ -48,7 +49,7 @@ class UserAPBDController extends Controller
             })
             ->groupBy('tahun.tahun')->orderBy('tahun.tahun', 'asc')->get();
 
-        $dataOpd = (clone $query)->select('opd.nama_opd', DB::raw('SUM(apbd.anggaran) as total'))
+        $dataOpd = (clone $query)->select('opd.nama_opd', DB::raw('SUM(apbd.pagu) as total'))
             ->groupBy('opd.nama_opd')->get();
 
         // 6. Rincian Data
