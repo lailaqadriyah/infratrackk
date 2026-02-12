@@ -34,15 +34,15 @@
     <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
         <div class="bg-white p-5 rounded-xl shadow-sm border-l-4 border-blue-600">
             <p class="text-xs font-bold text-gray-400 uppercase tracking-widest">Total Anggaran</p>
-            <h3 class="text-xl font-black text-gray-800 mt-1">Rp {{ number_format($totalAnggaran, 0, ',', '.') }}</h3>
+            <h3 class="text-xl font-black text-center text-gray-800 mt-1">Rp {{ number_format($totalAnggaran, 0, ',', '.') }}</h3>
         </div>
         <div class="bg-white p-5 rounded-xl shadow-sm border-l-4 border-green-500">
             <p class="text-xs font-bold text-gray-400 uppercase tracking-widest">Jumlah Program</p>
-            <h3 class="text-xl font-black text-gray-800 mt-1">{{ $jumlahProgram }} <span class="text-sm font-normal text-gray-500">Program</span></h3>
+            <h3 class="text-xl font-black text-center text-gray-800 mt-1">{{ $jumlahProgram }} <span class="text-sm font-normal text-black-500">Program</span></h3>
         </div>
         <div class="bg-white p-5 rounded-xl shadow-sm border-l-4 border-yellow-500">
             <p class="text-xs font-bold text-gray-400 uppercase tracking-widest">Total Kegiatan</p>
-            <h3 class="text-xl font-black text-gray-800 mt-1">{{ $jumlahKegiatan }} <span class="text-sm font-normal text-gray-500">Kegiatan</span></h3>
+            <h3 class="text-xl font-black text-center text-gray-800 mt-1">{{ $jumlahKegiatan }} <span class="text-sm font-normal text-black-500">Kegiatan</span></h3>
         </div>
     </div>
 
@@ -76,25 +76,25 @@
         </div>
         <div class="overflow-x-auto">
             <table class="min-w-full text-sm">
-                <thead class="bg-gray-100 border-b border-gray-200">
+                <thead class="bg-blue-100 border-b border-gray-200">
                     <tr>
-                        <th class="px-4 py-3 text-left font-semibold text-gray-600 uppercase tracking-wider">Program</th>
-                        <th class="px-4 py-3 text-left font-semibold text-gray-600 uppercase tracking-wider">Kegiatan</th>
-                        <th class="px-4 py-3 text-left font-semibold text-gray-600 uppercase tracking-wider">Sub Kegiatan</th>
-                        <th class="px-4 py-3 text-left font-semibold text-gray-600 uppercase tracking-wider">Indikator</th>
-                        <th class="px-4 py-3 text-left font-semibold text-gray-600 uppercase tracking-wider">Target</th>
-                        <th class="px-4 py-3 text-right font-semibold text-gray-600 uppercase tracking-wider">Anggaran</th>
+                        <th class="px-4 py-3 border-x text-center font-semibold text-black-600 uppercase tracking-wider">Program</th>
+                        <th class="px-4 py-3 border-x text-center font-semibold text-black-600 uppercase tracking-wider">Kegiatan</th>
+                        <th class="px-4 py-3 border-x text-center font-semibold text-black-600 uppercase tracking-wider">Sub Kegiatan</th>
+                        <th class="px-4 py-3 border-x text-center font-semibold text-black-600 uppercase tracking-wider">Indikator</th>
+                        <th class="px-4 py-3 border-x text-center font-semibold text-black-600 uppercase tracking-wider">Target</th>
+                        <th class="px-4 py-3 border-x text-center font-semibold text-black-600 uppercase tracking-wider">Anggaran</th>
                     </tr>
                 </thead>
                 <tbody class="divide-y divide-gray-100">
                     @forelse($rincianData as $item)
                     <tr class="hover:bg-blue-50 transition">
-                        <td class="px-4 py-4 text-gray-700">{{ $item->program ?? '-' }}</td>
-                        <td class="px-4 py-4 text-gray-600">{{ $item->kegiatan ?? '-' }}</td>
-                        <td class="px-4 py-4 text-gray-600">{{ $item->sub_kegiatan ?? '-' }}</td>
-                        <td class="px-4 py-4 text-gray-600">{{ $item->indikator ?? '-' }}</td>
-                        <td class="px-4 py-4 text-gray-600">{{ $item->target ?? '-' }}</td>
-                        <td class="px-4 py-4 text-right font-bold text-blue-700 whitespace-nowrap">
+                        <td class="px-4 py-4 border-x border-gray-200 text-black-700">{{ $item->program ?? '-' }}</td>
+                        <td class="px-4 py-4 border-x border-gray-200 text-black-600">{{ $item->kegiatan ?? '-' }}</td>
+                        <td class="px-4 py-4 border-x border-gray-200 text-black-600">{{ $item->sub_kegiatan ?? '-' }}</td>
+                        <td class="px-4 py-4 border-x border-gray-200 text-black-600">{{ $item->indikator ?? '-' }}</td>
+                        <td class="px-4 py-4 border-x border-gray-200 text-black-600">{{ $item->target ?? '-' }}</td>
+                        <td class="px-4 py-4 border-x border-gray-200 text-black-600 whitespace-nowrap">
                             Rp {{ number_format($item->anggaran, 0, ',', '.') }}
                         </td>
                     </tr>

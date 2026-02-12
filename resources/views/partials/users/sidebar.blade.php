@@ -20,26 +20,27 @@
                 </button>
 
                 <div x-show="open" x-cloak class="mt-2 ml-8 space-y-1">
-                    {{-- Dashboard RENJA --}}
-                    <a href="{{ route('user.renja.index') }}" 
-                        class="block p-2 rounded-md text-sm transition-colors {{ request()->routeIs('user.renja.index') ? 'text-blue-700 font-bold bg-blue-50' : 'text-gray-500 hover:text-gray-700 hover:bg-gray-50' }}">
-                        Dashboard RENJA
-                    </a>
-                    
-                    {{-- Dashboard RKPD --}}
-                    <a href="{{ route('user.rkpd.index') }}" 
-                        class="block p-2 rounded-md text-sm transition-colors {{ request()->routeIs('user.rkpd.index') ? 'text-blue-700 font-bold bg-blue-50' : 'text-gray-500 hover:text-gray-700 hover:bg-gray-50' }}">
-                        Dashboard RKPD
-                    </a>
-                </div>
-            </div>
+    {{-- Dashboard RENJA --}}
+    <a href="{{ route('user.renja.index') }}" 
+        class="flex items-center gap-3 px-4 py-3 rounded-lg transition-colors {{ request()->routeIs('user.renja.index') ? 'bg-blue-100 text-blue-700' : 'text-gray-600 hover:bg-gray-50' }}">
+        <span class="font-medium text-sm">Dashboard RENJA</span>
+    </a>
+    
+    {{-- Dashboard RKPD --}}
+    <a href="{{ route('user.rkpd.index') }}" 
+        class="flex items-center gap-3 px-4 py-3 rounded-lg transition-colors {{ request()->routeIs('user.rkpd.index') ? 'bg-blue-100 text-blue-700' : 'text-gray-600 hover:bg-gray-50' }}">
+        <span class="font-medium text-sm">Dashboard RKPD</span>
+    </a>
+</div>
 
-            {{-- Feedback --}}
-            <a href="{{ route('feedback.index') }}" 
-               class="flex items-center gap-3 px-4 py-3 rounded-lg transition-colors {{ request()->routeIs('feedback.*') ? 'bg-blue-100 text-blue-700' : 'text-gray-600 hover:bg-gray-50' }}">
-                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
-                <span class="font-medium text-sm">Kirim Feedback</span>
-            </a>
+{{-- Feedback --}}
+<a href="{{ route('feedback.index') }}" 
+   class="flex items-center gap-3 px-4 py-3 rounded-lg transition-colors {{ request()->routeIs('feedback.*') ? 'bg-blue-100 text-blue-700' : 'text-gray-600 hover:bg-gray-50' }}">
+    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+    </svg>
+    <span class="font-medium text-sm">Kirim Feedback</span>
+</a>
         </nav>
     </div>
 

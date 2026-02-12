@@ -25,7 +25,7 @@
             </svg>
             Upload File
         </button>
-        <button @click="manualModalOpen = true" type="button" class="flex items-center gap-2 bg-blue-700 text-white px-4 py-2 rounded-lg hover:bg-blue-800 transition-colors shadow-sm">
+        <button @click="manualModalOpen = true" type="button" class="flex items-center gap-2 bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors shadow-sm font-medium">
             <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
             </svg>
@@ -35,7 +35,7 @@
 </div>
 
 <div class="flex gap-6 mb-6 border-b border-gray-200">
-    <a href="{{ route('admin.renja.index') }}" class="pb-4 font-medium text-green-600 border-b-2 border-green-600">RENJA</a>
+    <a href="{{ route('admin.renja.index') }}" class="pb-4 font-medium text-blue-600 border-b-2 border-blue-600">RENJA</a>
     <a href="{{ route('admin.rkpd.index') }}" class="pb-4 font-medium text-gray-600 hover:text-gray-900">RKPD</a>
 </div>
 
@@ -69,36 +69,43 @@
     </form>
 </div>
 
-<div class="bg-white rounded-lg shadow-md overflow-hidden">
-    <div class="p-4 border-b border-gray-200">
-        <h3 class="font-semibold text-gray-900">Data RENJA</h3>
+<div class="bg-white rounded-lg shadow-md overflow-hidden border border-gray-200">
+    <div class="p-4 border-b border-gray-200 bg-gray-50">
+        <h3 class="font-bold text-gray-900 flex items-center gap-2">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 10h16M4 14h16M4 18h16" />
+            </svg>
+            Data Rencana Kerja (RENJA)
+        </h3>
     </div>
     <div class="overflow-x-auto">
-        <table class="w-full">
-            <thead class="bg-gray-100 border-b border-gray-200">
+        <table class="w-full border-collapse">
+            <thead class="bg-blue-100 border-b-2 border-gray-300">
                 <tr>
-                    <th class="px-6 py-4 text-left text-sm font-semibold text-gray-900">Tahun</th>
-                    <th class="px-6 py-4 text-left text-sm font-semibold text-gray-900">OPD</th>
-                    <th class="px-6 py-4 text-left text-sm font-semibold text-gray-900">Program</th>
-                    <th class="px-6 py-4 text-left text-sm font-semibold text-gray-900">Kegiatan</th>
-                    <th class="px-6 py-4 text-left text-sm font-semibold text-gray-900">Sub Kegiatan</th>
-                    <th class="px-6 py-4 text-left text-sm font-semibold text-gray-900">Target</th>
-                    <th class="px-6 py-4 text-left text-sm font-semibold text-gray-900">Pagu</th>
-                    <th class="px-6 py-4 text-left text-sm font-semibold text-gray-900">Aksi</th>
+                    <th class="px-4 py-3 text-center text-xs font-bold text-gray-900 uppercase tracking-wider border-x border-gray-300">Tahun</th>
+                    <th class="px-4 py-3 text-center text-xs font-bold text-gray-900 uppercase tracking-wider border-x border-gray-300">OPD</th>
+                    <th class="px-4 py-3 text-center text-xs font-bold text-gray-900 uppercase tracking-wider border-x border-gray-300">Program</th>
+                    <th class="px-4 py-3 text-center text-xs font-bold text-gray-900 uppercase tracking-wider border-x border-gray-300">Kegiatan</th>
+                    <th class="px-4 py-3 text-center text-xs font-bold text-gray-900 uppercase tracking-wider border-x border-gray-300">Sub Kegiatan</th>
+                    <th class="px-4 py-3 text-center text-xs font-bold text-gray-900 uppercase tracking-wider border-x border-gray-300">Target</th>
+                    <th class="px-4 py-3 text-center text-xs font-bold text-gray-900 uppercase tracking-wider border-x border-gray-300">Pagu Anggaran</th>
+                    <th class="px-4 py-3 text-center text-xs font-bold text-gray-900 uppercase tracking-wider border-x border-gray-300">Aksi</th>
                 </tr>
             </thead>
-            <tbody class="divide-y divide-gray-200">
+            <tbody class="divide-y divide-gray-300">
                 @forelse ($renjas as $renja)
-                    <tr class="hover:bg-gray-50 transition-colors">
-                        <td class="px-6 py-4 text-sm text-gray-900">{{ $renja->tahun->tahun ?? '-' }}</td>
-                        <td class="px-6 py-4 text-sm text-gray-900">{{ $renja->opd->nama_opd ?? '-' }}</td>
-                        <td class="px-6 py-4 text-sm text-gray-900">{{ $renja->program ?? '-' }}</td>
-                        <td class="px-6 py-4 text-sm text-gray-900">{{ $renja->kegiatan ?? '-' }}</td>
-                        <td class="px-6 py-4 text-sm text-gray-900">{{ $renja->sub_kegiatan ?? '-' }}</td>
-                        <td class="px-6 py-4 text-sm text-gray-900">{{ $renja->target ?? '-' }}</td>
-                        <td class="px-6 py-4 text-sm text-gray-900">Rp {{ number_format($renja->anggaran ?? 0, 0, ',', '.') }}</td>
-                        <td class="px-6 py-4 text-sm">
-                            <div class="flex items-center gap-2">
+                    <tr class="hover:bg-blue-50 transition-colors">
+                        <td class="px-4 py-3 text-sm text-black-900 border-x border-gray-200">{{ $renja->tahun->tahun ?? '-' }}</td>
+                        <td class="px-4 py-3 text-sm text-black-900 border-x border-gray-200">{{ $renja->opd->nama_opd ?? '-' }}</td>
+                        <td class="px-4 py-3 text-sm text-black-900 border-x border-gray-200">{{ $renja->program ?? '-' }}</td>
+                        <td class="px-4 py-3 text-sm text-black-900 border-x border-gray-200">{{ $renja->kegiatan ?? '-' }}</td>
+                        <td class="px-4 py-3 text-sm text-black-900 border-x border-gray-200">{{ $renja->sub_kegiatan ?? '-' }}</td>
+                        <td class="px-4 py-3 text-sm text-black-900 border-x border-gray-200">{{ $renja->target ?? '-' }}</td>
+                        <td class="px-4 py-3 text-sm text-black-900 border-x border-gray-200">
+                            Rp {{ number_format($renja->anggaran ?? 0, 0, ',', '.') }}
+                        </td>
+                        <td class="px-4 py-3 text-sm border-x border-gray-200">
+                            <div class="flex justify-center items-center gap-1">
                                 {{-- PERBAIKAN: Tombol edit langsung memicu fungsi openEditModal di Alpine.js --}}
                                 <button type="button" 
                                     @click="openEditModal({
@@ -176,7 +183,7 @@
                 <input type="file" name="file" accept=".xls,.xlsx" required class="w-full border-2 border-dashed border-gray-300 rounded-lg px-4 py-6 text-sm">
             </div>
             <div class="pt-2">
-                <button type="submit" class="w-full bg-gray-900 text-white px-4 py-3 rounded-lg hover:bg-gray-800 transition-colors">Upload dan Import</button>
+                <button type="submit" class="w-full bg-blue-600 text-white px-4 py-3 rounded-lg hover:bg-blue-700 transition-colors">Upload dan Import</button>
             </div>
         </form>
     </div>
@@ -234,7 +241,7 @@
             </div>
             <div class="flex gap-3 pt-4">
                 <button type="button" @click="manualModalOpen = false" class="px-4 py-2 border border-gray-300 text-gray-700 rounded-lg">Batal</button>
-                <button type="submit" class="flex-1 bg-blue-700 text-white px-4 py-2 rounded-lg hover:bg-blue-800 transition-colors">Simpan</button>
+                <button type="submit" class="flex-1 bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors">Simpan</button>
             </div>
         </form>
     </div>
