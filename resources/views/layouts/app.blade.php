@@ -41,7 +41,7 @@
             <li>
                 <button
                     @click="openMenus.includes('visualisasi') ? openMenus = openMenus.filter(i => i !== 'visualisasi') : openMenus.push('visualisasi')"
-                    class="w-full flex items-center justify-between px-4 py-3 rounded-xl text-sm transition-colors border-l-4 {{ request()->routeIs('user.renja.*', 'user.rkpd.*', 'dashboard') ? 'bg-blue-100 text-blue-700 font-semibold border-blue-500' : 'border-transparent text-gray-500 hover:bg-gray-100 hover:text-gray-700' }}">
+                    class="w-full flex items-center justify-between px-4 py-3 rounded-xl text-sm transition-colors border-l-4 {{ request()->routeIs('user.renja.*', 'user.rkpd.*', 'dashboard*', 'home') ? 'bg-blue-100 text-blue-700 font-semibold border-blue-500' : 'border-transparent text-gray-500 hover:bg-gray-100 hover:text-gray-700' }}">
                     <div class="flex items-center gap-3">
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
@@ -56,7 +56,7 @@
                 <ul x-show="openMenus.includes('visualisasi')" x-transition class="mt-1 ml-4 space-y-1">
                     <li>
                         <a href="{{ route('user.renja.index') }}"
-                            class="flex items-center gap-3 px-4 py-3 rounded-xl text-sm transition-colors border-l-4 {{ request()->routeIs('user.renja.index') ? 'bg-blue-100 text-blue-700 font-semibold border-blue-500' : 'border-transparent text-gray-500 hover:bg-gray-100 hover:text-gray-700' }}">
+                            class="flex items-center gap-3 px-4 py-3 rounded-xl text-sm transition-colors border-l-4 {{ request()->routeIs('user.renja.index*', 'home') ? 'bg-blue-100 text-blue-700 font-semibold border-blue-500' : 'border-transparent text-gray-500 hover:bg-gray-100 hover:text-gray-700' }}">
                             <div class="w-1.5 h-1.5 rounded-full bg-current"></div>
                             <span>Dashboard RENJA</span>
                         </a>
@@ -129,6 +129,7 @@
             <div class="flex-1 flex flex-col md:ml-64">
                 {{-- Top Navigation --}}
                 <header class="fixed top-0 left-0 md:left-64 right-0 bg-white shadow-sm border-b z-20 border-gray-200">
+                
     <div class="flex items-center justify-between">
         <button onclick="toggleSidebar()" class="md:hidden p-4 text-gray-600 hover:text-gray-800">
             <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">

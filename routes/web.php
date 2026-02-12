@@ -4,10 +4,19 @@ use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\DebugController;
+use App\Http\Controllers\FeedbackController;
+use App\Http\Controllers\RenjaController;
+use App\Http\Controllers\RkpdController;
+use App\Http\Controllers\AdminController;
+use App\Http\Controllers\UserRenjaController;
+use App\Http\Controllers\UserRkpdController;
+use App\Http\Controllers\APBDController;
+use App\Http\Controllers\RealisasiController;
+use App\Http\Controllers\UserRealisasiController;
+use App\Http\Controllers\UserAPBDController;
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', [UserRenjaController::class, 'index'])->name('home');
+
 Route::get('/dashboard', function () {
     $user = \Illuminate\Support\Facades\Auth::user();
     if ($user?->role_id == 1) {
@@ -22,16 +31,7 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-use App\Http\Controllers\FeedbackController;
-use App\Http\Controllers\RenjaController;
-use App\Http\Controllers\RkpdController;
-use App\Http\Controllers\AdminController;
-use App\Http\Controllers\UserRenjaController;
-use App\Http\Controllers\UserRkpdController;
-use App\Http\Controllers\APBDController;
-use App\Http\Controllers\RealisasiController;
-use App\Http\Controllers\UserRealisasiController;
-use App\Http\Controllers\UserAPBDController;
+
 
 
 Route::middleware(['auth'])->group(function () {

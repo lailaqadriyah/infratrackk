@@ -1,14 +1,14 @@
 <x-guest-layout>
     <div class="flex flex-col items-center justify-center text-center mb-10">
         <div class="mb-6">
-            <img src="URL_LOGOS_ANDA_DISINI" alt="Logo Infratrack" class="h-24 w-auto mx-auto object-contain">
+            <img src="images/logo-sipap.png" alt="Logo SIPAP" class="h-24 w-auto mx-auto object-contain">
         </div>
 
-        <h2 class="text-4xl font-extrabold mb-3 tracking-tight text-gray-900">Infra Track</h2>
+        <h2 class="text-4xl font-extrabold mb-3 tracking-tight text-gray-900">SIPAP</h2>
         
         <p class="text-gray-600 text-base font-semibold leading-relaxed max-w-md mx-auto uppercase tracking-normal">
-            Sistem Informasi Perencanaan dan Anggaran Daerah <br>
-            <span class="text-gray-500 font-medium italic">BAPPEDA Provinsi Sumatera Barat</span>
+            Sistem Informasi Perencanaan dan Anggaran Publik<br>
+            <span class="text-gray-600 font-medium italic">BAPPEDA Provinsi Sumatera Barat</span>
         </p>
     </div>
 
