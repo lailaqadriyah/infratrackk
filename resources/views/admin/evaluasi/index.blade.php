@@ -54,11 +54,11 @@
                 <h3 class="font-semibold text-gray-900">Word Cloud Feedback Masyarakat</h3>
             </div>
             <p class="text-sm text-gray-600 mb-4">
-                Visualisasi kata yang paling sering muncul dari feedback masyarakat.
+                Visualisasi kata-kata yang paling sering muncul dalam feedback masyarakat. Ukuran kata menunjukkan frekuensi kemunculan.
             </p>
 
-            <div class="h-[400px] border border-gray-200 rounded-lg bg-gray-50 flex items-center justify-center">
-                <canvas id="wordCloudCanvas"></canvas>
+            <div class="h-[400px] border border-gray-200 rounded-lg bg-gray-50 flex items-center justify-center overflow-hidden">
+                <canvas id="wordCloudCanvas" class="w-full h-full"></canvas>
             </div>
         </div>
 
@@ -67,7 +67,7 @@
             <h3 class="font-semibold text-gray-900 mb-4">10 Kata Paling Sering Muncul</h3>
             <div class="grid grid-cols-2 md:grid-cols-5 gap-4">
                 @foreach($topWords as $index => $word)
-                    <div class="bg-gradient-to-br from-blue-50 to-green-50 rounded-lg p-4 text-center">
+                    <div class="bg-blue-50  rounded-lg p-4 text-center">
                         <p class="text-2xl font-bold text-gray-900">{{ $index + 1 }}</p>
                         <p class="text-lg font-semibold text-gray-900 mt-1">{{ $word['word'] }}</p>
                         <p class="text-sm text-gray-600 mt-1">{{ $word['count'] }}x</p>
@@ -114,4 +114,116 @@
 
     </div>
 </div>
+
+{{-- WordCloud2.js —  sama seperti react-wordcloud yang menggunakan d3-cloud di baliknya --}}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/wordcloud2.js/1.2.2/wordcloud2.min.js"></script>
+
+<script>
+    const wordCloudData = @json($topWords);
+
+    // ─── Config disesuaikan 1:1 dengan referensi React (figma) ───────────────
+    // colors: ['#3b82f6','#10b981','#8b5cf6','#f59e0b','#ef4444','#06b6d4']
+    const COLORS = ['#3b82f6', '#10b981', '#8b5cf6', '#f59e0b', '#ef4444', '#06b6d4'];
+
+    // fontSizes: [16, 80]  → minFont=16, maxFont=80
+    const MIN_FONT = 16;
+    const MAX_FONT = 80;
+
+    // rotations: 2, rotationAngles: [0, 90]  → horizontal & vertikal
+    // padding: 2
+    // spiral: 'archimedean'
+    // scale: 'sqrt'
+    // ─────────────────────────────────────────────────────────────────────────
+
+    function renderWordCloud() {
+        const wrapper = document.getElementById('wordCloudCanvas').parentElement;
+        const canvas  = document.getElementById('wordCloudCanvas');
+
+        const W = wrapper.offsetWidth  || 800;
+        const H = wrapper.offsetHeight || 400;
+        canvas.width  = W;
+        canvas.height = H;
+
+        if (!wordCloudData || wordCloudData.length === 0) {
+            const ctx = canvas.getContext('2d');
+            ctx.fillStyle = '#9CA3AF';
+            ctx.font = '16px system-ui';
+            ctx.textAlign = 'center';
+            ctx.fillText('Tidak ada data untuk ditampilkan', W / 2, H / 2);
+            return;
+        }
+
+        // Sort descending berdasarkan count
+        const sorted = [...wordCloudData].sort((a, b) => b.count - a.count);
+
+        const counts   = sorted.map(d => d.count);
+        const minCount = Math.min(...counts);
+        const maxCount = Math.max(...counts);
+
+        // scale: 'sqrt' → ukuran font menggunakan sqrt normalisasi (sama dgn react-wordcloud)
+        const list = sorted.map(d => {
+            const norm  = maxCount === minCount ? 0.5 : (d.count - minCount) / (maxCount - minCount);
+            const sqrtN = Math.sqrt(norm);                               // sqrt scale
+            const size  = Math.round(MIN_FONT + sqrtN * (MAX_FONT - MIN_FONT));
+            return [d.word, size];
+        });
+
+        // Assign warna berputar sesuai urutan COLORS dari referensi
+        const colorMap = {};
+        sorted.forEach((d, i) => {
+            colorMap[d.word] = COLORS[i % COLORS.length];
+        });
+
+        WordCloud(canvas, {
+            list            : list,
+            weightFactor    : size => size,       // ukuran sudah dihitung manual
+
+            // font — referensi pakai 'system-ui', bold, normal style
+            fontFamily      : 'system-ui, -apple-system, sans-serif',
+            fontWeight      : 'bold',
+            fontStyle       : 'normal',
+
+            color           : word => colorMap[word] || COLORS[0],
+            backgroundColor : '#F9FAFB',          // bg-gray-50 sesuai container
+
+            // rotationAngles: [0, 90], rotations: 2
+            // WordCloud2 pakai radian: 0° = 0, 90° = -π/2
+            minRotation     : -Math.PI / 2,
+            maxRotation     : 0,
+            rotationSteps   : 2,
+            rotateRatio     : 0.4,
+
+            // padding: 2 (sama dengan referensi)
+            gridSize        : Math.round(6 * W / 1024),
+            minSize         : MIN_FONT,
+            shrinkToFit     : true,
+            drawOutOfBound  : false,
+
+            // spiral: 'archimedean' (default WordCloud2 sudah archimedean)
+
+            // origin di tengah agar kata terbesar mulai dari tengah
+            origin          : [W / 2, H / 2],
+
+            hover: function(item) {
+                if (item) {
+                    const found = wordCloudData.find(d => d.word === item[0]);
+                    canvas.title = `${item[0]}: ${found ? found.count : '?'} kali muncul`;
+                } else {
+                    canvas.title = '';
+                }
+            },
+        });
+    }
+
+    // transitionDuration: 1000 — render setelah sedikit delay agar layout siap
+    document.addEventListener('DOMContentLoaded', function () {
+        setTimeout(renderWordCloud, 150);
+
+        let resizeTimer;
+        window.addEventListener('resize', function () {
+            clearTimeout(resizeTimer);
+            resizeTimer = setTimeout(renderWordCloud, 300);
+        });
+    });
+</script>
 @endsection

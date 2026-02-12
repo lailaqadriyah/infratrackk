@@ -97,6 +97,12 @@
         </svg>
     </button>
 
+    {{-- HIDDEN DELETE FORM --}}
+    <form id="delete-form-{{ $feedback->id }}" action="/feedback/{{ $feedback->id }}" method="POST" style="display: none;">
+        @csrf
+        @method('DELETE')
+    </form>
+
 </div>
 
 
