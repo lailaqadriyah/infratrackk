@@ -107,6 +107,18 @@
                 </a>
             </li>
 
+            @auth
+            <li>
+                <a href="{{ route('profile.edit') }}"
+                    class="flex items-center gap-3 px-4 py-3 rounded-xl text-sm transition-colors border-l-4 {{ request()->routeIs('profile.edit') ? 'bg-blue-100 text-blue-700 font-semibold border-blue-500' : 'border-transparent text-gray-500 hover:bg-gray-100 hover:text-gray-700' }}">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5.121 17.804A13.937 13.937 0 0112 16c2.5 0 4.847.655 6.879 1.804M15 10a3 3 0 11-6 0 3 3 0 016 0z" />
+                    </svg>
+                    <span>Profil</span>
+                </a>
+            </li>
+            @endauth
+
         </ul>
     </nav>
 
@@ -173,7 +185,16 @@
                     <a href="{{ route('register') }}" class="text-sm px-3 py-1 rounded-md bg-blue-600 text-white hover:bg-blue-700">Register</a>
                 @endif
             @else
-                {{-- When authenticated, show nothing (sidebar has logout/profile) --}}
+                <a href="{{ route('profile.edit') }}" class="flex items-center gap-3 rounded-xl border border-gray-200 p-3 hover:bg-gray-50 transition">
+                    <div class="h-10 w-10 rounded-full bg-blue-600 text-white flex items-center justify-center text-sm font-semibold">
+                        {{ substr(Auth::user()->name, 0, 1) }}
+                    </div>
+                    <div class="min-w-0 text-left">
+                        <p class="text-sm font-semibold text-gray-900 truncate">{{ Auth::user()->name }}</p>
+                        <p class="text-xs text-gray-500 truncate">{{ Auth::user()->email }}</p>
+                        <p class="text-xs text-blue-600 font-medium">Lihat profil</p>
+                    </div>
+                </a>
             @endguest
         </div>
     </div>

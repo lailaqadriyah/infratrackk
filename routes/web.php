@@ -14,6 +14,7 @@ use App\Http\Controllers\APBDController;
 use App\Http\Controllers\RealisasiController;
 use App\Http\Controllers\UserRealisasiController;
 use App\Http\Controllers\UserAPBDController;
+use App\Http\Controllers\AdminUserController;
 
 Route::get('/', [UserRenjaController::class, 'index'])->name('home');
 
@@ -63,6 +64,13 @@ Route::middleware(['auth'])->group(function () {
 // Admin Routes
 Route::prefix('admin')->middleware(['auth', 'is_admin'])->group(function () {
     Route::get('/dashboard', [AdminController::class, 'dashboard'])->name('admin.dashboard');
+
+    // User Management
+    Route::get('/users', [AdminUserController::class, 'index'])->name('admin.users.index');
+    Route::post('/users', [AdminUserController::class, 'store'])->name('admin.users.store');
+    Route::patch('/users/{user}/password', [AdminUserController::class, 'resetPassword'])->name('admin.users.resetPassword');
+    Route::patch('/users/{user}/role', [AdminUserController::class, 'updateRole'])->name('admin.users.updateRole');
+    Route::delete('/users/{user}', [AdminUserController::class, 'destroy'])->name('admin.users.destroy');
     
     // Feedback Routes
     Route::get('/feedback', [FeedbackController::class, 'adminIndex'])->name('admin.feedback.index');

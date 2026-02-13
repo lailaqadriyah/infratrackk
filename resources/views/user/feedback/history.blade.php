@@ -17,7 +17,6 @@
                         <th class="px-6 py-4 text-left font-semibold text-gray-700">No</th>
                         <th class="px-6 py-4 text-left font-semibold text-gray-700">Pesan</th>
                         <th class="px-6 py-4 text-left font-semibold text-gray-700">Tanggal</th>
-                        <th class="px-6 py-4 text-left font-semibold text-gray-700">Status</th>
                         <th class="px-6 py-4 text-center font-semibold text-gray-700">Aksi</th>
                     </tr>
                 </thead>
@@ -37,21 +36,6 @@
                             {{ $feedback->created_at->translatedFormat('d F Y') }}
                         </td>
 
-                        <td class="px-6 py-4">
-                            @if($feedback->status === 'pending')
-                                <span class="inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800">
-                                    ⏳ Pending
-                                </span>
-                            @elseif($feedback->status === 'diproses')
-                                <span class="inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
-                                    🔄 Diproses
-                                </span>
-                            @else
-                                <span class="inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs font-medium bg-green-100 text-green-800">
-                                    ✅ Selesai
-                                </span>
-                            @endif
-                        </td>
 
                         <td class="px-6 py-4 text-center">
                             <div class="flex justify-center gap-2">
@@ -111,7 +95,7 @@
                     </tr>
                     @empty
                     <tr>
-                        <td colspan="5" class="px-6 py-12 text-center text-gray-500">
+                        <td colspan="4" class="px-6 py-12 text-center text-gray-500">
                             <div class="flex flex-col items-center gap-2">
                                 <div class="text-4xl">💬</div>
                                 <p>Belum ada feedback yang dikirimkan</p>
