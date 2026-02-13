@@ -52,6 +52,8 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/user/rkpd', [UserRkpdController::class, 'index'])->name('user.rkpd.index');
         Route::get('/user/apbd', [UserAPBDController::class, 'index'])->name('user.apbd.index');
         Route::get('/user/realisasi', [UserRealisasiController::class, 'index'])->name('user.realisasi.index');
+        Route::get('/user/realisasi/{realisasi}/edit', [UserRealisasiController::class, 'edit'])->name('user.realisasi.edit');
+        Route::put('/user/realisasi/{realisasi}', [UserRealisasiController::class, 'update'])->name('user.realisasi.update');
     });
 
    

@@ -102,10 +102,9 @@
                                         id: {{ $realisasi->id }},
                                         id_tahun: {{ $realisasi->id_tahun }},
                                         id_opd: {{ $realisasi->id_opd }},
-                                        alokasi: {{ $realisasi->alokasi ?? 0 }}
+                                        alokasi: {{ $realisasi->alokasi ?? 0 }},
                                         sub_kegiatan: '{{ addslashes($realisasi->sub_kegiatan) }}',
-                                        nama_daerah: '{{ addslashes($realisasi->nama_daerah) }}',
-                                        
+                                        nama_daerah: '{{ addslashes($realisasi->nama_daerah) }}'
                                     })"
                                     class="p-2 text-blue-600 hover:bg-blue-50 rounded-lg transition-colors" title="Edit">
                                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -280,20 +279,25 @@ function realisasiManager() {
         uploadModalOpen: false,
         manualModalOpen: false,
         editModalOpen: false,
-        // Inisialisasi object editData agar reactive dengan x-model
         editData: {
             id: null,
-            id_tahun: '',
-            id_opd: '',
-            alokasi: 0,
+            id_tahun: null,
+            id_opd: null,
+            alokasi: null,
             sub_kegiatan: '',
             nama_daerah: ''
-            
         },
 
-        // Fungsi membuka modal dan memindahkan data baris ke dalam form
         openEditModal(data) {
-            this.editData = data;
+            // Ensure proper data types
+            this.editData = {
+                id: parseInt(data.id),
+                id_tahun: parseInt(data.id_tahun),
+                id_opd: parseInt(data.id_opd),
+                alokasi: parseFloat(data.alokasi) || 0,
+                sub_kegiatan: data.sub_kegiatan || '',
+                nama_daerah: data.nama_daerah || ''
+            };
             this.editModalOpen = true;
         },
 

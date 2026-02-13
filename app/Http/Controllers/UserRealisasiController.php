@@ -51,13 +51,38 @@ class UserRealisasiController extends Controller
         $dataDaerah = (clone $query)->select('realisasi.nama_daerah', DB::raw('SUM(realisasi.alokasi) as total'))
             ->groupBy('realisasi.nama_daerah')->get();
 
-        // 6. Rincian Data
-        $rincianData = $query->with(['tahun', 'opd'])->get();
+        // 6. Rincian Data - Get the raw query for filtering, then fetch complete models
+        $filteredIds = (clone $query)->select('realisasi.id')->pluck('realisasi.id');
+        $rincianData = Realisasi::whereIn('id', $filteredIds)->with(['tahun', 'opd'])->get();
 
         return view('user.realisasi.index', compact(
             'listOpd', 'listTahun', 'dataSubKegiatan', 
             'dataTahunTrend', 'dataDaerah', 'rincianData', 
             'totalAlokasi', 'jumlahSubKegiatan', 'jumlahDaerah'
         ));
+    }
+
+    public function edit(Realisasi $realisasi)
+    {
+        $opds = Opd::all();
+        $tahuns = Tahun::orderBy('tahun', 'desc')->get();
+
+        return view('user.realisasi.edit', compact('realisasi', 'opds', 'tahuns'));
+    }
+
+    public function update(Request $request, Realisasi $realisasi)
+    {
+        $validated = $request->validate([
+            'id_opd' => 'required|exists:opd,id',
+            'id_tahun' => 'required|exists:tahun,id',
+            'alokasi' => 'required|numeric|min:0',
+            'sub_kegiatan' => 'required|string',
+            'nama_daerah' => 'required|string',
+        ]);
+
+        $realisasi->update($validated);
+
+        return redirect()->route('user.realisasi.index')
+            ->with('success', 'Data Realisasi berhasil diperbarui');
     }
 }
