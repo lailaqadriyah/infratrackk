@@ -34,6 +34,13 @@ Route::middleware('auth')->group(function () {
 
 
 
+// Public-facing user dashboards (accessible without login)
+Route::get('/user/renja', [UserRenjaController::class, 'index'])->name('user.renja.index');
+Route::get('/user/rkpd', [UserRkpdController::class, 'index'])->name('user.rkpd.index');
+Route::get('/user/apbd', [UserAPBDController::class, 'index'])->name('user.apbd.index');
+Route::get('/user/realisasi', [UserRealisasiController::class, 'index'])->name('user.realisasi.index');
+
+// Feedback and other features that require auth
 Route::middleware(['auth'])->group(function () {
     // Route Modul C
     Route::get('/feedback', [FeedbackController::class, 'index'])->name('feedback.index');
@@ -41,22 +48,14 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/feedback/history', [FeedbackController::class, 'history'])->name('feedback.history');
     Route::patch('/feedback/{id}', [FeedbackController::class, 'update'])->name('feedback.update');
     Route::delete('/feedback/{id}', [FeedbackController::class, 'destroy'])->name('feedback.destroy');
-    
+
     Route::get('/dashboard-renja-user', [App\Http\Controllers\UserRenjaController::class, 'index'])
-    ->middleware(['auth'])
-    ->name('user.renja.dashboard');
+        ->name('user.renja.dashboard');
 
-    Route::middleware(['auth'])->group(function () {
-        Route::get('/dashboard', [UserRenjaController::class, 'index'])->name('dashboard');
-        Route::get('/user/renja', [UserRenjaController::class, 'index'])->name('user.renja.index');
-        Route::get('/user/rkpd', [UserRkpdController::class, 'index'])->name('user.rkpd.index');
-        Route::get('/user/apbd', [UserAPBDController::class, 'index'])->name('user.apbd.index');
-        Route::get('/user/realisasi', [UserRealisasiController::class, 'index'])->name('user.realisasi.index');
-        Route::get('/user/realisasi/{realisasi}/edit', [UserRealisasiController::class, 'edit'])->name('user.realisasi.edit');
-        Route::put('/user/realisasi/{realisasi}', [UserRealisasiController::class, 'update'])->name('user.realisasi.update');
-    });
+    // Routes that still require authentication (edit/update for realisasi)
+    Route::get('/user/realisasi/{realisasi}/edit', [UserRealisasiController::class, 'edit'])->name('user.realisasi.edit');
+    Route::put('/user/realisasi/{realisasi}', [UserRealisasiController::class, 'update'])->name('user.realisasi.update');
 
-   
     // Khusus Admin
     Route::get('/admin/feedback', [FeedbackController::class, 'adminIndex'])->name('feedback.admin');
 });

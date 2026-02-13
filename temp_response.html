@@ -1,0 +1,405 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Default Title</title>
+        <meta name="csrf-token" content="MtRec2VJV1plqqzWQrQOJCWdoNKuFMz20sDeKQMB">
+
+        <title>Laravel</title>
+
+        <!-- Fonts -->
+        <link rel="preconnect" href="https://fonts.bunny.net">
+        <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
+
+        <!-- Scripts -->
+        <link rel="preload" as="style" href="http://localhost:8000/build/assets/app-DJ55hg54.css" /><link rel="modulepreload" as="script" href="http://localhost:8000/build/assets/app-CiZ6hk-B.js" /><link rel="stylesheet" href="http://localhost:8000/build/assets/app-DJ55hg54.css" /><script type="module" src="http://localhost:8000/build/assets/app-CiZ6hk-B.js"></script>    </head>
+    <body class="font-sans antialiased">
+        <div class="min-h-screen bg-gray-100 flex">
+            
+<aside x-data="{ openMenus: ['visualisasi'] }" class="w-64 bg-white border-r border-gray-200 h-screen flex flex-col fixed left-0 top-0 z-20 -translate-x-full md:translate-x-0 transition-transform duration-300 ease-in-out">
+    <div class="p-6 border-b border-gray-200">
+        <div class="flex items-center gap-3">
+            <div class="p-2">
+    <img src="http://localhost:8000/images/logo-sipap.png" 
+         alt="Logo SIPAP" 
+         class="h-10 w-10 object-contain">
+</div>
+
+            <div>
+                <h1 class="font-bold text-gray-900 tracking-tight">SIPAP</h1>
+                <p class="text-xs text-gray-600">BAPPEDA Sumbar</p>
+            </div>
+        </div>
+    </div>
+
+    <nav class="flex-1 overflow-y-auto p-4 custom-scrollbar">
+        <ul class="space-y-1">
+
+            
+            <li>
+                <button
+                    @click="openMenus.includes('visualisasi') ? openMenus = openMenus.filter(i => i !== 'visualisasi') : openMenus.push('visualisasi')"
+                    class="w-full flex items-center justify-between px-4 py-3 rounded-xl text-sm transition-colors border-l-4 bg-blue-100 text-blue-700 font-semibold border-blue-500">
+                    <div class="flex items-center gap-3">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+                        </svg>
+                        <span>Visualisasi</span>
+                    </div>
+                    <svg :class="openMenus.includes('visualisasi') ? 'rotate-180' : ''" class="h-4 w-4 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                    </svg>
+                </button>
+
+                <ul x-show="openMenus.includes('visualisasi')" x-transition class="mt-1 ml-4 space-y-1">
+                    <li>
+                        <a href="http://localhost:8000/user/renja"
+                            class="flex items-center gap-3 px-4 py-3 rounded-xl text-sm transition-colors border-l-4 border-transparent text-gray-500 hover:bg-gray-100 hover:text-gray-700">
+                            <div class="w-1.5 h-1.5 rounded-full bg-current"></div>
+                            <span>Dashboard RENJA</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="http://localhost:8000/user/rkpd"
+                            class="flex items-center gap-3 px-4 py-3 rounded-xl text-sm transition-colors border-l-4 border-transparent text-gray-500 hover:bg-gray-100 hover:text-gray-700">
+                            <div class="w-1.5 h-1.5 rounded-full bg-current"></div>
+                            <span>Dashboard RKPD</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="http://localhost:8000/user/apbd"
+                                class="flex items-center gap-3 px-4 py-3 rounded-xl text-sm transition-colors border-l-4 border-transparent text-gray-500 hover:bg-gray-100 hover:text-gray-700">
+                                <div class="w-1.5 h-1.5 rounded-full bg-current"></div>
+                                <span>Dashboard APBD</span>
+                            </a>
+                    </li>
+                    <li>
+                        <a href="http://localhost:8000/user/realisasi"
+                                class="flex items-center gap-3 px-4 py-3 rounded-xl text-sm transition-colors border-l-4 bg-blue-100 text-blue-700 font-semibold border-blue-500">
+                                <div class="w-1.5 h-1.5 rounded-full bg-current"></div>
+                                <span>Dashboard Realisasi</span>
+                            </a>
+                    </li>
+                </ul>
+            </li>
+
+            
+            <li>
+                <a href="http://localhost:8000/feedback"
+                    class="flex items-center gap-3 px-4 py-3 rounded-xl text-sm transition-colors border-l-4 border-transparent text-gray-500 hover:bg-gray-100 hover:text-gray-700">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z" />
+                    </svg>
+                    <span>Feedback</span>
+                </a>
+            </li>
+
+            
+            <li>
+                <a href="http://localhost:8000/feedback/history"
+                    class="flex items-center gap-3 px-4 py-3 rounded-xl text-sm transition-colors border-l-4 border-transparent text-gray-500 hover:bg-gray-100 hover:text-gray-700">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                    <span>History Feedback</span>
+                </a>
+            </li>
+
+        </ul>
+    </nav>
+
+    <div class="p-4 border-t border-gray-200">
+                <p class="text-[10px] text-gray-500 text-center mt-3 uppercase tracking-wider">
+            © 2026 SIPAP
+        </p>
+    </div>
+</aside>
+
+            
+            <div id="sidebar-overlay" class="fixed inset-0 bg-black bg-opacity-50 z-20 md:hidden hidden" onclick="toggleSidebar()"></div>
+
+            
+            <div id="sidebar-overlay" class="fixed inset-0 bg-black bg-opacity-50 z-10 md:hidden hidden" onclick="toggleSidebar()"></div>
+
+            
+            <div class="flex-1 flex flex-col md:ml-64">
+                
+                <header class="fixed top-0 left-0 md:left-64 right-0 bg-white shadow-sm border-b z-20 border-gray-200">
+                
+    <div class="flex items-center justify-between">
+        <button onclick="toggleSidebar()" class="md:hidden p-4 text-gray-600 hover:text-gray-800">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+            </svg>
+        </button>
+                       
+        <div class="px-6 py-4">
+            <div class="flex items-center gap-3">
+                <div class="p-2 bg-blue-600 rounded-lg shadow-sm">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+                    </svg>
+                </div>
+                <div>
+                    
+                    <h1 class="text-xl font-bold text-gray-900 leading-tight">Dashboard Realisasi</h1>
+                    
+                    
+                    <p class="text-sm text-gray-600">
+                        Analisis dan pemantauan data Realisasi tahun berjalan.                    </p>
+                </div>
+            </div>
+        </div>
+
+        
+        <div class="flex items-center gap-3 mr-6 z-30">
+                            <a href="http://localhost:8000/login" class="text-sm px-3 py-1 rounded-md border border-blue-600 text-blue-600 hover:bg-blue-50">Login</a>
+                                    <a href="http://localhost:8000/register" class="text-sm px-3 py-1 rounded-md bg-blue-600 text-white hover:bg-blue-700">Register</a>
+                                    </div>
+    </div>
+</header>
+
+                
+                <main class="flex-1 p-6 pt-20">
+                    <div class="p-6 bg-gray-50 min-h-screen w-full">
+    <div class="mb-6 flex flex-col md:flex-row md:items-center justify-end gap-4">
+    <div class="bg-white p-2 rounded-lg shadow-sm border border-gray-200">
+        <form action="http://localhost:8000/user/realisasi" method="GET" class="flex items-center gap-2">
+            <select name="tahun" class="text-xs border-gray-300 rounded focus:ring-blue-500 w-40">
+                <option value="">Semua Tahun</option>
+                                    <option value="2030" >2030</option>
+                                    <option value="2029" >2029</option>
+                                    <option value="2028" >2028</option>
+                                    <option value="2027" >2027</option>
+                                    <option value="2026" >2026</option>
+                                    <option value="2025" >2025</option>
+                                    <option value="2024" >2024</option>
+                            </select>
+            <select name="opd" class="text-xs border-gray-300 rounded focus:ring-blue-500 w-40">
+                <option value="">Semua OPD</option>
+                                    <option value="Badan Perencanaan Pembangunan Daerah" >Badan Perencanaan Pembangunan Daerah</option>
+                                    <option value="Dinas Kesehatan" >Dinas Kesehatan</option>
+                                    <option value="Dinas Keuangan" >Dinas Keuangan</option>
+                                    <option value="Dinas Pariwisata" >Dinas Pariwisata</option>
+                                    <option value="Dinas Pekerjaan Umum" >Dinas Pekerjaan Umum</option>
+                                    <option value="Dinas Pendidikan" >Dinas Pendidikan</option>
+                                    <option value="Dinas Pertanian" >Dinas Pertanian</option>
+                                    <option value="Dinas Sosial" >Dinas Sosial</option>
+                            </select>
+            <div class="flex gap-1">
+                <button type="submit" class="bg-blue-600 text-white px-3 py-1.5 rounded text-xs hover:bg-blue-700 transition font-semibold">
+                    Filter
+                </button>
+                <a href="http://localhost:8000/user/realisasi" class="bg-gray-100 text-gray-600 px-3 py-1.5 rounded text-xs hover:bg-gray-200 border border-gray-300 flex items-center gap-1">
+                    ↺ Reset
+                </a>
+            </div>
+        </form>
+    </div>
+</div>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+        <div class="bg-white p-5 rounded-xl shadow-sm border-l-4 border-blue-600">
+            <p class="text-xs font-bold text-gray-400 uppercase tracking-widest">Total Alokasi</p>
+            <h3 class="text-xl font-black text-gray-800 mt-1">Rp 834.924</h3>
+        </div>
+        <div class="bg-white p-5 rounded-xl shadow-sm border-l-4 border-green-500">
+            <p class="text-xs font-bold text-gray-400 uppercase tracking-widest">Jumlah Sub Kegiatan</p>
+            <h3 class="text-xl font-black text-gray-800 mt-1">1 <span class="text-sm font-normal text-gray-500">Sub Kegiatan</span></h3>
+        </div>
+        <div class="bg-white p-5 rounded-xl shadow-sm border-l-4 border-yellow-500">
+            <p class="text-xs font-bold text-gray-400 uppercase tracking-widest">Jumlah Daerah</p>
+            <h3 class="text-xl font-black text-gray-800 mt-1">1 <span class="text-sm font-normal text-gray-500">Daerah</span></h3>
+        </div>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+        <div class="bg-white p-5 rounded-xl shadow-sm border border-gray-100 flex flex-col h-96">
+            <h3 class="font-bold text-gray-700 mb-4 text-xs text-center uppercase tracking-wider">Porsi Alokasi Sub Kegiatan</h3>
+            <div class="relative flex-grow">
+                <canvas id="realisasiPie"></canvas>
+            </div>
+        </div>
+
+        <div class="bg-white p-5 rounded-xl shadow-sm border border-gray-100 flex flex-col h-96">
+            <h3 class="font-bold text-gray-700 mb-4 text-xs text-center uppercase tracking-wider">Trend Alokasi Realisasi</h3>
+            <div class="relative flex-grow">
+                <canvas id="realisasiLine"></canvas>
+            </div>
+        </div>
+
+        <div class="bg-white p-5 rounded-xl shadow-sm border border-gray-100 flex flex-col h-96">
+            <h3 class="font-bold text-gray-700 mb-4 text-xs text-center uppercase tracking-wider">Alokasi Per Daerah</h3>
+            <div class="relative flex-grow">
+                <canvas id="realisasiBar"></canvas>
+            </div>
+        </div>
+    </div>
+
+    <div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
+        <div class="p-4 border-b bg-gray-50 flex justify-between items-center">
+            <h3 class="font-bold text-gray-800 text-sm italic">Rincian Data Anggaran (Realisasi)</h3>
+            <span class="text-xs text-gray-500">Menampilkan 1 data rincian</span>
+        </div>
+        <div class="overflow-x-auto">
+            <table class="min-w-full text-sm">
+                <thead class="bg-blue-100 border-b border-gray-200">
+                    <tr>
+                        <th class="px-4 py-3 border-x text-center font-semibold text-black-600 uppercase tracking-wider">Tahun</th>
+                        <th class="px-4 py-3 border-x text-center font-semibold text-black-600 uppercase tracking-wider">Alokasi</th>
+                        <th class="px-4 py-3 border-x text-center font-semibold text-black-600 uppercase tracking-wider">Sub Kegiatan</th>
+                        <th class="px-4 py-3 border-x text-center font-semibold text-black-600 uppercase tracking-wider">Nama Daerah</th>
+                    </tr>
+                </thead>
+                <tbody class="divide-y divide-gray-100">
+                                        <tr class="hover:bg-blue-50 transition">
+                        <td class="px-4 py-4 border-x border-gray-200 text-black-700">2030</td>
+                        <td class="px-4 py-4 border-x border-gray-200 text-black-600 whitespace-nowrap">
+                            Rp 834.924
+                        </td>
+                        <td class="px-4 py-4 border-x border-gray-200 text-black-600">fsdf</td>
+                        <td class="px-4 py-4 border-x border-gray-200 text-black-600">ewefw</td>
+                    </tr>
+                                    </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    // Konfigurasi Dasar untuk Semua Chart agar Rapi
+    const globalOptions = {
+        responsive: true,
+        maintainAspectRatio: false,
+        layout: {
+            padding: { top: 10, bottom: 10, left: 10, right: 10 }
+        },
+        plugins: {
+            legend: { display: false }
+        }
+    };
+
+    // 1. Doughnut Chart (Sub Kegiatan)
+    new Chart(document.getElementById('realisasiPie'), {
+        type: 'doughnut',
+        data: {
+            labels: ["fsdf"],
+            datasets: [{
+                data: ["834924.00"],
+                backgroundColor: ['#6366f1', '#8b5cf6', '#ec4899', '#f43f5e', '#f59e0b', '#0891b2'],
+                borderWidth: 2,
+                hoverOffset: 15
+            }]
+        },
+        options: {
+            ...globalOptions,
+            plugins: {
+                legend: {
+                    display: true,
+                    position: 'bottom',
+                    labels: {
+                        boxWidth: 12,
+                        padding: 15,
+                        font: { size: 10, weight: '500' },
+                        // Memotong label yang terlalu panjang agar rapi
+                        generateLabels: (chart) => {
+                            const data = chart.data;
+                            return data.labels.map((label, i) => ({
+                                text: label.length > 20 ? label.substring(0, 20) + '...' : label,
+                                fillStyle: data.datasets[0].backgroundColor[i],
+                                index: i
+                            }));
+                        }
+                    }
+                }
+            }
+        }
+    });
+
+    // 2. Line Chart (Tren Alokasi)
+    new Chart(document.getElementById('realisasiLine'), {
+        type: 'line',
+        data: {
+            labels: [2030],
+            datasets: [{
+                label: 'Total Alokasi',
+                data: ["834924.00"],
+                borderColor: '#10b981',
+                backgroundColor: 'rgba(16, 185, 129, 0.1)',
+                fill: true,
+                tension: 0.4,
+                pointRadius: 5,
+                pointBackgroundColor: '#10b981',
+                pointHoverRadius: 7
+            }]
+        },
+        options: {
+            ...globalOptions,
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    ticks: {
+                        font: { size: 10 },
+                        // Format angka ke jutaan/miliar agar tidak kepanjangan
+                        callback: function(value) {
+                            return 'Rp ' + value.toLocaleString();
+                        }
+                    }
+                },
+                x: { ticks: { font: { size: 10 } } }
+            }
+        }
+    });
+
+    // 3. Bar Chart Horizontal (Daerah)
+    new Chart(document.getElementById('realisasiBar'), {
+        type: 'bar',
+        data: {
+            labels: ["ewefw"],
+            datasets: [{
+                label: 'Alokasi',
+                data: ["834924.00"],
+                backgroundColor: '#f59e0b',
+                borderRadius: 5,
+                barThickness: 20 // Membuat batang tidak terlalu lebar
+            }]
+        },
+        options: {
+            ...globalOptions,
+            indexAxis: 'y',
+            scales: {
+                x: { 
+                    beginAtZero: true, 
+                    ticks: { font: { size: 10 } } 
+                },
+                y: { 
+                    ticks: { 
+                        font: { size: 10 },
+                        // Memotong nama Daerah yang terlalu panjang
+                        callback: function(value) {
+                            const label = this.getLabelForValue(value);
+                            return label.length > 15 ? label.substring(0, 15) + '...' : label;
+                        }
+                    } 
+                }
+            }
+        }
+    });
+</script>
+                </main>
+            </div>
+        </div>
+
+        <script>
+            function toggleSidebar() {
+                const sidebar = document.querySelector('aside');
+                const overlay = document.getElementById('sidebar-overlay');
+                sidebar.classList.toggle('-translate-x-full');
+                overlay.classList.toggle('hidden');
+            }
+        </script>
+    </body>
+</html>
+

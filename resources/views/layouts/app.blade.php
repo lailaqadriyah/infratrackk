@@ -111,15 +111,17 @@
     </nav>
 
     <div class="p-4 border-t border-gray-200">
-        <form method="POST" action="{{ route('logout') }}">
-            @csrf
-            <button type="submit" class="w-full flex items-center justify-center gap-2 px-3 py-2 rounded-xl text-sm transition-colors text-red-600 hover:bg-red-50 font-medium">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
-                </svg>
-                <span>Logout</span>
-            </button>
-        </form>
+        @auth
+            <form method="POST" action="{{ route('logout') }}">
+                @csrf
+                <button type="submit" class="w-full flex items-center justify-center gap-2 px-3 py-2 rounded-xl text-sm transition-colors text-red-600 hover:bg-red-50 font-medium">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+                    </svg>
+                    <span>Logout</span>
+                </button>
+            </form>
+        @endauth
         <p class="text-[10px] text-gray-500 text-center mt-3 uppercase tracking-wider">
             © 2026 SIPAP
         </p>
@@ -161,6 +163,18 @@
                     </p>
                 </div>
             </div>
+        </div>
+
+        {{-- Right-side auth actions (public view: show Login/Register when guest) --}}
+        <div class="flex items-center gap-3 mr-6 z-30">
+            @guest
+                <a href="{{ route('login') }}" class="text-sm px-3 py-1 rounded-md border border-blue-600 text-blue-600 hover:bg-blue-50">Login</a>
+                @if (Route::has('register'))
+                    <a href="{{ route('register') }}" class="text-sm px-3 py-1 rounded-md bg-blue-600 text-white hover:bg-blue-700">Register</a>
+                @endif
+            @else
+                {{-- When authenticated, show nothing (sidebar has logout/profile) --}}
+            @endguest
         </div>
     </div>
 </header>

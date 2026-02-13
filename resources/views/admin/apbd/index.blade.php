@@ -8,8 +8,8 @@
 <div x-data="apbdManager()" class="space-y-0">
 <div class="flex flex-wrap items-center justify-between gap-4 mb-6">
     <div class="flex items-center gap-3">
-        <div class="w-10 h-10 rounded-lg bg-white border border-gray-200 flex items-center justify-center shadow-sm">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <div class="w-10 h-10 rounded-lg bg-white border border-blue-400 flex items-center justify-center shadow-sm">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
             </svg>
         </div>
@@ -25,7 +25,7 @@
             </svg>
             Upload File
         </button>
-        <button @click="manualModalOpen = true" type="button" class="flex items-center gap-2 bg-blue-700 text-white px-4 py-2 rounded-lg hover:bg-blue-800 transition-colors shadow-sm">
+        <button @click="manualModalOpen = true" type="button" class="flex items-center gap-2 bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors shadow-sm">
             <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
             </svg>
@@ -35,8 +35,8 @@
 </div>
 
 <div class="flex gap-6 mb-6 border-b border-gray-200">
-    <a href="{{ route('admin.apbd.index') }}" class="pb-4 font-medium {{ request()->routeIs('admin.apbd.index', 'admin.apbd.*') ? 'text-green-600 border-b-2 border-green-600' : 'text-gray-600 hover:text-gray-900' }}">APBD</a>
-    <a href="{{ route('admin.realisasi.index') }}" class="pb-4 font-medium {{ request()->routeIs('admin.realisasi.index', 'admin.realisasi.*') ? 'text-green-600 border-b-2 border-green-600' : 'text-gray-600 hover:text-gray-900' }}">Realisasi</a>
+    <a href="{{ route('admin.apbd.index') }}" class="pb-4 font-medium {{ request()->routeIs('admin.apbd.index', 'admin.apbd.*') ? 'text-blue-600 border-b-2 border-blue-600' : 'text-gray-600 hover:text-gray-900' }}">APBD</a>
+    <a href="{{ route('admin.realisasi.index') }}" class="pb-4 font-medium {{ request()->routeIs('admin.realisasi.index', 'admin.realisasi.*') ? 'text-blue-600 border-b-2 border-blue-600' : 'text-gray-600 hover:text-gray-900' }}">Realisasi</a>
 </div>
 
 <div class="bg-white rounded-lg shadow-sm p-4 mb-6">
@@ -75,28 +75,28 @@
     </div>
     <div class="overflow-x-auto">
         <table class="w-full">
-            <thead class="bg-gray-100 border-b border-gray-200">
+            <thead class="bg-blue-100 border-b-2 border-gray-300">
                 <tr>
-                    <th class="px-6 py-4 text-left text-sm font-semibold text-gray-900">Tahun</th>
-                    <th class="px-6 py-4 text-left text-sm font-semibold text-gray-900">OPD</th>
-                    <th class="px-6 py-4 text-left text-sm font-semibold text-gray-900">Kegiatan</th>
-                    <th class="px-6 py-4 text-left text-sm font-semibold text-gray-900">Sub Kegiatan</th>
-                    <th class="px-6 py-4 text-left text-sm font-semibold text-gray-900">Nama Sumber Dana</th>
-                    <th class="px-6 py-4 text-left text-sm font-semibold text-gray-900">Nama Rekening</th>
-                    <th class="px-6 py-4 text-left text-sm font-semibold text-gray-900">Pagu</th>
-                    <th class="px-6 py-4 text-left text-sm font-semibold text-gray-900">Aksi</th>
+                    <th class="px-6 py-4 text-center text-xs font-bold text-gray-900 uppercase tracking-wider border-x border-gray-300">Tahun</th>
+                    <th class="px-6 py-4 text-center text-sm font-semibold text-gray-900 border-x border-gray-300">OPD</th>
+                    <th class="px-6 py-4 text-center text-sm font-semibold text-gray-900 border-x border-gray-300">Kegiatan</th>
+                    <th class="px-6 py-4 text-center text-sm font-semibold text-gray-900 border-x border-gray-300">Sub Kegiatan</th>
+                    <th class="px-6 py-4 text-center text-sm font-semibold text-gray-900 border-x border-gray-300">Nama Sumber Dana</th>
+                    <th class="px-6 py-4 text-center text-sm font-semibold text-gray-900 border-x border-gray-300">Nama Rekening</th>
+                    <th class="px-6 py-4 text-center text-sm font-semibold text-gray-900 border-x border-gray-300">Pagu</th>
+                    <th class="px-6 py-4 text-center text-sm font-semibold text-gray-900 border-x border-gray-300">Aksi</th>
                 </tr>
             </thead>
             <tbody class="divide-y divide-gray-200">
                 @forelse ($apbds as $apbd)
                     <tr class="hover:bg-gray-50 transition-colors">
-                        <td class="px-6 py-4 text-sm text-gray-900">{{ $apbd->tahun->tahun ?? '-' }}</td>
-                        <td class="px-6 py-4 text-sm text-gray-900">{{ $apbd->opd->nama_opd ?? '-' }}</td>
-                        <td class="px-6 py-4 text-sm text-gray-900">{{ $apbd->kegiatan ?? '-' }}</td>
-                        <td class="px-6 py-4 text-sm text-gray-900">{{ $apbd->sub_kegiatan ?? '-' }}</td>
-                        <td class="px-6 py-4 text-sm text-gray-900">{{ $apbd->nama_sumber_dana ?? '-' }}</td>
-                        <td class="px-6 py-4 text-sm text-gray-900">{{ $apbd->nama_rekening ?? '-' }}</td>
-                        <td class="px-6 py-4 text-sm">Rp {{ number_format($apbd->pagu ?? 0, 0, ',', '.') }}</td>
+                        <td class="px-6 py-4 text-sm text-black-900 border-x border-gray-200">{{ $apbd->tahun->tahun ?? '-' }}</td>
+                        <td class="px-6 py-4 text-sm text-black-900 border-x border-gray-200">{{ $apbd->opd->nama_opd ?? '-' }}</td>
+                        <td class="px-6 py-4 text-sm text-black-900 border-x border-gray-200">{{ $apbd->kegiatan ?? '-' }}</td>
+                        <td class="px-6 py-4 text-sm text-black-900 border-x border-gray-200">{{ $apbd->sub_kegiatan ?? '-' }}</td>
+                        <td class="px-6 py-4 text-sm text-black-900 border-x border-gray-200">{{ $apbd->nama_sumber_dana ?? '-' }}</td>
+                        <td class="px-6 py-4 text-sm text-black-900 border-x border-gray-200">{{ $apbd->nama_rekening ?? '-' }}</td>
+                        <td class="px-6 py-4text-sm text-black-900 border-x border-gray-200">Rp {{ number_format($apbd->pagu ?? 0, 0, ',', '.') }}</td>
                         <td class="px-6 py-4 text-sm">
                             <div class="flex items-center gap-2">
                                 {{-- PERBAIKAN: Tombol edit langsung memicu fungsi openEditModal di Alpine.js --}}
@@ -175,7 +175,7 @@
                 <input type="file" name="file" accept=".xls,.xlsx" required class="w-full border-2 border-dashed border-gray-300 rounded-lg px-4 py-6 text-sm">
             </div>
             <div class="pt-2">
-                <button type="submit" class="w-full bg-gray-900 text-white px-4 py-3 rounded-lg hover:bg-gray-800 transition-colors">Upload dan Import</button>
+                <button type="submit" class="w-full bg-blue-600 text-white px-4 py-3 rounded-lg hover:bg-blue-700 transition-colors">Upload dan Import</button>
             </div>
         </form>
     </div>
@@ -229,7 +229,7 @@
             </div>
             <div class="flex gap-3 pt-4">
                 <button type="button" @click="manualModalOpen = false" class="px-4 py-2 border border-gray-300 text-gray-700 rounded-lg">Batal</button>
-                <button type="submit" class="flex-1 bg-blue-700 text-white px-4 py-2 rounded-lg hover:bg-blue-800 transition-colors">Simpan</button>
+                <button type="submit" class="flex-1 bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors">Simpan</button>
             </div>
         </form>
     </div>
