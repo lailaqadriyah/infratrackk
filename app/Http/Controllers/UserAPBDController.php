@@ -30,6 +30,18 @@ class UserAPBDController extends Controller
         if ($request->filled('opd')) {
             $query->where('opd.nama_opd', $request->opd);
         }
+        // 3b. Search query
+        if ($request->filled('q')) {
+            $q = $request->q;
+            $query->where(function($w) use ($q) {
+                $w->where('apbd.program', 'like', "%{$q}%")
+                  ->orWhere('apbd.kegiatan', 'like', "%{$q}%")
+                  ->orWhere('apbd.sub_kegiatan', 'like', "%{$q}%")
+                  ->orWhere('apbd.nama_sumber_dana', 'like', "%{$q}%")
+                  ->orWhere('apbd.nama_rekening', 'like', "%{$q}%")
+                  ->orWhere('apbd.nama_daerah', 'like', "%{$q}%");
+            });
+        }
 
         // 4. Statistik Atas (menggunakan kolom `pagu` dari tabel apbd)
         $totalAnggaran = (clone $query)->sum('apbd.pagu');
@@ -96,6 +108,11 @@ class UserAPBDController extends Controller
         if ($request->filled('opd')) {
             $query->where('opd.nama_opd', $request->opd);
         }
+        // search within kegiatan names
+        if ($request->filled('q')) {
+            $qq = $request->q;
+            $query->where('apbd.kegiatan', 'like', "%{$qq}%");
+        }
 
         $kegiatans = $query->select('apbd.kegiatan', DB::raw('SUM(COALESCE(apbd.alokasi, apbd.pagu,0)) as total'))
             ->groupBy('apbd.kegiatan')
@@ -120,6 +137,16 @@ class UserAPBDController extends Controller
         }
         if ($request->filled('opd')) {
             $query->where('opd.nama_opd', $request->opd);
+        }
+        // search within details
+        if ($request->filled('q')) {
+            $qq = $request->q;
+            $query->where(function($w) use ($qq) {
+                $w->where('apbd.sub_kegiatan', 'like', "%{$qq}%")
+                  ->orWhere('apbd.nama_sumber_dana', 'like', "%{$qq}%")
+                  ->orWhere('apbd.nama_rekening', 'like', "%{$qq}%")
+                  ->orWhere('apbd.nama_daerah', 'like', "%{$qq}%");
+            });
         }
 
         $details = $query->select(

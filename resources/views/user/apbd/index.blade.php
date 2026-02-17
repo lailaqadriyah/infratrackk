@@ -7,23 +7,21 @@
     @include('user.apbd.breadcrumb', ['program' => null, 'kegiatan' => null, 'sub' => null])
     <div class="mb-6 flex flex-col md:flex-row md:items-center justify-end gap-4">
     <div class="bg-white p-2 rounded-lg shadow-sm border border-gray-200">
-        <form action="{{ route('user.apbd.index') }}" method="GET" class="flex items-center gap-2">
-            <select name="tahun" class="text-xs border-gray-300 rounded focus:ring-blue-500 w-40">
+        <form id="apbd-filter-form" action="{{ route('user.apbd.index') }}" method="GET" class="flex items-center gap-2">
+            <select name="tahun" onchange="document.getElementById('apbd-filter-form').submit()" class="text-xs border-gray-300 rounded focus:ring-blue-500 w-40">
                 <option value="">Semua Tahun</option>
                 @foreach($listTahun as $t)
                     <option value="{{ $t->tahun }}" {{ request('tahun') == $t->tahun ? 'selected' : '' }}>{{ $t->tahun }}</option>
                 @endforeach
             </select>
-            <select name="opd" class="text-xs border-gray-300 rounded focus:ring-blue-500 w-40">
+            <select name="opd" onchange="document.getElementById('apbd-filter-form').submit()" class="text-xs border-gray-300 rounded focus:ring-blue-500 w-40">
                 <option value="">Semua OPD</option>
                 @foreach($listOpd as $o)
                     <option value="{{ $o->nama_opd }}" {{ request('opd') == $o->nama_opd ? 'selected' : '' }}>{{ $o->nama_opd }}</option>
                 @endforeach
             </select>
+            
             <div class="flex gap-1">
-                <button type="submit" class="bg-blue-600 text-white px-3 py-1.5 rounded text-xs hover:bg-blue-700 transition font-semibold">
-                    Filter
-                </button>
                 <a href="{{ route('user.apbd.index') }}" class="bg-gray-100 text-gray-600 px-3 py-1.5 rounded text-xs hover:bg-gray-200 border border-gray-300 flex items-center gap-1">
                     ↺ Reset
                 </a>
@@ -76,6 +74,14 @@
             <span class="text-xs text-gray-500">Menampilkan {{ $rincianData->count() }} data rincian</span>
         </div>
         <div class="overflow-x-auto">
+            <div class="p-4 border-b bg-white">
+                <form action="{{ route('user.apbd.index') }}" method="GET" class="flex items-center gap-2">
+                    <input type="hidden" name="tahun" value="{{ request('tahun') }}">
+                    <input type="hidden" name="opd" value="{{ request('opd') }}">
+                    <input type="search" name="q" value="{{ request('q') }}" placeholder="cari program" class="w-full border border-gray-300 rounded px-3 py-2 text-sm">
+                </form>
+            </div>
+
             <table class="min-w-full text-sm">
                 <thead class="bg-blue-100 border-b border-gray-200">
                     <tr>

@@ -6,6 +6,13 @@
 <div class="p-6 bg-gray-50 min-h-screen w-full">
     @include('user.apbd.breadcrumb', ['program' => $program, 'kegiatan' => $kegiatan, 'sub' => null])
     <div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
+        <div class="p-4 border-b bg-white">
+            <form action="{{ route('user.apbd.kegiatan', [urlencode($program), urlencode($kegiatan)]) }}" method="GET" class="flex items-center gap-2">
+                <input type="hidden" name="tahun" value="{{ request('tahun') }}">
+                <input type="hidden" name="opd" value="{{ request('opd') }}">
+                <input type="search" name="q" value="{{ request('q') }}" placeholder="cari sub kegiatan" class="w-full border border-gray-300 rounded px-3 py-2 text-sm">
+            </form>
+        </div>
         <div class="p-4 border-b bg-gray-50">
             <h3 class="font-bold text-gray-800 text-sm italic">Rincian untuk Kegiatan: {{ $kegiatan }} (Program: {{ $program }})</h3>
         </div>
