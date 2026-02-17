@@ -65,13 +65,74 @@ class UserAPBDController extends Controller
             ->select('opd.nama_opd', DB::raw('SUM(realisasi.alokasi) as total'))
             ->groupBy('opd.nama_opd')->get();
 
-        // 6. Rincian Data
-        $rincianData = $query->with(['tahun', 'opd'])->get();
+        // 6. Rincian Data - aggregate per Tahun, OPD, Program
+        $rincianData = (clone $query)
+            ->select('tahun.tahun as label_tahun', 'opd.nama_opd', 'apbd.program', DB::raw('SUM(COALESCE(apbd.alokasi, apbd.pagu, 0)) as total_alokasi'))
+            ->groupBy('tahun.tahun', 'opd.nama_opd', 'apbd.program')
+            ->orderBy('tahun.tahun', 'desc')
+            ->get();
 
         return view('user.apbd.index', compact(
             'listOpd', 'listTahun', 'dataProgram', 
             'dataTahunTrend', 'dataOpd', 'dataRealisasiOpd', 'rincianData', 
             'totalAnggaran', 'jumlahProgram', 'jumlahKegiatan'
         ));
+    }
+
+    public function program(Request $request, $program)
+    {
+        $program = urldecode($program);
+        $listOpd = Opd::orderBy('nama_opd', 'asc')->get();
+        $listTahun = Tahun::orderBy('tahun', 'desc')->get();
+
+        $query = APBD::query()
+            ->join('tahun', 'apbd.id_tahun', '=', 'tahun.id')
+            ->join('opd', 'apbd.id_opd', '=', 'opd.id')
+            ->where('apbd.program', $program);
+
+        if ($request->filled('tahun')) {
+            $query->where('tahun.tahun', $request->tahun);
+        }
+        if ($request->filled('opd')) {
+            $query->where('opd.nama_opd', $request->opd);
+        }
+
+        $kegiatans = $query->select('apbd.kegiatan', DB::raw('SUM(COALESCE(apbd.alokasi, apbd.pagu,0)) as total'))
+            ->groupBy('apbd.kegiatan')
+            ->get();
+
+        return view('user.apbd.program', compact('listOpd', 'listTahun', 'program', 'kegiatans'));
+    }
+
+    public function kegiatan(Request $request, $program, $kegiatan)
+    {
+        $program = urldecode($program);
+        $kegiatan = urldecode($kegiatan);
+
+        $query = APBD::query()
+            ->join('tahun', 'apbd.id_tahun', '=', 'tahun.id')
+            ->join('opd', 'apbd.id_opd', '=', 'opd.id')
+            ->where('apbd.program', $program)
+            ->where('apbd.kegiatan', $kegiatan);
+
+        if ($request->filled('tahun')) {
+            $query->where('tahun.tahun', $request->tahun);
+        }
+        if ($request->filled('opd')) {
+            $query->where('opd.nama_opd', $request->opd);
+        }
+
+        $details = $query->select(
+            'tahun.tahun as label_tahun',
+            'opd.nama_opd',
+            'apbd.sub_kegiatan',
+            'apbd.nama_sumber_dana',
+            'apbd.nama_rekening',
+            'apbd.nama_daerah',
+            DB::raw('SUM(COALESCE(apbd.alokasi, apbd.pagu,0)) as total_alokasi')
+        )->groupBy('tahun.tahun','opd.nama_opd','apbd.sub_kegiatan','apbd.nama_sumber_dana','apbd.nama_rekening','apbd.nama_daerah')
+        ->get();
+
+        return view('user.apbd.kegiatan', compact('program','kegiatan','details'));
     }
 }

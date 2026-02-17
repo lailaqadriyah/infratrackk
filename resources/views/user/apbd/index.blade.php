@@ -79,28 +79,28 @@
                 <thead class="bg-blue-100 border-b border-gray-200">
                     <tr>
                         <th class="px-4 py-3 border-x text-center font-semibold text-black-600 uppercase tracking-wider">Tahun</th>
-                        <th class="px-4 py-3 border-x text-center font-semibold text-black-600 uppercase tracking-wider">Kegiatan</th>
-                        <th class="px-4 py-3 border-x text-center font-semibold text-black-600 uppercase tracking-wider">Sub Kegiatan</th>
-                        <th class="px-4 py-3 border-x text-center font-semibold text-black-600 uppercase tracking-wider">Sumber Dana</th>
-                        <th class="px-4 py-3 border-x text-center font-semibold text-black-600 uppercase tracking-wider">Rekening</th>
-                        <th class="px-4 py-3 border-x text-center font-semibold text-black-600 uppercase tracking-wider">Pagu</th>
+                        <th class="px-4 py-3 border-x text-center font-semibold text-black-600 uppercase tracking-wider">OPD</th>
+                        <th class="px-4 py-3 border-x text-center font-semibold text-black-600 uppercase tracking-wider">Alokasi</th>
+                        <th class="px-4 py-3 border-x text-center font-semibold text-black-600 uppercase tracking-wider">Program</th>
                     </tr>
                 </thead>
                 <tbody class="divide-y divide-gray-100">
                     @forelse($rincianData as $item)
                     <tr class="hover:bg-blue-50 transition">
-                        <td class="px-4 py-4 border-x border-gray-200 text-black-700">{{ $item->label_tahun ?? ($item->tahun->tahun ?? '-') }}</td>
-                        <td class="px-4 py-4 border-x border-gray-200 text-black-600">{{ $item->kegiatan ?? '-' }}</td>
-                        <td class="px-4 py-4 border-x border-gray-200 text-black-600">{{ $item->sub_kegiatan ?? '-' }}</td>
-                        <td class="px-4 py-4 border-x border-gray-200 text-black-600">{{ $item->nama_sumber_dana ?? '-' }}</td>
-                        <td class="px-4 py-4 border-x border-gray-200 text-black-600">{{ $item->nama_rekening ?? '-' }}</td>
-                        <td class="px-4 py-4 border-x border-gray-200 text-black-600 whitespace-nowrap">
-                            Rp {{ number_format($item->pagu ?? 0, 0, ',', '.') }}
+                        <td class="px-4 py-4 border-x border-gray-200 text-black-700">{{ $item->label_tahun ?? '-' }}</td>
+                        <td class="px-4 py-4 border-x border-gray-200 text-black-600">{{ $item->nama_opd ?? '-' }}</td>
+                        <td class="px-4 py-4 border-x border-gray-200 text-black-600 whitespace-nowrap">Rp {{ number_format($item->total_alokasi ?? 0, 0, ',', '.') }}</td>
+                        <td class="px-4 py-4 border-x border-gray-200 text-black-600">
+                            @if($item->program)
+                                <a href="{{ route('user.apbd.program', urlencode($item->program)) }}" class="text-blue-600 hover:underline">{{ $item->program }}</a>
+                            @else
+                                -
+                            @endif
                         </td>
                     </tr>
                     @empty
                     <tr>
-                        <td colspan="6" class="px-6 py-10 text-center text-gray-400 italic">Data rincian tidak ditemukan.</td>
+                        <td colspan="4" class="px-6 py-10 text-center text-gray-400 italic">Data rincian tidak ditemukan.</td>
                     </tr>
                     @endforelse
                 </tbody>

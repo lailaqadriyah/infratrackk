@@ -39,6 +39,8 @@ Route::middleware('auth')->group(function () {
 Route::get('/user/renja', [UserRenjaController::class, 'index'])->name('user.renja.index');
 Route::get('/user/rkpd', [UserRkpdController::class, 'index'])->name('user.rkpd.index');
 Route::get('/user/apbd', [UserAPBDController::class, 'index'])->name('user.apbd.index');
+Route::get('/user/apbd/program/{program}', [UserAPBDController::class, 'program'])->name('user.apbd.program');
+Route::get('/user/apbd/program/{program}/kegiatan/{kegiatan}', [UserAPBDController::class, 'kegiatan'])->name('user.apbd.kegiatan');
 Route::get('/user/realisasi', [UserRealisasiController::class, 'index'])->name('user.realisasi.index');
 
 // Feedback and other features that require auth
