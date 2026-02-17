@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\APBD;
 use App\Models\Opd;
+use App\Models\Realisasi;
 use App\Models\Tahun;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -52,12 +53,24 @@ class UserAPBDController extends Controller
         $dataOpd = (clone $query)->select('opd.nama_opd', DB::raw('SUM(apbd.pagu) as total'))
             ->groupBy('opd.nama_opd')->get();
 
+        // 5b. Data Realisasi Per OPD
+        $dataRealisasiOpd = Realisasi::join('opd', 'realisasi.id_opd', '=', 'opd.id')
+            ->join('tahun', 'realisasi.id_tahun', '=', 'tahun.id')
+            ->when($request->filled('tahun'), function($q) use ($request) {
+                return $q->where('tahun.tahun', $request->tahun);
+            })
+            ->when($request->filled('opd'), function($q) use ($request) {
+                return $q->where('opd.nama_opd', $request->opd);
+            })
+            ->select('opd.nama_opd', DB::raw('SUM(realisasi.alokasi) as total'))
+            ->groupBy('opd.nama_opd')->get();
+
         // 6. Rincian Data
         $rincianData = $query->with(['tahun', 'opd'])->get();
 
         return view('user.apbd.index', compact(
             'listOpd', 'listTahun', 'dataProgram', 
-            'dataTahunTrend', 'dataOpd', 'rincianData', 
+            'dataTahunTrend', 'dataOpd', 'dataRealisasiOpd', 'rincianData', 
             'totalAnggaran', 'jumlahProgram', 'jumlahKegiatan'
         ));
     }

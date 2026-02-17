@@ -59,7 +59,10 @@ class APBDController extends Controller
             'sub_kegiatan' => 'required|string',
             'nama_sumber_dana' => 'required|string',
             'nama_rekening' => 'required|string',
-            'pagu' => 'required|numeric|min:0',
+            'pagu' => 'nullable|numeric|min:0',
+            'alokasi' => 'nullable|numeric|min:0',
+            'program' => 'nullable|string',
+            'nama_daerah' => 'nullable|string',
             'file' => 'nullable|file|mimes:pdf,xls,xlsx,doc,docx|max:5120',
         ]);
 
@@ -93,7 +96,10 @@ class APBDController extends Controller
             'sub_kegiatan' => 'required|string',
             'nama_sumber_dana' => 'required|string',
             'nama_rekening' => 'required|string',
-            'pagu' => 'required|numeric|min:0',
+            'pagu' => 'nullable|numeric|min:0',
+            'alokasi' => 'nullable|numeric|min:0',
+            'program' => 'nullable|string',
+            'nama_daerah' => 'nullable|string',
             'file' => 'nullable|file|mimes:pdf,xls,xlsx,doc,docx|max:5120',
         ]);
 

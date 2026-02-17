@@ -35,8 +35,7 @@
 </div>
 
 <div class="flex gap-6 mb-6 border-b border-gray-200">
-    <a href="{{ route('admin.apbd.index') }}" class="pb-4 font-medium {{ request()->routeIs('admin.apbd.index', 'admin.apbd.*') ? 'text-blue-600 border-b-2 border-blue-600' : 'text-gray-600 hover:text-gray-900' }}">APBD</a>
-    <a href="{{ route('admin.realisasi.index') }}" class="pb-4 font-medium {{ request()->routeIs('admin.realisasi.index', 'admin.realisasi.*') ? 'text-blue-600 border-b-2 border-blue-600' : 'text-gray-600 hover:text-gray-900' }}">Realisasi</a>
+    <a href="{{ route('admin.apbd.index') }}" class="pb-4 font-medium {{ request()->routeIs('admin.apbd.index', 'admin.apbd.*') ? 'text-blue-600 border-b-2 border-blue-600' : 'text-gray-600 hover:text-gray-900' }}">DPA OPD (Realisasi)</a>
 </div>
 
 <div class="bg-white rounded-lg shadow-sm p-4 mb-6">
@@ -79,11 +78,13 @@
                 <tr>
                     <th class="px-6 py-4 text-center text-xs font-bold text-gray-900 uppercase tracking-wider border-x border-gray-300">Tahun</th>
                     <th class="px-6 py-4 text-center text-sm font-semibold text-gray-900 border-x border-gray-300">OPD</th>
+                    <th class="px-6 py-4 text-center text-sm font-semibold text-gray-900 border-x border-gray-300">Alokasi</th>
+                    <th class="px-6 py-4 text-center text-sm font-semibold text-gray-900 border-x border-gray-300">Program</th>
                     <th class="px-6 py-4 text-center text-sm font-semibold text-gray-900 border-x border-gray-300">Kegiatan</th>
                     <th class="px-6 py-4 text-center text-sm font-semibold text-gray-900 border-x border-gray-300">Sub Kegiatan</th>
                     <th class="px-6 py-4 text-center text-sm font-semibold text-gray-900 border-x border-gray-300">Nama Sumber Dana</th>
                     <th class="px-6 py-4 text-center text-sm font-semibold text-gray-900 border-x border-gray-300">Nama Rekening</th>
-                    <th class="px-6 py-4 text-center text-sm font-semibold text-gray-900 border-x border-gray-300">Pagu</th>
+                    <th class="px-6 py-4 text-center text-sm font-semibold text-gray-900 border-x border-gray-300">Nama Daerah</th>
                     <th class="px-6 py-4 text-center text-sm font-semibold text-gray-900 border-x border-gray-300">Aksi</th>
                 </tr>
             </thead>
@@ -92,11 +93,13 @@
                     <tr class="hover:bg-gray-50 transition-colors">
                         <td class="px-6 py-4 text-sm text-black-900 border-x border-gray-200">{{ $apbd->tahun->tahun ?? '-' }}</td>
                         <td class="px-6 py-4 text-sm text-black-900 border-x border-gray-200">{{ $apbd->opd->nama_opd ?? '-' }}</td>
+                        <td class="px-6 py-4 text-sm text-black-900 border-x border-gray-200">Rp {{ number_format($apbd->alokasi ?? $apbd->pagu ?? 0, 0, ',', '.') }}</td>
+                        <td class="px-6 py-4 text-sm text-black-900 border-x border-gray-200">{{ $apbd->program ?? '-' }}</td>
                         <td class="px-6 py-4 text-sm text-black-900 border-x border-gray-200">{{ $apbd->kegiatan ?? '-' }}</td>
                         <td class="px-6 py-4 text-sm text-black-900 border-x border-gray-200">{{ $apbd->sub_kegiatan ?? '-' }}</td>
                         <td class="px-6 py-4 text-sm text-black-900 border-x border-gray-200">{{ $apbd->nama_sumber_dana ?? '-' }}</td>
                         <td class="px-6 py-4 text-sm text-black-900 border-x border-gray-200">{{ $apbd->nama_rekening ?? '-' }}</td>
-                        <td class="px-6 py-4text-sm text-black-900 border-x border-gray-200">Rp {{ number_format($apbd->pagu ?? 0, 0, ',', '.') }}</td>
+                        <td class="px-6 py-4 text-sm text-black-900 border-x border-gray-200">{{ $apbd->nama_daerah ?? '-' }}</td>
                         <td class="px-6 py-4 text-sm">
                             <div class="flex items-center gap-2">
                                 {{-- PERBAIKAN: Tombol edit langsung memicu fungsi openEditModal di Alpine.js --}}
@@ -105,10 +108,13 @@
                                         id: {{ $apbd->id }},
                                         id_tahun: {{ $apbd->id_tahun }},
                                         id_opd: {{ $apbd->id_opd }},
+                                        alokasi: {{ $apbd->alokasi ?? 'null' }},
+                                        program: '{{ addslashes($apbd->program) }}',
                                         kegiatan: '{{ addslashes($apbd->kegiatan) }}',
                                         sub_kegiatan: '{{ addslashes($apbd->sub_kegiatan) }}',
                                         nama_sumber_dana: '{{ addslashes($apbd->nama_sumber_dana) }}',
                                         nama_rekening: '{{ addslashes($apbd->nama_rekening) }}',
+                                        nama_daerah: '{{ addslashes($apbd->nama_daerah) }}',
                                         pagu: {{ $apbd->pagu ?? 0 }}
                                     })"
                                     class="p-2 text-blue-600 hover:bg-blue-50 rounded-lg transition-colors" title="Edit">
@@ -208,6 +214,14 @@
                 </div>
             </div>
             <div>
+                <label class="block text-sm font-medium text-gray-700 mb-1">Alokasi (Rp)</label>
+                <input type="number" name="alokasi" step="0.01" required class="w-full border border-gray-300 rounded-lg px-3 py-2">
+            </div>
+            <div>
+                <label class="block text-sm font-medium text-gray-700 mb-1">Program</label>
+                <input type="text" name="program" class="w-full border border-gray-300 rounded-lg px-3 py-2">
+            </div>
+            <div>
                 <label class="block text-sm font-medium text-gray-700 mb-1">Kegiatan</label>
                 <input type="text" name="kegiatan" required class="w-full border border-gray-300 rounded-lg px-3 py-2">
             </div>
@@ -224,8 +238,8 @@
                 <input type="text" name="nama_rekening" required class="w-full border border-gray-300 rounded-lg px-3 py-2">
             </div>
             <div>
-                <label class="block text-sm font-medium text-gray-700 mb-1">Pagu (Rp)</label>
-                <input type="number" name="pagu" step="0.01" required class="w-full border border-gray-300 rounded-lg px-3 py-2">
+                <label class="block text-sm font-medium text-gray-700 mb-1">Nama Daerah</label>
+                <input type="text" name="nama_daerah" class="w-full border border-gray-300 rounded-lg px-3 py-2">
             </div>
             <div class="flex gap-3 pt-4">
                 <button type="button" @click="manualModalOpen = false" class="px-4 py-2 border border-gray-300 text-gray-700 rounded-lg">Batal</button>
@@ -261,6 +275,14 @@
                 </div>
             </div>
             <div>
+                <label class="block text-sm font-medium text-gray-700 mb-1">Alokasi (Rp)</label>
+                <input type="number" name="alokasi" x-model="editData.alokasi" step="0.01" required class="w-full border border-gray-300 rounded-lg px-3 py-2">
+            </div>
+            <div>
+                <label class="block text-sm font-medium text-gray-700 mb-1">Program</label>
+                <input type="text" name="program" x-model="editData.program" class="w-full border border-gray-300 rounded-lg px-3 py-2">
+            </div>
+            <div>
                 <label class="block text-sm font-medium text-gray-700 mb-1">Kegiatan</label>
                 <input type="text" name="kegiatan" x-model="editData.kegiatan" required class="w-full border border-gray-300 rounded-lg px-3 py-2">
             </div>
@@ -277,8 +299,8 @@
                 <input type="text" name="nama_rekening" x-model="editData.nama_rekening" required class="w-full border border-gray-300 rounded-lg px-3 py-2">
             </div>
             <div>
-                <label class="block text-sm font-medium text-gray-700 mb-1">Pagu (Rp)</label>
-                <input type="number" name="pagu" x-model="editData.pagu" step="0.01" required class="w-full border border-gray-300 rounded-lg px-3 py-2">
+                <label class="block text-sm font-medium text-gray-700 mb-1">Nama Daerah</label>
+                <input type="text" name="nama_daerah" x-model="editData.nama_daerah" class="w-full border border-gray-300 rounded-lg px-3 py-2">
             </div>
             <div class="flex gap-3 pt-4">
                 <button type="button" @click="editModalOpen = false" class="px-4 py-2 border border-gray-300 text-gray-700 rounded-lg">Batal</button>
@@ -298,14 +320,17 @@ function apbdManager() {
         manualModalOpen: false,
         editModalOpen: false,
         // Inisialisasi object editData agar reactive dengan x-model
-        editData: {
+            editData: {
             id: null,
             id_tahun: '',
             id_opd: '',
+            alokasi: 0,
+            program: '',
             kegiatan: '',
             sub_kegiatan: '',
             nama_sumber_dana: '',
             nama_rekening: '',
+            nama_daerah: '',
             pagu: 0
         },
 

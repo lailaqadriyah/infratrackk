@@ -62,7 +62,7 @@
         </div>
 
         <div class="bg-white p-5 rounded-xl shadow-sm border border-gray-100 flex flex-col h-96">
-            <h3 class="font-bold text-gray-700 mb-4 text-xs text-center uppercase tracking-wider">Anggaran Per OPD</h3>
+            <h3 class="font-bold text-gray-700 mb-4 text-xs text-center uppercase tracking-wider">Realisasi Per OPD</h3>
             <div class="relative flex-grow">
                 <canvas id="apbdBar"></canvas>
             </div>
@@ -195,14 +195,14 @@
         }
     });
 
-    // 3. Bar Chart Horizontal (OPD)
+    // 3. Bar Chart Horizontal (OPD - Realisasi)
     new Chart(document.getElementById('apbdBar'), {
         type: 'bar',
         data: {
-            labels: @json($dataOpd->pluck('nama_opd')),
+            labels: @json($dataRealisasiOpd->pluck('nama_opd')),
             datasets: [{
-                label: 'Anggaran',
-                data: @json($dataOpd->pluck('total')),
+                label: 'Realisasi',
+                data: @json($dataRealisasiOpd->pluck('total')),
                 backgroundColor: '#f59e0b',
                 borderRadius: 5,
                 barThickness: 20 // Membuat batang tidak terlalu lebar

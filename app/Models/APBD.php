@@ -18,6 +18,9 @@ class APBD extends Model
         'nama_sumber_dana',
         'nama_rekening',
         'pagu',
+        'alokasi',
+        'program',
+        'nama_daerah',
         'file_path',
     ];
 
