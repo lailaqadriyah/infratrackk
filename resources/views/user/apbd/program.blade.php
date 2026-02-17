@@ -4,6 +4,7 @@
 
 @section('content')
 <div class="p-6 bg-gray-50 min-h-screen w-full">
+    @include('user.apbd.breadcrumb', ['program' => $program, 'kegiatan' => null, 'sub' => null])
     <div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
         <div class="p-4 border-b bg-gray-50">
             <h3 class="font-bold text-gray-800 text-sm italic">Kegiatan untuk Program: {{ $program }}</h3>

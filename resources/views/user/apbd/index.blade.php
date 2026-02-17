@@ -4,6 +4,7 @@
 
 @section('content')
 <div class="p-6 bg-gray-50 min-h-screen w-full">
+    @include('user.apbd.breadcrumb', ['program' => null, 'kegiatan' => null, 'sub' => null])
     <div class="mb-6 flex flex-col md:flex-row md:items-center justify-end gap-4">
     <div class="bg-white p-2 rounded-lg shadow-sm border border-gray-200">
         <form action="{{ route('user.apbd.index') }}" method="GET" class="flex items-center gap-2">
