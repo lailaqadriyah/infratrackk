@@ -79,6 +79,7 @@
                 <thead class="bg-blue-100 border-b border-gray-200">
                     <tr>
                         <th class="px-4 py-3 border-x text-center font-semibold text-black-600 uppercase tracking-wider">Tahun</th>
+                        <th class="px-4 py-3 border-x text-center font-semibold text-black-600 uppercase tracking-wider">Kegiatan</th>
                         <th class="px-4 py-3 border-x text-center font-semibold text-black-600 uppercase tracking-wider">Alokasi</th>
                         <th class="px-4 py-3 border-x text-center font-semibold text-black-600 uppercase tracking-wider">Sub Kegiatan</th>
                         <th class="px-4 py-3 border-x text-center font-semibold text-black-600 uppercase tracking-wider">Nama Daerah</th>
@@ -87,7 +88,8 @@
                 <tbody class="divide-y divide-gray-100">
                     @forelse($rincianData as $item)
                     <tr class="hover:bg-blue-50 transition">
-                        <td class="px-4 py-4 border-x border-gray-200 text-black-700">{{ $item->label_tahun ?? ($item->tahun->tahun ?? '-') }}</td>
+                        <td class="px-4 py-4 border-x border-gray-200 text-black-700">{{ $item->label_tahun ?? '-' }}</td>
+                        <td class="px-4 py-4 border-x border-gray-200 text-black-600">{{ $item->kegiatan ?? '-' }}</td>
                         <td class="px-4 py-4 border-x border-gray-200 text-black-600 whitespace-nowrap">
                             Rp {{ number_format($item->alokasi ?? 0, 0, ',', '.') }}
                         </td>
@@ -96,7 +98,7 @@
                     </tr>
                     @empty
                     <tr>
-                        <td colspan="4" class="px-6 py-10 text-center text-gray-400 italic">Data rincian tidak ditemukan.</td>
+                        <td colspan="5" class="px-6 py-10 text-center text-gray-400 italic">Data rincian tidak ditemukan.</td>
                     </tr>
                     @endforelse
                 </tbody>

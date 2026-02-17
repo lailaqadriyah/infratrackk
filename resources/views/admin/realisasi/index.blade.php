@@ -80,6 +80,7 @@
                     <th class="px-6 py-4 text-center text-xs font-bold text-gray-900 uppercase tracking-wider border-x border-gray-300">Tahun</th>
                     <th class="px-6 py-4 text-center text-sm font-semibold text-gray-900 border-x border-gray-300">OPD</th>
                     <th class="px-6 py-4 text-center text-sm font-semibold text-gray-900 border-x border-gray-300">Alokasi</th>
+                    <th class="px-6 py-4 text-center text-sm font-semibold text-gray-900 border-x border-gray-300">Kegiatan</th>
                     <th class="px-6 py-4 text-center text-sm font-semibold text-gray-900 border-x border-gray-300">Sub Kegiatan</th>
                     <th class="px-6 py-4 text-center text-sm font-semibold text-gray-900 border-x border-gray-300">Nama Daerah</th>
                     <th class="px-6 py-4 text-center text-sm font-semibold text-gray-900 border-x border-gray-300">Aksi</th>
@@ -91,6 +92,7 @@
                         <td class="px-6 py-4 text-sm text-black-900 border-x border-gray-200">{{ $realisasi->tahun->tahun ?? '-' }}</td>
                         <td class="px-6 py-4 text-sm text-gray-900 border-x border-gray-200">{{ $realisasi->opd->nama_opd ?? '-' }}</td>
                         <td class="px-6 py-4 text-sm text-gray-900 border-x border-gray-200">Rp {{ number_format($realisasi->alokasi ?? 0, 0, ',', '.') }}</td>
+                        <td class="px-6 py-4 text-sm text-gray-900 border-x border-gray-200">{{ $realisasi->kegiatan ?? '-' }}</td>
                         <td class="px-6 py-4 text-sm text-gray-900 border-x border-gray-200">{{ $realisasi->sub_kegiatan ?? '-' }}</td>
                         <td class="px-6 py-4 text-sm text-gray-900 border-x border-gray-200">{{ $realisasi->nama_daerah ?? '-' }}</td>
                         
@@ -103,6 +105,7 @@
                                         id_tahun: {{ $realisasi->id_tahun }},
                                         id_opd: {{ $realisasi->id_opd }},
                                         alokasi: {{ $realisasi->alokasi ?? 0 }},
+                                        kegiatan: '{{ addslashes($realisasi->kegiatan ?? '') }}',
                                         sub_kegiatan: '{{ addslashes($realisasi->sub_kegiatan) }}',
                                         nama_daerah: '{{ addslashes($realisasi->nama_daerah) }}'
                                     })"
@@ -207,6 +210,10 @@
                 <input type="number" name="alokasi" step="0.01" required class="w-full border border-gray-300 rounded-lg px-3 py-2">
             </div>
             <div>
+                <label class="block text-sm font-medium text-gray-700 mb-1">Kegiatan</label>
+                <input type="text" name="kegiatan" class="w-full border border-gray-300 rounded-lg px-3 py-2">
+            </div>
+            <div>
                 <label class="block text-sm font-medium text-gray-700 mb-1">Sub Kegiatan</label>
                 <input type="text" name="sub_kegiatan" required class="w-full border border-gray-300 rounded-lg px-3 py-2">
             </div>
@@ -253,6 +260,10 @@
                 <input type="number" name="alokasi" x-model="editData.alokasi" step="0.01" required class="w-full border border-gray-300 rounded-lg px-3 py-2">
             </div>
             <div>
+                <label class="block text-sm font-medium text-gray-700 mb-1">Kegiatan</label>
+                <input type="text" name="kegiatan" x-model="editData.kegiatan" class="w-full border border-gray-300 rounded-lg px-3 py-2">
+            </div>
+            <div>
                 <label class="block text-sm font-medium text-gray-700 mb-1">Sub Kegiatan</label>
                 <input type="text" name="sub_kegiatan" x-model="editData.sub_kegiatan" required class="w-full border border-gray-300 rounded-lg px-3 py-2">
             </div>
@@ -284,6 +295,7 @@ function realisasiManager() {
             id_tahun: null,
             id_opd: null,
             alokasi: null,
+            kegiatan: '',
             sub_kegiatan: '',
             nama_daerah: ''
         },
@@ -295,6 +307,7 @@ function realisasiManager() {
                 id_tahun: parseInt(data.id_tahun),
                 id_opd: parseInt(data.id_opd),
                 alokasi: parseFloat(data.alokasi) || 0,
+                kegiatan: data.kegiatan || '',
                 sub_kegiatan: data.sub_kegiatan || '',
                 nama_daerah: data.nama_daerah || ''
             };

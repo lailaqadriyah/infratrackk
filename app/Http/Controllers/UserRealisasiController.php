@@ -51,9 +51,12 @@ class UserRealisasiController extends Controller
         $dataDaerah = (clone $query)->select('realisasi.nama_daerah', DB::raw('SUM(realisasi.alokasi) as total'))
             ->groupBy('realisasi.nama_daerah')->get();
 
-        // 6. Rincian Data - Get the raw query for filtering, then fetch complete models
+        // 6. Rincian Data - Get the filtered IDs, then fetch with all attributes
         $filteredIds = (clone $query)->select('realisasi.id')->pluck('realisasi.id');
-        $rincianData = Realisasi::whereIn('id', $filteredIds)->with(['tahun', 'opd'])->get();
+        $rincianData = Realisasi::whereIn('id', $filteredIds)
+            ->join('tahun', 'realisasi.id_tahun', '=', 'tahun.id')
+            ->select('realisasi.*', 'tahun.tahun as label_tahun')
+            ->get();
 
         return view('user.realisasi.index', compact(
             'listOpd', 'listTahun', 'dataSubKegiatan', 
@@ -76,6 +79,7 @@ class UserRealisasiController extends Controller
             'id_opd' => 'required|exists:opd,id',
             'id_tahun' => 'required|exists:tahun,id',
             'alokasi' => 'required|numeric|min:0',
+            'kegiatan' => 'nullable|string',
             'sub_kegiatan' => 'required|string',
             'nama_daerah' => 'required|string',
         ]);
