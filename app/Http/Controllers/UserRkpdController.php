@@ -44,8 +44,10 @@ class UserRkpdController extends Controller
             ->groupBy('rkpd.program')->get();
 
         // 6. Data Chart 2: Tren Anggaran Per Tahun (Line)
-        // Note: Untuk tren tahunan, kita hilangkan filter tahun agar grafiknya tetap terlihat panjang ke samping
         $queryTahun = Rkpd::join('tahun', 'rkpd.id_tahun', '=', 'tahun.id');
+        if ($request->filled('tahun')) {
+            $queryTahun->where('tahun.tahun', $request->tahun);
+        }
         if ($request->filled('opd')) {
             $queryTahun->whereExists(function ($q) use ($request) {
                 $q->select(DB::raw(1))->from('opd')->whereColumn('opd.id', 'rkpd.id_opd')->where('nama_opd', $request->opd);

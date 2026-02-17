@@ -41,7 +41,10 @@ class UserRenjaController extends Controller
 
         $dataTahunTrend = Renja::join('tahun', 'renja.id_tahun', '=', 'tahun.id')
             ->select('tahun.tahun as label_thn', DB::raw('SUM(renja.anggaran) as total'))
-            ->when($request->opd, function($q) use ($request) {
+            ->when($request->filled('tahun'), function($q) use ($request) {
+                return $q->where('tahun.tahun', $request->tahun);
+            })
+            ->when($request->filled('opd'), function($q) use ($request) {
                 return $q->whereExists(function($sub) use ($request) {
                     $sub->select(DB::raw(1))->from('opd')->whereColumn('opd.id', 'renja.id_opd')->where('nama_opd', $request->opd);
                 });

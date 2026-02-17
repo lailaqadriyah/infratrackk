@@ -14,14 +14,14 @@ class OpdSeeder extends Seeder
     public function run(): void
     {
         $opdList = [
-            'Badan Perencanaan Pembangunan Daerah',
-            'Dinas Pendidikan',
-            'Dinas Kesehatan',
-            'Dinas Pekerjaan Umum',
-            'Dinas Pertanian',
-            'Dinas Keuangan',
-            'Dinas Sosial',
-            'Dinas Pariwisata',
+            'Badan Bina Marga, Cipta Karya Dan Tata Ruang (BMCKTR)',
+            'Dinas Perumahan Rakyat, Kawasan Permukiman, dan Pertanahan (Parkimtan)',
+            'Dinas Dinas Sumber Daya Air dan Bina Konstruksi (SDABK)',
+            'Dinas Perhubungan',
+            'Dinas Dinas Energi dan Sumber Daya Mineral (ESDM)',
+            'Dinas Lingkungan Hidup',
+            'Dinas Badan Penanggulangan Bencana Daerah (BPBD)',
+            
         ];
 
         foreach ($opdList as $opd) {

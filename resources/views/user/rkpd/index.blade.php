@@ -5,26 +5,23 @@
 @section('content')
 <div class="p-6 bg-gray-50 min-h-screen w-full">
     <div class="mb-6 flex flex-col md:flex-row md:items-center justify-end gap-4">
-
         <div class="bg-white p-2 rounded-lg shadow-sm border border-gray-200">
-            <form action="{{ route('user.rkpd.index') }}" method="GET" class="flex items-center gap-2">
-                <select name="tahun" class="text-xs border-gray-300 rounded focus:ring-blue-500 w-32">
+            <form id="rkpd-filter-form" action="{{ route('user.rkpd.index') }}" method="GET" class="flex items-center gap-2">
+                <select name="tahun" onchange="document.getElementById('rkpd-filter-form').submit()" class="text-xs border-gray-300 rounded focus:ring-blue-500 w-40">
                     <option value="">Semua Tahun</option>
                     @foreach($listTahun as $t)
                         <option value="{{ $t->tahun }}" {{ request('tahun') == $t->tahun ? 'selected' : '' }}>{{ $t->tahun }}</option>
                     @endforeach
                 </select>
-                <select name="opd" class="text-xs border-gray-300 rounded focus:ring-blue-500 w-48">
+                <select name="opd" onchange="document.getElementById('rkpd-filter-form').submit()" class="text-xs border-gray-300 rounded focus:ring-blue-500 w-40">
                     <option value="">Semua OPD</option>
                     @foreach($listOpd as $o)
                         <option value="{{ $o->nama_opd }}" {{ request('opd') == $o->nama_opd ? 'selected' : '' }}>{{ $o->nama_opd }}</option>
                     @endforeach
                 </select>
+                
                 <div class="flex gap-1">
-                    <button type="submit" class="bg-blue-600 text-white px-3 py-1.5 rounded text-xs hover:bg-blue-700 transition font-semibold">
-                        Filter
-                    </button>
-                    <a href="{{ route('user.rkpd.index') }}" class="bg-gray-100 text-gray-600 px-3 py-1.5 rounded text-xs hover:bg-gray-200 border border-gray-300 flex items-center gap-1" title="Reset Data">
+                    <a href="{{ route('user.rkpd.index') }}" class="bg-gray-100 text-gray-600 px-3 py-1.5 rounded text-xs hover:bg-gray-200 border border-gray-300 flex items-center gap-1">
                         ↺ Reset
                     </a>
                 </div>
