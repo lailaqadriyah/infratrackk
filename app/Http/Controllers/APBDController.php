@@ -3,9 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\APBD;
-use App\Models\Realisasi;
-use App\Models\Renja;
-use App\Models\Rkpd;
 use App\Models\Opd;
 use App\Models\Tahun;
 use App\Imports\APBDImport;
@@ -26,7 +23,7 @@ class APBDController extends Controller
         $tahunFilter = $request->query('tahun');
         $opdFilter = $request->query('opd');
         
-        $query = Realisasi::with(['opd', 'tahun']);
+        $query = APBD::with(['opd', 'tahun']);
         
         if ($tahunFilter) {
             $query->where('id_tahun', $tahunFilter);
@@ -59,25 +56,18 @@ class APBDController extends Controller
             'kegiatan' => 'required|string',
             'sub_kegiatan' => 'required|string',
             'program' => 'nullable|string',
+            'indikator' => 'nullable|string',
+            'target' => 'nullable|string',
             'alokasi' => 'nullable|numeric|min:0',
-            'nama_daerah' => 'nullable|string',
-            'file' => 'nullable|file|mimes:pdf,xls,xlsx,doc,docx|max:5120',
         ]);
 
-        if ($request->hasFile('file')) {
-            $file = $request->file('file');
-            $fileName = time() . '_' . $file->getClientOriginalName();
-            $file->storeAs('realisasi', $fileName, 'public');
-            $validated['file_path'] = 'realisasi/' . $fileName;
-        }
-
-        Realisasi::create($validated);
+        APBD::create($validated);
 
         return redirect()->route('admin.apbd.index')
-            ->with('success', 'Data DPA OPD (Realisasi) berhasil ditambahkan');
+            ->with('success', 'Data APBD berhasil ditambahkan');
     }
 
-    public function edit(Realisasi $apbd)
+    public function edit(APBD $apbd)
     {
         $opds = Opd::all();
         $tahuns = Tahun::orderBy('tahun', 'desc')->get();
@@ -85,7 +75,7 @@ class APBDController extends Controller
         return view('admin.apbd.edit', compact('apbd', 'opds', 'tahuns'));
     }
 
-    public function update(Request $request, Realisasi $apbd)
+    public function update(Request $request, APBD $apbd)
     {
         $validated = $request->validate([
             'id_opd' => 'required|exists:opd,id',
@@ -99,7 +89,6 @@ class APBDController extends Controller
         ]);
 
         if ($request->hasFile('file')) {
-            // Hapus file lama jika ada
             if ($apbd->file_path && Storage::disk('public')->exists($apbd->file_path)) {
                 Storage::disk('public')->delete($apbd->file_path);
             }
@@ -113,18 +102,18 @@ class APBDController extends Controller
         $apbd->update($validated);
 
         return redirect()->route('admin.apbd.index')
-            ->with('success', 'Data DPA OPD (Realisasi) berhasil diperbarui');
+            ->with('success', 'Data APBD berhasil diperbarui');
     }
 
-    public function destroy(Realisasi $apbd)
+    public function destroy(APBD $apbd)
     {
         $apbd->delete();
 
         return redirect()->route('admin.apbd.index')
-            ->with('success', 'Data DPA OPD (Realisasi) berhasil dihapus');
+            ->with('success', 'Data APBD berhasil dihapus');
     }
 
-    public function uploadStore(Request $request)
+    public function import(Request $request)
     {
         $request->validate([
             'id_tahun' => 'required|exists:tahun,id',

@@ -23,7 +23,7 @@ class APBDImport implements ToModel, WithHeadingRow, WithValidation
         // Kolom Excel: gunakan "pagu" (sesuai permintaan),
         // namun tetap simpan ke field database "anggaran".
         // Fallback "anggaran" tetap diterima untuk kompatibilitas file lama.
-        $rawPagu = $row['pagu'] ?? ($row['anggaran'] ?? 0);
+        $rawPagu = $row['pagu'] ?? ($row['alokasi'] ?? 0);
 
         // Izinkan format seperti "Rp 1.000.000", "1.000.000", dll.
         // Buang semua karakter non-digit lalu cast ke number.
@@ -38,7 +38,8 @@ class APBDImport implements ToModel, WithHeadingRow, WithValidation
             'sub_kegiatan' => $row['sub_kegiatan'] ?? null,
             'indikator' => $row['indikator'] ?? null,
             'target' => $row['target'] ?? null,
-            'anggaran' => $pagu,
+            'alokasi' => $pagu,
+            'nama_daerah' => $row['nama_daerah'] ?? null,  // TAMBAH INI
         ]);
     }
 
@@ -51,7 +52,8 @@ class APBDImport implements ToModel, WithHeadingRow, WithValidation
             'indikator' => 'nullable|string',
             'target' => 'nullable|string',
             'pagu' => 'nullable|numeric',
-            'anggaran' => 'nullable|numeric',
+            'alokasi' => 'nullable|numeric',
+            'nama_daerah' => 'nullable|string',  // TAMBAH INI
         ];
     }
 }

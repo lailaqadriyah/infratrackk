@@ -22,13 +22,13 @@
     <div class="p-6 border-b border-gray-200">
         <div class="flex items-center gap-3">
             <div class="p-2">
-    <img src="{{ asset('images/logo-sipap.png') }}" 
-         alt="Logo SIPAP" 
+    <img src="{{ asset('images/logo-infraplan.png') }}" 
+         alt="Logo InfraPlan" 
          class="h-10 w-10 object-contain">
 </div>
 
             <div>
-                <h1 class="font-bold text-gray-900 tracking-tight">SIPAP</h1>
+                <h1 class="font-bold text-gray-900 tracking-tight">InfraPlan</h1>
                 <p class="text-xs text-gray-600">BAPPEDA Sumbar</p>
             </div>
         </div>
@@ -128,7 +128,7 @@
             </form>
         @endauth
         <p class="text-[10px] text-gray-500 text-center mt-3 uppercase tracking-wider">
-            © 2026 SIPAP
+            © 2026 InfraPlan
         </p>
     </div>
 </aside>
