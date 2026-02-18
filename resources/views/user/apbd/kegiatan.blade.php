@@ -5,12 +5,38 @@
 @section('content')
 <div class="p-6 bg-gray-50 min-h-screen w-full">
     @include('user.apbd.breadcrumb', ['program' => $program, 'kegiatan' => $kegiatan, 'sub' => null])
+    
+    <div class="mb-6 flex flex-col md:flex-row md:items-end justify-end gap-4">
+        <div class="bg-white p-2 rounded-lg shadow-sm border border-gray-200">
+            <form id="kegiatan-filter-form" action="{{ route('user.apbd.kegiatan', [urlencode($program), urlencode($kegiatan)]) }}" method="GET" class="flex items-center gap-2">
+                <select name="tahun" onchange="document.getElementById('kegiatan-filter-form').submit()" class="text-xs border-gray-300 rounded focus:ring-blue-500 w-40">
+                    <option value="">Semua Tahun</option>
+                    @foreach($listTahun as $t)
+                        <option value="{{ $t->tahun }}" {{ request('tahun') == $t->tahun ? 'selected' : '' }}>{{ $t->tahun }}</option>
+                    @endforeach
+                </select>
+                <select name="opd" onchange="document.getElementById('kegiatan-filter-form').submit()" class="text-xs border-gray-300 rounded focus:ring-blue-500 w-40">
+                    <option value="">Semua OPD</option>
+                    @foreach($listOpd as $o)
+                        <option value="{{ $o->nama_opd }}" {{ request('opd') == $o->nama_opd ? 'selected' : '' }}>{{ $o->nama_opd }}</option>
+                    @endforeach
+                </select>
+                
+                <div class="flex gap-1">
+                    <a href="{{ route('user.apbd.kegiatan', [urlencode($program), urlencode($kegiatan)]) }}" class="bg-gray-100 text-gray-600 px-3 py-1.5 rounded text-xs hover:bg-gray-200 border border-gray-300 flex items-center gap-1">
+                        ↺ Reset
+                    </a>
+                </div>
+            </form>
+        </div>
+    </div>
+    
     <div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
         <div class="p-4 border-b bg-white">
-            <form action="{{ route('user.apbd.kegiatan', [urlencode($program), urlencode($kegiatan)]) }}" method="GET" class="flex items-center gap-2">
+            <form action="{{ route('user.apbd.kegiatan', [urlencode($program), urlencode($kegiatan)]) }}" method="GET" class="flex items-center gap-2" onsubmit="return true;">
                 <input type="hidden" name="tahun" value="{{ request('tahun') }}">
                 <input type="hidden" name="opd" value="{{ request('opd') }}">
-                <input type="search" name="q" value="{{ request('q') }}" placeholder="cari sub kegiatan" class="w-full border border-gray-300 rounded px-3 py-2 text-sm">
+                <input type="search" name="q" value="{{ request('q') }}" placeholder="cari sub kegiatan" class="w-full border border-gray-300 rounded px-3 py-2 text-sm" onkeyup="if(this.value.length >= 1 || event.key === 'Backspace') this.form.submit();">
             </form>
         </div>
         <div class="p-4 border-b bg-gray-50">
@@ -23,8 +49,6 @@
                         <th class="px-4 py-3 border-x text-center font-semibold text-black-600 uppercase tracking-wider">Tahun</th>
                         <th class="px-4 py-3 border-x text-center font-semibold text-black-600 uppercase tracking-wider">OPD</th>
                         <th class="px-4 py-3 border-x text-center font-semibold text-black-600 uppercase tracking-wider">Sub Kegiatan</th>
-                        <th class="px-4 py-3 border-x text-center font-semibold text-black-600 uppercase tracking-wider">Nama Sumber Dana</th>
-                        <th class="px-4 py-3 border-x text-center font-semibold text-black-600 uppercase tracking-wider">Nama Rekening</th>
                         <th class="px-4 py-3 border-x text-center font-semibold text-black-600 uppercase tracking-wider">Nama Daerah</th>
                         <th class="px-4 py-3 border-x text-center font-semibold text-black-600 uppercase tracking-wider">Alokasi</th>
                     </tr>
@@ -35,14 +59,12 @@
                         <td class="px-4 py-4 border-x border-gray-200 text-black-700">{{ $d->label_tahun ?? '-' }}</td>
                         <td class="px-4 py-4 border-x border-gray-200 text-black-700">{{ $d->nama_opd ?? '-' }}</td>
                         <td class="px-4 py-4 border-x border-gray-200 text-black-600">{{ $d->sub_kegiatan ?? '-' }}</td>
-                        <td class="px-4 py-4 border-x border-gray-200 text-black-600">{{ $d->nama_sumber_dana ?? '-' }}</td>
-                        <td class="px-4 py-4 border-x border-gray-200 text-black-600">{{ $d->nama_rekening ?? '-' }}</td>
                         <td class="px-4 py-4 border-x border-gray-200 text-black-600">{{ $d->nama_daerah ?? '-' }}</td>
                         <td class="px-4 py-4 border-x border-gray-200 text-black-600 whitespace-nowrap">Rp {{ number_format($d->total_alokasi ?? 0, 0, ',', '.') }}</td>
                     </tr>
                     @empty
                     <tr>
-                        <td colspan="7" class="px-6 py-10 text-center text-gray-400 italic">Rincian tidak ditemukan.</td>
+                        <td colspan="5" class="px-6 py-10 text-center text-gray-400 italic">Rincian tidak ditemukan.</td>
                     </tr>
                     @endforelse
                 </tbody>

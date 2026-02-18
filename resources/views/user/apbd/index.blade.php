@@ -47,21 +47,24 @@
 
     <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
         <div class="bg-white p-5 rounded-xl shadow-sm border border-gray-100 flex flex-col h-96">
-            <h3 class="font-bold text-gray-700 mb-4 text-xs text-center uppercase tracking-wider">Porsi Anggaran Program</h3>
+            <h3 class="font-bold text-gray-700 mb-2 text-xs text-center uppercase tracking-wider">Porsi Anggaran Program</h3>
+            <p class="text-xs text-gray-500 text-center mb-2">Klik program untuk lihat detail kegiatan</p>
             <div class="relative flex-grow">
                 <canvas id="apbdPie"></canvas>
             </div>
         </div>
 
         <div class="bg-white p-5 rounded-xl shadow-sm border border-gray-100 flex flex-col h-96">
-            <h3 class="font-bold text-gray-700 mb-4 text-xs text-center uppercase tracking-wider">Trend Anggaran APBD</h3>
+            <h3 class="font-bold text-gray-700 mb-2 text-xs text-center uppercase tracking-wider">Trend Anggaran APBD</h3>
+            <p class="text-xs text-gray-500 text-center mb-2">Klik tahun untuk filter data</p>
             <div class="relative flex-grow">
                 <canvas id="apbdLine"></canvas>
             </div>
         </div>
 
         <div class="bg-white p-5 rounded-xl shadow-sm border border-gray-100 flex flex-col h-96">
-            <h3 class="font-bold text-gray-700 mb-4 text-xs text-center uppercase tracking-wider">Realisasi Per OPD</h3>
+            <h3 class="font-bold text-gray-700 mb-2 text-xs text-center uppercase tracking-wider">Realisasi Per OPD (dari Admin)</h3>
+            <p class="text-xs text-gray-500 text-center mb-2">Klik OPD untuk filter tabel</p>
             <div class="relative flex-grow">
                 <canvas id="apbdBar"></canvas>
             </div>
@@ -70,15 +73,15 @@
 
     <div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
         <div class="p-4 border-b bg-gray-50 flex justify-between items-center">
-            <h3 class="font-bold text-gray-800 text-sm italic">Rincian Data Anggaran (APBD)</h3>
+            <h3 class="font-bold text-gray-800 text-sm italic">Rincian Data dari DPA OPD (Realisasi Admin)</h3>
             <span class="text-xs text-gray-500">Menampilkan {{ $rincianData->count() }} data rincian</span>
         </div>
         <div class="overflow-x-auto">
             <div class="p-4 border-b bg-white">
-                <form action="{{ route('user.apbd.index') }}" method="GET" class="flex items-center gap-2">
+                <form action="{{ route('user.apbd.index') }}" method="GET" class="flex items-center gap-2" onsubmit="return true;">
                     <input type="hidden" name="tahun" value="{{ request('tahun') }}">
                     <input type="hidden" name="opd" value="{{ request('opd') }}">
-                    <input type="search" name="q" value="{{ request('q') }}" placeholder="cari program" class="w-full border border-gray-300 rounded px-3 py-2 text-sm">
+                    <input type="search" name="q" value="{{ request('q') }}" placeholder="cari program" class="w-full border border-gray-300 rounded px-3 py-2 text-sm" onkeyup="if(this.value.length >= 1 || event.key === 'Backspace') this.form.submit();">
                 </form>
             </div>
 
@@ -117,6 +120,11 @@
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<style>
+    #apbdPie, #apbdLine, #apbdBar {
+        cursor: pointer;
+    }
+</style>
 <script>
     // Konfigurasi Dasar untuk Semua Chart agar Rapi
     const globalOptions = {
@@ -130,8 +138,8 @@
         }
     };
 
-    // 1. Doughnut Chart (Program)
-    new Chart(document.getElementById('apbdPie'), {
+    // 1. Doughnut Chart (Program) - Clickable
+    const pieChart = new Chart(document.getElementById('apbdPie'), {
         type: 'doughnut',
         data: {
             labels: @json($dataProgram->pluck('program')),
@@ -144,6 +152,15 @@
         },
         options: {
             ...globalOptions,
+            onClick: (event, elements) => {
+                if (elements.length > 0) {
+                    const index = elements[0].index;
+                    const program = @json($dataProgram->pluck('program'))[index];
+                    if (program) {
+                        window.location.href = '/user/apbd/program/' + encodeURIComponent(program);
+                    }
+                }
+            },
             plugins: {
                 legend: {
                     display: true,
@@ -152,7 +169,6 @@
                         boxWidth: 12,
                         padding: 15,
                         font: { size: 10, weight: '500' },
-                        // Memotong label yang terlalu panjang agar rapi
                         generateLabels: (chart) => {
                             const data = chart.data;
                             return data.labels.map((label, i) => ({
@@ -167,8 +183,8 @@
         }
     });
 
-    // 2. Line Chart (Tren Anggaran)
-    new Chart(document.getElementById('apbdLine'), {
+    // 2. Line Chart (Tren Anggaran) - Clickable
+    const lineChart = new Chart(document.getElementById('apbdLine'), {
         type: 'line',
         data: {
             labels: @json($dataTahunTrend->pluck('label_thn')),
@@ -186,12 +202,30 @@
         },
         options: {
             ...globalOptions,
+            onClick: (event, elements) => {
+                if (elements.length > 0) {
+                    const index = elements[0].index;
+                    const tahun = @json($dataTahunTrend->pluck('label_thn'))[index];
+                    if (tahun) {
+                        // Scroll to table and apply Tahun filter
+                        const tableSection = document.querySelector('.bg-white.rounded-xl.shadow-sm.border.border-gray-200.overflow-hidden');
+                        if (tableSection) {
+                            tableSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                            // Set the Tahun filter value
+                            const tahunSelect = document.querySelector('select[name="tahun"]');
+                            if (tahunSelect) {
+                                tahunSelect.value = tahun;
+                                document.getElementById('apbd-filter-form').submit();
+                            }
+                        }
+                    }
+                }
+            },
             scales: {
                 y: {
                     beginAtZero: true,
                     ticks: {
                         font: { size: 10 },
-                        // Format angka ke jutaan/miliar agar tidak kepanjangan
                         callback: function(value) {
                             return 'Rp ' + value.toLocaleString();
                         }
@@ -202,22 +236,41 @@
         }
     });
 
-    // 3. Bar Chart Horizontal (OPD - Realisasi)
-    new Chart(document.getElementById('apbdBar'), {
+    // 3. Bar Chart Horizontal (OPD - Realisasi dari Admin) - Clickable
+    const barChart = new Chart(document.getElementById('apbdBar'), {
         type: 'bar',
         data: {
-            labels: @json($dataRealisasiOpd->pluck('nama_opd')),
+            labels: @json($dataOpd->pluck('nama_opd')),
             datasets: [{
                 label: 'Realisasi',
-                data: @json($dataRealisasiOpd->pluck('total')),
+                data: @json($dataOpd->pluck('total')),
                 backgroundColor: '#f59e0b',
                 borderRadius: 5,
-                barThickness: 20 // Membuat batang tidak terlalu lebar
+                barThickness: 20
             }]
         },
         options: {
             ...globalOptions,
             indexAxis: 'y',
+            onClick: (event, elements) => {
+                if (elements.length > 0) {
+                    const index = elements[0].index;
+                    const opdName = @json($dataOpd->pluck('nama_opd'))[index];
+                    if (opdName) {
+                        // Scroll to table and apply OPD filter
+                        const tableSection = document.querySelector('.bg-white.rounded-xl.shadow-sm.border.border-gray-200.overflow-hidden');
+                        if (tableSection) {
+                            tableSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                            // Set the OPD filter value
+                            const opdSelect = document.querySelector('select[name="opd"]');
+                            if (opdSelect) {
+                                opdSelect.value = opdName;
+                                document.getElementById('apbd-filter-form').submit();
+                            }
+                        }
+                    }
+                }
+            },
             scales: {
                 x: { 
                     beginAtZero: true, 
@@ -226,7 +279,6 @@
                 y: { 
                     ticks: { 
                         font: { size: 10 },
-                        // Memotong nama OPD yang terlalu panjang
                         callback: function(value) {
                             const label = this.getLabelForValue(value);
                             return label.length > 15 ? label.substring(0, 15) + '...' : label;

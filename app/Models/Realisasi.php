@@ -15,6 +15,7 @@ class Realisasi extends Model
         'id_tahun',
         'alokasi',
         'kegiatan',
+        'program',
         'sub_kegiatan',
         'nama_daerah',
         'file_path',

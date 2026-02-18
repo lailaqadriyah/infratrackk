@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\APBD;
+use App\Models\Realisasi;
 use App\Models\Renja;
 use App\Models\Rkpd;
 use App\Models\Opd;
@@ -25,7 +26,7 @@ class APBDController extends Controller
         $tahunFilter = $request->query('tahun');
         $opdFilter = $request->query('opd');
         
-        $query = APBD::with(['opd', 'tahun']);
+        $query = Realisasi::with(['opd', 'tahun']);
         
         if ($tahunFilter) {
             $query->where('id_tahun', $tahunFilter);
@@ -57,11 +58,8 @@ class APBDController extends Controller
             'id_tahun' => 'required|exists:tahun,id',
             'kegiatan' => 'required|string',
             'sub_kegiatan' => 'required|string',
-            'nama_sumber_dana' => 'required|string',
-            'nama_rekening' => 'required|string',
-            'pagu' => 'nullable|numeric|min:0',
-            'alokasi' => 'nullable|numeric|min:0',
             'program' => 'nullable|string',
+            'alokasi' => 'nullable|numeric|min:0',
             'nama_daerah' => 'nullable|string',
             'file' => 'nullable|file|mimes:pdf,xls,xlsx,doc,docx|max:5120',
         ]);
@@ -69,17 +67,17 @@ class APBDController extends Controller
         if ($request->hasFile('file')) {
             $file = $request->file('file');
             $fileName = time() . '_' . $file->getClientOriginalName();
-            $file->storeAs('apbd', $fileName, 'public');
-            $validated['file_path'] = 'apbd/' . $fileName;
+            $file->storeAs('realisasi', $fileName, 'public');
+            $validated['file_path'] = 'realisasi/' . $fileName;
         }
 
-        APBD::create($validated);
+        Realisasi::create($validated);
 
         return redirect()->route('admin.apbd.index')
-            ->with('success', 'Data APBD berhasil ditambahkan');
+            ->with('success', 'Data DPA OPD (Realisasi) berhasil ditambahkan');
     }
 
-    public function edit(APBD $apbd)
+    public function edit(Realisasi $apbd)
     {
         $opds = Opd::all();
         $tahuns = Tahun::orderBy('tahun', 'desc')->get();
@@ -87,18 +85,15 @@ class APBDController extends Controller
         return view('admin.apbd.edit', compact('apbd', 'opds', 'tahuns'));
     }
 
-    public function update(Request $request, APBD $apbd)
+    public function update(Request $request, Realisasi $apbd)
     {
         $validated = $request->validate([
             'id_opd' => 'required|exists:opd,id',
             'id_tahun' => 'required|exists:tahun,id',
             'kegiatan' => 'required|string',
             'sub_kegiatan' => 'required|string',
-            'nama_sumber_dana' => 'required|string',
-            'nama_rekening' => 'required|string',
-            'pagu' => 'nullable|numeric|min:0',
-            'alokasi' => 'nullable|numeric|min:0',
             'program' => 'nullable|string',
+            'alokasi' => 'nullable|numeric|min:0',
             'nama_daerah' => 'nullable|string',
             'file' => 'nullable|file|mimes:pdf,xls,xlsx,doc,docx|max:5120',
         ]);
@@ -111,22 +106,22 @@ class APBDController extends Controller
 
             $file = $request->file('file');
             $fileName = time() . '_' . $file->getClientOriginalName();
-            $file->storeAs('apbd', $fileName, 'public');
-            $validated['file_path'] = 'apbd/' . $fileName;
+            $file->storeAs('realisasi', $fileName, 'public');
+            $validated['file_path'] = 'realisasi/' . $fileName;
         }
 
         $apbd->update($validated);
 
         return redirect()->route('admin.apbd.index')
-            ->with('success', 'Data APBD berhasil diperbarui');
+            ->with('success', 'Data DPA OPD (Realisasi) berhasil diperbarui');
     }
 
-    public function destroy(APBD $apbd)
+    public function destroy(Realisasi $apbd)
     {
         $apbd->delete();
 
         return redirect()->route('admin.apbd.index')
-            ->with('success', 'Data APBD berhasil dihapus');
+            ->with('success', 'Data DPA OPD (Realisasi) berhasil dihapus');
     }
 
     public function uploadStore(Request $request)

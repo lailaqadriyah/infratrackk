@@ -82,8 +82,6 @@
                     <th class="px-6 py-4 text-center text-sm font-semibold text-gray-900 border-x border-gray-300">Program</th>
                     <th class="px-6 py-4 text-center text-sm font-semibold text-gray-900 border-x border-gray-300">Kegiatan</th>
                     <th class="px-6 py-4 text-center text-sm font-semibold text-gray-900 border-x border-gray-300">Sub Kegiatan</th>
-                    <th class="px-6 py-4 text-center text-sm font-semibold text-gray-900 border-x border-gray-300">Nama Sumber Dana</th>
-                    <th class="px-6 py-4 text-center text-sm font-semibold text-gray-900 border-x border-gray-300">Nama Rekening</th>
                     <th class="px-6 py-4 text-center text-sm font-semibold text-gray-900 border-x border-gray-300">Nama Daerah</th>
                     <th class="px-6 py-4 text-center text-sm font-semibold text-gray-900 border-x border-gray-300">Aksi</th>
                 </tr>
@@ -93,12 +91,10 @@
                     <tr class="hover:bg-gray-50 transition-colors">
                         <td class="px-6 py-4 text-sm text-black-900 border-x border-gray-200">{{ $apbd->tahun->tahun ?? '-' }}</td>
                         <td class="px-6 py-4 text-sm text-black-900 border-x border-gray-200">{{ $apbd->opd->nama_opd ?? '-' }}</td>
-                        <td class="px-6 py-4 text-sm text-black-900 border-x border-gray-200">Rp {{ number_format($apbd->alokasi ?? $apbd->pagu ?? 0, 0, ',', '.') }}</td>
+                        <td class="px-6 py-4 text-sm text-black-900 border-x border-gray-200">Rp {{ number_format($apbd->alokasi ?? 0, 0, ',', '.') }}</td>
                         <td class="px-6 py-4 text-sm text-black-900 border-x border-gray-200">{{ $apbd->program ?? '-' }}</td>
                         <td class="px-6 py-4 text-sm text-black-900 border-x border-gray-200">{{ $apbd->kegiatan ?? '-' }}</td>
                         <td class="px-6 py-4 text-sm text-black-900 border-x border-gray-200">{{ $apbd->sub_kegiatan ?? '-' }}</td>
-                        <td class="px-6 py-4 text-sm text-black-900 border-x border-gray-200">{{ $apbd->nama_sumber_dana ?? '-' }}</td>
-                        <td class="px-6 py-4 text-sm text-black-900 border-x border-gray-200">{{ $apbd->nama_rekening ?? '-' }}</td>
                         <td class="px-6 py-4 text-sm text-black-900 border-x border-gray-200">{{ $apbd->nama_daerah ?? '-' }}</td>
                         <td class="px-6 py-4 text-sm">
                             <div class="flex items-center gap-2">
@@ -112,10 +108,7 @@
                                         program: '{{ addslashes($apbd->program) }}',
                                         kegiatan: '{{ addslashes($apbd->kegiatan) }}',
                                         sub_kegiatan: '{{ addslashes($apbd->sub_kegiatan) }}',
-                                        nama_sumber_dana: '{{ addslashes($apbd->nama_sumber_dana) }}',
-                                        nama_rekening: '{{ addslashes($apbd->nama_rekening) }}',
-                                        nama_daerah: '{{ addslashes($apbd->nama_daerah) }}',
-                                        pagu: {{ $apbd->pagu ?? 0 }}
+                                        nama_daerah: '{{ addslashes($apbd->nama_daerah) }}'
                                     })"
                                     class="p-2 text-blue-600 hover:bg-blue-50 rounded-lg transition-colors" title="Edit">
                                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -215,7 +208,7 @@
             </div>
             <div>
                 <label class="block text-sm font-medium text-gray-700 mb-1">Alokasi (Rp)</label>
-                <input type="number" name="alokasi" step="0.01" required class="w-full border border-gray-300 rounded-lg px-3 py-2">
+                <input type="number" name="alokasi" step="0.01" min="0" required class="w-full border border-gray-300 rounded-lg px-3 py-2">
             </div>
             <div>
                 <label class="block text-sm font-medium text-gray-700 mb-1">Program</label>
@@ -228,14 +221,6 @@
             <div>
                 <label class="block text-sm font-medium text-gray-700 mb-1">Sub Kegiatan</label>
                 <input type="text" name="sub_kegiatan" required class="w-full border border-gray-300 rounded-lg px-3 py-2">
-            </div>
-            <div>
-                <label class="block text-sm font-medium text-gray-700 mb-1">Nama Sumber Dana</label>
-                <input type="text" name="nama_sumber_dana" required class="w-full border border-gray-300 rounded-lg px-3 py-2">
-            </div>
-            <div>
-                <label class="block text-sm font-medium text-gray-700 mb-1">Nama Rekening</label>
-                <input type="text" name="nama_rekening" required class="w-full border border-gray-300 rounded-lg px-3 py-2">
             </div>
             <div>
                 <label class="block text-sm font-medium text-gray-700 mb-1">Nama Daerah</label>
@@ -276,7 +261,7 @@
             </div>
             <div>
                 <label class="block text-sm font-medium text-gray-700 mb-1">Alokasi (Rp)</label>
-                <input type="number" name="alokasi" x-model="editData.alokasi" step="0.01" required class="w-full border border-gray-300 rounded-lg px-3 py-2">
+                <input type="number" name="alokasi" x-model="editData.alokasi" step="0.01" min="0" required class="w-full border border-gray-300 rounded-lg px-3 py-2">
             </div>
             <div>
                 <label class="block text-sm font-medium text-gray-700 mb-1">Program</label>
@@ -289,14 +274,6 @@
              <div>
                 <label class="block text-sm font-medium text-gray-700 mb-1">Sub Kegiatan</label>
                 <input type="text" name="sub_kegiatan" x-model="editData.sub_kegiatan" required class="w-full border border-gray-300 rounded-lg px-3 py-2">
-            </div>
-            <div>
-                <label class="block text-sm font-medium text-gray-700 mb-1">Nama Sumber Dana</label>
-                <input type="text" name="nama_sumber_dana" x-model="editData.nama_sumber_dana" required class="w-full border border-gray-300 rounded-lg px-3 py-2">
-            </div>
-            <div>
-                <label class="block text-sm font-medium text-gray-700 mb-1">Nama Rekening</label>
-                <input type="text" name="nama_rekening" x-model="editData.nama_rekening" required class="w-full border border-gray-300 rounded-lg px-3 py-2">
             </div>
             <div>
                 <label class="block text-sm font-medium text-gray-700 mb-1">Nama Daerah</label>
@@ -328,10 +305,7 @@ function apbdManager() {
             program: '',
             kegiatan: '',
             sub_kegiatan: '',
-            nama_sumber_dana: '',
-            nama_rekening: '',
-            nama_daerah: '',
-            pagu: 0
+            nama_daerah: ''
         },
 
         // Fungsi membuka modal dan memindahkan data baris ke dalam form

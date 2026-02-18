@@ -5,12 +5,38 @@
 @section('content')
 <div class="p-6 bg-gray-50 min-h-screen w-full">
     @include('user.apbd.breadcrumb', ['program' => $program, 'kegiatan' => null, 'sub' => null])
+    
+    <div class="mb-6 flex flex-col md:flex-row md:items-end justify-end gap-4">
+        <div class="bg-white p-2 rounded-lg shadow-sm border border-gray-200">
+            <form id="program-filter-form" action="{{ route('user.apbd.program', urlencode($program)) }}" method="GET" class="flex items-center gap-2">
+                <select name="tahun" onchange="document.getElementById('program-filter-form').submit()" class="text-xs border-gray-300 rounded focus:ring-blue-500 w-40">
+                    <option value="">Semua Tahun</option>
+                    @foreach($listTahun as $t)
+                        <option value="{{ $t->tahun }}" {{ request('tahun') == $t->tahun ? 'selected' : '' }}>{{ $t->tahun }}</option>
+                    @endforeach
+                </select>
+                <select name="opd" onchange="document.getElementById('program-filter-form').submit()" class="text-xs border-gray-300 rounded focus:ring-blue-500 w-40">
+                    <option value="">Semua OPD</option>
+                    @foreach($listOpd as $o)
+                        <option value="{{ $o->nama_opd }}" {{ request('opd') == $o->nama_opd ? 'selected' : '' }}>{{ $o->nama_opd }}</option>
+                    @endforeach
+                </select>
+                
+                <div class="flex gap-1">
+                    <a href="{{ route('user.apbd.program', urlencode($program)) }}" class="bg-gray-100 text-gray-600 px-3 py-1.5 rounded text-xs hover:bg-gray-200 border border-gray-300 flex items-center gap-1">
+                        ↺ Reset
+                    </a>
+                </div>
+            </form>
+        </div>
+    </div>
+    
     <div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
         <div class="p-4 border-b bg-white">
-            <form action="{{ route('user.apbd.program', urlencode($program)) }}" method="GET" class="flex items-center gap-2">
+            <form action="{{ route('user.apbd.program', urlencode($program)) }}" method="GET" class="flex items-center gap-2" onsubmit="return true;">
                 <input type="hidden" name="tahun" value="{{ request('tahun') }}">
                 <input type="hidden" name="opd" value="{{ request('opd') }}">
-                <input type="search" name="q" value="{{ request('q') }}" placeholder="cari kegiatan" class="w-full border border-gray-300 rounded px-3 py-2 text-sm">
+                <input type="search" name="q" value="{{ request('q') }}" placeholder="cari kegiatan" class="w-full border border-gray-300 rounded px-3 py-2 text-sm" onkeyup="if(this.value.length >= 1 || event.key === 'Backspace') this.form.submit();">
             </form>
         </div>
         <div class="p-4 border-b bg-gray-50">
