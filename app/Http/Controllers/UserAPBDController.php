@@ -52,6 +52,9 @@ class UserAPBDController extends Controller
 
         $dataTahunTrend = Realisasi::join('tahun', 'realisasi.id_tahun', '=', 'tahun.id')
             ->select('tahun.tahun as label_thn', DB::raw('SUM(realisasi.alokasi) as total'))
+            ->when($request->filled('tahun'), function($q) use ($request) {
+                return $q->where('tahun.tahun', $request->tahun);
+            })
             ->when($request->filled('opd'), function($q) use ($request) {
                 return $q->whereExists(function($sub) use ($request) {
                     $sub->select(DB::raw(1))->from('opd')->whereColumn('opd.id', 'realisasi.id_opd')->where('nama_opd', $request->opd);
@@ -79,20 +82,12 @@ class UserAPBDController extends Controller
     public function program(Request $request, $program)
     {
         $program = urldecode($program);
-        $listOpd = Opd::orderBy('nama_opd', 'asc')->get();
-        $listTahun = Tahun::orderBy('tahun', 'desc')->get();
 
         $query = Realisasi::query()
             ->join('tahun', 'realisasi.id_tahun', '=', 'tahun.id')
             ->join('opd', 'realisasi.id_opd', '=', 'opd.id')
             ->where('realisasi.program', $program);
 
-        if ($request->filled('tahun')) {
-            $query->where('tahun.tahun', $request->tahun);
-        }
-        if ($request->filled('opd')) {
-            $query->where('opd.nama_opd', $request->opd);
-        }
         // search within kegiatan names
         if ($request->filled('q')) {
             $qq = $request->q;
@@ -103,15 +98,13 @@ class UserAPBDController extends Controller
             ->groupBy('realisasi.kegiatan')
             ->get();
 
-        return view('user.apbd.program', compact('listOpd', 'listTahun', 'program', 'kegiatans'));
+        return view('user.apbd.program', compact('program', 'kegiatans'));
     }
 
     public function kegiatan(Request $request, $program, $kegiatan)
     {
         $program = urldecode($program);
         $kegiatan = urldecode($kegiatan);
-        $listOpd = Opd::orderBy('nama_opd', 'asc')->get();
-        $listTahun = Tahun::orderBy('tahun', 'desc')->get();
 
         $query = Realisasi::query()
             ->join('tahun', 'realisasi.id_tahun', '=', 'tahun.id')
@@ -119,12 +112,6 @@ class UserAPBDController extends Controller
             ->where('realisasi.program', $program)
             ->where('realisasi.kegiatan', $kegiatan);
 
-        if ($request->filled('tahun')) {
-            $query->where('tahun.tahun', $request->tahun);
-        }
-        if ($request->filled('opd')) {
-            $query->where('opd.nama_opd', $request->opd);
-        }
         // search within details
         if ($request->filled('q')) {
             $qq = $request->q;
@@ -143,6 +130,6 @@ class UserAPBDController extends Controller
         )->groupBy('tahun.tahun','opd.nama_opd','realisasi.sub_kegiatan','realisasi.nama_daerah')
         ->get();
 
-        return view('user.apbd.kegiatan', compact('listOpd', 'listTahun', 'program','kegiatan','details'));
+        return view('user.apbd.kegiatan', compact('program','kegiatan','details'));
     }
 }

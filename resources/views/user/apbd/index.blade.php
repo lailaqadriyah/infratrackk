@@ -56,7 +56,7 @@
 
         <div class="bg-white p-5 rounded-xl shadow-sm border border-gray-100 flex flex-col h-96">
             <h3 class="font-bold text-gray-700 mb-2 text-xs text-center uppercase tracking-wider">Trend Anggaran APBD</h3>
-            <p class="text-xs text-gray-500 text-center mb-2">Klik tahun untuk filter data</p>
+            <p class="text-xs text-gray-500 text-center mb-2">{{ request('tahun') ? 'Data untuk tahun ' . request('tahun') : 'Klik tahun untuk filter data' }}</p>
             <div class="relative flex-grow">
                 <canvas id="apbdLine"></canvas>
             </div>
@@ -203,7 +203,9 @@
         options: {
             ...globalOptions,
             onClick: (event, elements) => {
-                if (elements.length > 0) {
+                const currentTahun = "{{ request('tahun') }}";
+                // Hanya aktifkan filter tahun jika belum ada filter tahun yang dipilih
+                if (currentTahun === '' && elements.length > 0) {
                     const index = elements[0].index;
                     const tahun = @json($dataTahunTrend->pluck('label_thn'))[index];
                     if (tahun) {
@@ -218,6 +220,12 @@
                                 document.getElementById('apbd-filter-form').submit();
                             }
                         }
+                    }
+                } else if (currentTahun !== '') {
+                    // Jika tahun sudah dipilih, scroll ke tabel saja
+                    const tableSection = document.querySelector('.bg-white.rounded-xl.shadow-sm.border.border-gray-200.overflow-hidden');
+                    if (tableSection) {
+                        tableSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
                     }
                 }
             },
