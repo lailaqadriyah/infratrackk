@@ -44,7 +44,7 @@
 
             <div class="flex items-center justify-between py-1">
                 <label for="remember_me" class="inline-flex items-center group cursor-pointer">
-                    <input id="remember_me" type="checkbox" class="w-4 h-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500 shadow-sm cursor-pointer" name="remember">
+                    <input id="remember_me" type="checkbox" name="remember" value="1" {{ old('remember') ? 'checked' : '' }} class="w-4 h-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500 shadow-sm cursor-pointer" />
                     <span class="ms-2 text-xs text-gray-600 group-hover:text-gray-900 transition-colors font-medium">{{ __('Remember me') }}</span>
                 </label>
 
