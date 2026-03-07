@@ -16,7 +16,7 @@ use App\Http\Controllers\UserRealisasiController;
 use App\Http\Controllers\UserAPBDController;
 use App\Http\Controllers\AdminUserController;
 
-Route::get('/', [UserRenjaController::class, 'index'])->name('home');
+Route::view('/', 'landing')->name('home');
 
 Route::get('/dashboard', function () {
     $user = \Illuminate\Support\Facades\Auth::user();

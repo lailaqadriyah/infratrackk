@@ -178,17 +178,19 @@
                     <a href="{{ route('register') }}" class="text-sm px-3 py-1 rounded-md bg-blue-600 text-white hover:bg-blue-700">Register</a>
                 @endif
             @else
-                <a href="{{ route('profile.edit') }}" class="flex items-center gap-3 rounded-xl border border-gray-200 p-3 hover:bg-gray-50 transition">
-                    <div class="h-10 w-10 rounded-full bg-blue-600 text-white flex items-center justify-center text-sm font-semibold">
-                        {{ substr(Auth::user()->name, 0, 1) }}
-                    </div>
-                    <div class="min-w-0 text-left">
-                        <p class="text-sm font-semibold text-gray-900 truncate">{{ Auth::user()->name }}</p>
-                        <p class="text-xs text-gray-500 truncate">{{ Auth::user()->email }}</p>
-                        <p class="text-xs text-blue-600 font-medium">Lihat profil</p>
-                    </div>
-                </a>
-            @endguest
+                <a href="{{ route('profile.edit') }}"
+       class="flex items-center gap-3 rounded-xl border border-blue-200 bg-gray-80/80 px-3 py-2.5 hover:bg-blue-100 hover:border-blue-300 transition-all duration-200 shadow-sm">
+        <div class="h-9 w-9 rounded-full bg-blue-600 text-white flex items-center justify-center text-sm font-semibold">
+            {{ strtoupper(substr(Auth::user()->name, 0, 1)) }}
+        </div>
+        <div class="min-w-0 text-left leading-tight">
+            <p class="text-sm font-semibold text-blue-900 truncate max-w-[160px]">
+                {{ Auth::user()->name }}
+            </p>
+           
+        </div>
+    </a>
+@endguest
         </div>
     </div>
 </header>
