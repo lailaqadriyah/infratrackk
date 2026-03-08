@@ -93,13 +93,13 @@
                                 </p>
                             </div>
 
-                            <span class="px-3 py-1 text-xs rounded-full font-medium
+                            <!-- <span class="px-3 py-1 text-xs rounded-full font-medium
                                 @if($feedback->status === 'pending') bg-yellow-100 text-yellow-800
                                 @elseif($feedback->status === 'diproses') bg-blue-100 text-blue-800
                                 @else bg-green-100 text-green-800
                                 @endif">
                                 {{ ucfirst($feedback->status) }}
-                            </span>
+                            </span> -->
                         </div>
 
                         <p class="text-gray-700">
